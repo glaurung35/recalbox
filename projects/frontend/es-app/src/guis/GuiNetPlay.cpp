@@ -162,7 +162,7 @@ void GuiNetPlay::populateGrid()
     mList->clear();
     for (auto& game : mLobbyList)
     {
-      row.elements.clear();
+      row.Clear();
 
       ed = std::make_shared<TextComponent>(mWindow, GetFormattedName(game), mMenuTheme.Text().font, mMenuTheme.Text().color,
                                            TextAlignment::Left);

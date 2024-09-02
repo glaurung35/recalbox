@@ -11,6 +11,7 @@
 ThemeManager::ThemeManager(IGlobalVariableResolver& globalResolver)
   : StaticLifeCycleControler<ThemeManager>("theme-manager")
   , mMain(mCache, nullptr, globalResolver)
+  , mMenuCache(mMenu)
   , mWaiter(nullptr)
   , mGlobalResolver(globalResolver)
 {

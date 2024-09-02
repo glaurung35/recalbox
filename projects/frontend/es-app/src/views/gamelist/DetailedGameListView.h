@@ -7,6 +7,7 @@
 #include "components/BusyComponent.h"
 #include "components/VerticalScrollableContainer.h"
 #include "components/TextScrollComponent.h"
+#include "HeaderData.h"
 #include <views/ViewController.h>
 #include <components/TextListComponent.h>
 #include <games/EmptyData.h>
@@ -18,7 +19,7 @@ class DetailedGameListView : public ISimpleGameListView
                            , private IVideoComponentAction
 {
   public:
-    DetailedGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system, const IGlobalVariableResolver& resolver, FlagCaches& flagCache);
+    DetailedGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system, const IGlobalVariableResolver& resolver, PictogramCaches& pictogramCache);
 
     ~DetailedGameListView() override;
 
@@ -31,9 +32,6 @@ class DetailedGameListView : public ISimpleGameListView
 
     [[nodiscard]] const char* getName() const override { return "detailed"; }
 
-    void Update(int deltatime) override;
-    void Render(const Transform4x4f& parentTrans) override;
-
     void DoUpdateGameInformation(bool update) final;
 
     [[nodiscard]] int Count() const override { return mList.Count(); };
@@ -41,9 +39,15 @@ class DetailedGameListView : public ISimpleGameListView
 
     void populateList(const FolderData& folder) override;
 
-    void refreshList() override { populateList(*mPopulatedFolder); }
+    void refreshList() override
+    {
+      FileData* currentItem = getCursor();
+      populateList(*mPopulatedFolder);
+      setCursor(currentItem);
+      ListRefreshed();
+    }
 
-    FileData::List getFileDataList() override { return mList.getObjects(); }
+    FileData::List getFileDataList() override { return mList.getObjectsArray(); }
 
     /*!
      * @brief Get available regions from the current game list
@@ -52,8 +56,20 @@ class DetailedGameListView : public ISimpleGameListView
     Regions::List AvailableRegionsInGames() override;
 
   protected:
+    //! List's color index, integer compatible
+    enum ColorIndexes
+    {
+      BaseColor = 0,
+      GameColor = 0,
+      FolderColor = 1,
+      HighlightColor = 2,
+      GameHighlightColor = 2,
+      FolderHighlightColor = 3,
+      HeaderColor = 4
+    };
+
     //! Empty item
-    EmptyData mEmptyListItem;
+    HeaderData mEmptyListItem;
 
     //! Current folder
     const FolderData *mPopulatedFolder;
@@ -100,6 +116,21 @@ class DetailedGameListView : public ISimpleGameListView
     void setCursorIndex(int index) override;
     void removeEntry(FileData* fileData) override;
 
+    /*
+     * Component override
+     */
+
+    void Update(int deltatime) override;
+
+    void Render(const Transform4x4f& parentTrans) override;
+
+    /*!
+     * @brief Process extended actions
+     * @param event Event to process
+     * @return true if the event has been processed, false otherwise
+     */
+    bool ProcessInput(const InputCompactEvent& event) override;
+
   private:
     //! Hovering time in ms before starting a seamless scrape
     static constexpr int sMaxHoveringTimeBeforeScraping = 200; // 200ms
@@ -113,6 +144,8 @@ class DetailedGameListView : public ISimpleGameListView
 
     void initMDLabels();
     void initMDValues();
+
+    RatingComponent mHeaderStars;
 
     ImageComponent mImage;
     ImageComponent mNoImage;
@@ -133,8 +166,12 @@ class DetailedGameListView : public ISimpleGameListView
     TextComponent mPlayCount;
     TextComponent mFavorite;
 
-    std::vector<TextComponent*> getMDLabels();
-    std::vector<ThemableComponent*> getMDValues();
+    ImageComponent mDecorationFlagsTemplate;
+    ImageComponent mDecorationGenreTemplate;
+    ImageComponent mDecorationPlayersTemplate;
+
+    Array<TextComponent*> getMDLabels();
+    Array<ThemableComponent*> getMDValues();
 
     VerticalScrollableContainer mDescContainer;
     TextComponent mDescription;
@@ -151,10 +188,19 @@ class DetailedGameListView : public ISimpleGameListView
     //! Array of fade-out components (from opaque to transparent)
     Array<Component*> mFadeOutList;
 
+    //! HeaderData map
+    HashMap<String, HeaderData*> mHeaderMap;
+
     //! Flag width not included any margin
     int mFlagWidth;
     //! Flag margin
     int mFlagMargin;
+
+    //! Current sort
+    FileSorts::Sorts mSort;
+
+    //! Current gamelist decorations
+    RecalboxConf::GamelistDecoration mDecorations;
 
     //! Last processed cursor item
     FileData* mLastCursorItem;
@@ -211,6 +257,33 @@ class DetailedGameListView : public ISimpleGameListView
 
     /*!
      * @brief Move a component into the fade-in list, removing it from the fade-out list if it was in.
+     * @param component Component to move to the fade-in list
+     */
+    void MoveToFadeIn(const Array<ThemableComponent*>& components)
+    {
+      for(Component* component : components)
+      {
+        mFadeOutList.Remove(component);
+        if (!mFadeInList.Contains(component))
+          mFadeInList.Add(component);
+      }
+    }
+    /*!
+     * @brief Move a component into the fade-out list, removing it from the fade-in list if it was in.
+     * @param component Component to move to the fade-out list
+     */
+    void MoveToFadeOut(const Array<ThemableComponent*>& components)
+    {
+      for(Component* component : components)
+      {
+        mFadeInList.Remove(component);
+        if (!mFadeOutList.Contains(component))
+          mFadeOutList.Add(component);
+      }
+    }
+
+    /*!
+     * @brief Move a component into the fade-in list, removing it from the fade-out list if it was in.
      * Set opacity to 255 instantly
      * @param component Component to move to the fade-in list
      */
@@ -236,12 +309,15 @@ class DetailedGameListView : public ISimpleGameListView
 
     FileData* getEmptyListItem() override { return &mEmptyListItem; }
 
-    std::vector<ThemableComponent*> getFolderComponents();
-    std::vector<ThemableComponent*> getGameComponents(bool includeMainComponents = true);
-    std::vector<ThemableComponent*> getScrapedFolderComponents();
+    Array<ThemableComponent*> getFolderComponents();
+    Array<ThemableComponent*> getGameComponents(bool includeMainComponents = true);
+    Array<ThemableComponent*> getScrapedFolderComponents();
     void setGameInfo(FileData* file, bool update);
     void setRegions(FileData* file);
     void setScrapedFolderInfo(FileData* file);
+
+    //! Get a color or half the color
+    static Colors::ColorARGB HalfColor(Colors::ColorARGB c, bool half) { return half ? ((c & 0xFFFFFF00) | ((c >> 1) & 0x7F)) : c; }
 
     /*!
      * @brief Build component list linked by the video component
@@ -294,10 +370,68 @@ class DetailedGameListView : public ISimpleGameListView
     void OnGameSelected() final;
 
     /*!
+     * @brief Check if a header is required between previous and next item
+     * @param previous Previous filedata
+     * @param next Next fildata
+     * @param hasTopFavorites instruct the method that the list has at least one favorite on top or bottom
+     * @return No null header pointer if a header is required, nullptr otherwise
+     */
+    HeaderData* NeedHeader(FileData* previous, FileData* next, bool hasTopFavorites);
+
+    /*!
+     * @brief Create or get a named header
+     * @param name Header name
+     * @return HeaderData instance
+     */
+    HeaderData* GetHeader(const String& name);
+
+    /*!
+     * @brief Create or get a named header
+     * @param name Header name
+     * @param data Integer data
+     * @return HeaderData instance
+     */
+    HeaderData* GetHeader(const String& name, int data);
+
+    /*!
+     * @brief Create or get a named header
+     * @param name Header name
+     * @param data Float data
+     * @return HeaderData instance
+     */
+    HeaderData* GetHeader(const String& name, float data);
+
+    /*!
+     * @brief Move to next/previous header
+     * @param next True to move to next header, false for previous
+     */
+    void MoveToHeader(bool next);
+
+    /*!
+     * @brief Move to next/previous sort
+     * @param next True to move to next sort, false for previous
+     */
+    void ChangeSort(bool next);
+
+    /*!
      * @brief Get available regions from the given listt
      * @return Region list (may be empty)
      */
     static Regions::List AvailableRegionsInGames(FileData::List& list);
+
+    /*
+    //! Fold all headers
+    void FoldAll();
+
+    //! Unfold all header
+    void UnfoldAll();
+
+    //! Fold the current header or the current game's header
+    void Fold();
+
+    //! Unfold the current header
+    void Unfold();
+    */
 
     /*
      * ITextListComponentOverlay<FileData*> implementation
@@ -306,23 +440,24 @@ class DetailedGameListView : public ISimpleGameListView
     /*!
      * @brief Apply (draw) an overlay in the given item rectangle and adjust rectangle position/size
      * so that the text won't draw over the overlay if required
+     * @param parentTrans Parent transform matrice
      * @param position Top/Left of the item rectangle
      * @param size  Width/Height of the item rectangle
      * @param data Linked data
      */
-    void OverlayApply(const Transform4x4f& parentTrans, const Vector2f& position, const Vector2f& size, FileData* const& data, unsigned int& color) override;
+    void OverlayApply(const Transform4x4f& parentTrans, const Vector2f& position, const Vector2f& size, int labelWidth, FileData* const& data, unsigned int& color) override;
 
     /*!
      * @brief Get the left offset (margin to the text) if any
      * @return left offset
      */
-    float OverlayGetLeftOffset(FileData* const& data) override { (void)data; return 0.0f; }
+    float OverlayGetLeftOffset(FileData* const& data, int labelWidth) override;
 
     /*!
      * @brief Get the right offset (margin from text to right limit) if any
      * @return right offset
      */
-    float OverlayGetRightOffset(FileData* const& data) override;
+    float OverlayGetRightOffset(FileData* const& data, int labelWidth) override;
 
     /*
      * IScrapeEngineStage implementation
@@ -346,4 +481,21 @@ class DetailedGameListView : public ISimpleGameListView
      * @param action Required action
      */
     void VideoComponentRequireAction(const VideoComponent* source, Action action) final;
+
+    /*!
+     * @brief Get a simplified text of elapsed time in minutes, hours, days, month or years
+     * @param span Time span
+     * @return String representation
+     */
+    static String GetSimplifiedElapsedTime(const TimeSpan& span);
+
+    /*
+     * ISimpleGameListView overrides
+     */
+
+    /*!
+     * @brief Called back from view manager when a game exited and the user is back to the gamelist
+     * @param game Game ran
+     */
+    void ReturnedFromGame(FileData* game) override;
 };

@@ -110,7 +110,7 @@ class IniSettings:
                 with open(self.settingsFile) as lines:
                     lastSection = "default"
                     for line in lines:
-                        m = re.match(r'^([^#;].*)\s?=\s?\"?(.*?)\"?$', line)
+                        m = re.match(r'^([^#;].*?)\s?=\s?\"?(.*?)\"?$', line)
                         if m:
                             key = m.group(1).strip()
                             value = m.group(2).strip()

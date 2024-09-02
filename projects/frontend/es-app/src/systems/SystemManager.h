@@ -19,6 +19,7 @@ class SystemManager : private INoCopy // No copy allowed
                     , public IThreadPoolWorkerInterface<VirtualSystemDescriptor, VirtualSystemResult> // Multi-threaded system unloading
                     , public IMountMonitorNotifications
                     , public ISlowSystemOperation
+                    , public RecalboxConf::SystemIgnoreConfigurationNotify
 {
   public:
     //! Requested Visibility
@@ -104,6 +105,9 @@ class SystemManager : private INoCopy // No copy allowed
       Empty,  //!< Rom structure exists but empty
       Filled, //!< Rom structure with roms inside
     };
+
+    //! File sorter
+    FileSorts mFileSorts;
 
     //! Mount points
     Path::PathList mMountPoints;
@@ -350,7 +354,7 @@ class SystemManager : private INoCopy // No copy allowed
      * @param comparer Optional comparer - if not null, filter results are sorted using this filter
      * @param arcadeOnly if True, only true arcade systems are filtered
      */
-    void PopulateMetaSystemWithFilter(SystemData* system, IFilter* filter, FileData::Comparer comparer);
+    void PopulateMetaSystemWithFilter(SystemData* system, IFilter* filter, FileSorts::Comparer comparer);
 
     /*!
      * @brief Ensure the given system is in the visible list (== initialized with games)
@@ -460,14 +464,6 @@ class SystemManager : private INoCopy // No copy allowed
     bool UpdateSystemsOnSingleGameChanges(FileData* target, MetadataType changes, List& addedSystems, List& removedSystems, List& modifiedSystems);
 
     /*!
-     * @brief Check if the given game should belong to the given virtual system, regarding its metadata
-     * @param game Game to check
-     * @param system Target virtual system
-     * @return True of the game has metadata that make it belonging to the target virtual system. False otherwise
-     */
-    static bool ShouldGameBelongToThisVirtualSystem(const FileData* game, const SystemData* system);
-
-    /*!
      * @brief Notify system changes via the ISystemChangeNotifier interface
      * @param addedSystems Added systems or nullptr
      * @param removedSystems Removed system or nullptr
@@ -481,13 +477,7 @@ class SystemManager : private INoCopy // No copy allowed
      * @param list List to check
      * @return True if at least one systm is not initialized, false if they are all initialized
      */
-    static bool ContainsUnitializedSystem(const List& list);
-
-    /*!
-     * @brief Check the given list and remove system that must stay hidden
-     * @param list List to filter
-     */
-    static void RemoveAlwaysHiddenSystems(List& list);
+    static bool ContainsUninitializedSystem(const SystemManager::List& list);
 
     /*
      * Log facilities
@@ -508,6 +498,23 @@ class SystemManager : private INoCopy // No copy allowed
     //! Completed
     void SlowPopulateCompleted(const List& listToPopulate, bool autoSelectMonoSystem) override;
 
+    /*
+     * RecalboxConf::SystemIgnoreConfigurationNotify implementation
+     */
+    void SystemIgnoreConfigurationChanged(const SystemData& system, const bool& state) override { UpdateSystemsVisibility((SystemData*)&system, !state ? Visibility::ShowAndSelect : Visibility::Hide); }
+
+    // Null ISystemChangeBotifier
+    class NullSystemChangeNotifier : public ISystemChangeNotifier
+    {
+      public:
+        void ShowSystem(SystemData* system) override { (void)system; LOG(LogError) << "NullSystemChangeNotifier::ShowSystem called!"; }
+        void HideSystem(SystemData* system) override { (void)system; LOG(LogError) << "NullSystemChangeNotifier::HideSystem called!"; }
+        void UpdateSystem(SystemData* system) override { (void)system; LOG(LogError) << "NullSystemChangeNotifier::UpdateSystem called!"; }
+        void SelectSystem(SystemData* system) override { (void)system; LOG(LogError) << "NullSystemChangeNotifier::SelectSystem called!"; }
+        void RequestSlowOperation(ISlowSystemOperation* interface, ISlowSystemOperation::List systems, bool autoSelectMonoSystem) override { (void)interface; (void)systems; (void)autoSelectMonoSystem; LOG(LogError) << "NullSystemChangeNotifier::RequestSlowOperation called!"; }
+        void SystemShownWithNoGames(SystemData* system) override { (void)system; LOG(LogError) << "NullSystemChangeNotifier::SystemShownWithNoGames called!"; }
+    } mNullSystemChangeNotifier;
+
   public:
     /*!
      * @brief constructor
@@ -518,7 +525,7 @@ class SystemManager : private INoCopy // No copy allowed
       , mProgressInterface(nullptr)
       , mLoadingPhaseInterface(nullptr)
       , mRomFolderChangeNotificationInterface(interface)
-      , mSystemChangeNotifier(nullptr)
+      , mSystemChangeNotifier(&mNullSystemChangeNotifier)
       , mWatcherIgnoredFiles(watcherIgnoredFiles)
       , mForceReload(false)
     {
@@ -783,11 +790,11 @@ class SystemManager : private INoCopy // No copy allowed
     [[nodiscard]] bool UpdatedTopLevelFilter();
 
     /*!
-     * @brief Show or Hide the given system.Initialize the given system ir required, then make is visible!
+     * @brief Show or Hide the given system.Initialize the given system if required, then make is visible!
      * This method is a high level method that make the move in/out the Visible list, initialize the system if required
      * and call the SystemNotifier
      * @param system System to change visibility
-     * @param show Tru to show the system, false to hide
+     * @param show True to show the system, false to hide
      */
     void UpdateSystemsVisibility(SystemData* system, Visibility visibility);
 

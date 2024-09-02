@@ -11,7 +11,7 @@
 #include <components/ISwitchComponent.h>
 #include <components/ISliderComponent.h>
 #include <components/IRatingComponent.h>
-#include "IGuiMenuBase.h"
+#include "guis/menus/base/ISubMenuSelected.h"
 
 // Forward declaration
 class SwitchComponent;
@@ -26,7 +26,7 @@ class GuiMenuBase : public Gui
 {
   public:
     //! Constructor
-    GuiMenuBase(WindowManager& window, const String& title, IGuiMenuBase* interface);
+    GuiMenuBase(WindowManager& window, const String& title, ISubMenuSelected* interface);
 
     /*!
      * @brief Proces input
@@ -409,7 +409,7 @@ class GuiMenuBase : public Gui
 
   private:
     //! callback Interface
-    IGuiMenuBase* mInterface;
+    ISubMenuSelected* mInterface;
     //! Footer
     String mFooter;
     //! Menu initialized flag

@@ -9,7 +9,7 @@ class SystemDataBase
     SystemDataBase() : mInitialized(false) {}
 
     //! Public getter
-    bool IsInitialized() const { return mInitialized; }
+    [[nodiscard]] bool IsInitialized() const { return mInitialized; }
 
   private:
     //! System status - True = Games are loaded, False = games are not loaded (for virtual systems only)

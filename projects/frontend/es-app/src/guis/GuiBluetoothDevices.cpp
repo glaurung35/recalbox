@@ -141,7 +141,7 @@ void GuiBluetoothDevices::FillDeviceList()
   {
     for (const auto& device : mDevices)
     {
-      row.elements.clear();
+      row.Clear();
       std::shared_ptr<Component> ed = std::make_shared<TextComponent>(mWindow, ComposeName(device), mMenuTheme.Text().font, mMenuTheme.Text().color, TextAlignment::Left);
       row.addElement(ed, true);
       mList->addRow(row, false, true);

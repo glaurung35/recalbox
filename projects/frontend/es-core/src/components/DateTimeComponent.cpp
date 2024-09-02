@@ -120,36 +120,31 @@ void DateTimeComponent::Update(int deltaTime)
 
 void DateTimeComponent::Render(const Transform4x4f& parentTrans)
 {
-    if(mThemeDisabled)
-    {
-        return;
-    }
+  if(mThemeDisabled) return;
 
 	Transform4x4f trans = parentTrans * getTransform();
 
-	if(mTextCache)
-	{
-        // vertically center
-        Vector3f off(0, (mSize.y() - mTextCache->metrics.size.y()) / 2, 0);
-		trans.translate(off);
-		trans.round();
+  // vertically center
+  Vector3f off(0, (mSize.y() - mFont->getMaxHeight()) / 2, 0);
+  trans.translate(off);
+  trans.round();
 
-		Renderer::SetMatrix(trans);
+  Renderer::SetMatrix(trans);
 
-		std::shared_ptr<Font> font = getFont();
+  std::shared_ptr<Font> font = getFont();
 
-        mTextCache->setColor((mColor & 0xFFFFFF00) | getOpacity());
-		font->renderTextCache(mTextCache.get());
+  Display mode = getCurrentDisplayMode();
+  const String dispString = mUppercase ? getDisplayString(mode).UpperCase() : getDisplayString(mode);
+  font->RenderDirect(dispString, 0, 0, (mColor & 0xFFFFFF00) | getOpacity(), mSize.x(), mHorizontalAlignment);
 
-		if(mEditing)
-		{
-			if(mEditIndex >= 0 && (unsigned int)mEditIndex < mCursorBoxes.size())
-			{
-				Renderer::DrawRectangle((int)mCursorBoxes[mEditIndex][0], (int)mCursorBoxes[mEditIndex][1],
-					(int)mCursorBoxes[mEditIndex][2], (int)mCursorBoxes[mEditIndex][3], 0x00000022);
-			}
-		}
-	}
+  if(mEditing)
+  {
+    if(mEditIndex >= 0 && (unsigned int)mEditIndex < mCursorBoxes.size())
+    {
+      Renderer::DrawRectangle((int)mCursorBoxes[mEditIndex][0], (int)mCursorBoxes[mEditIndex][1],
+        (int)mCursorBoxes[mEditIndex][2], (int)mCursorBoxes[mEditIndex][3], 0x00000022);
+    }
+  }
 }
 
 void DateTimeComponent::setValue(const String& val)
@@ -228,14 +223,12 @@ std::shared_ptr<Font> DateTimeComponent::getFont() const
 void DateTimeComponent::updateTextCache()
 {
 	mFlag = !mFlag;
-	Display mode = getCurrentDisplayMode();
-	const String dispString = mUppercase ? getDisplayString(mode).UpperCase() : getDisplayString(mode);
-	std::shared_ptr<Font> font = getFont();
-	mTextCache = std::unique_ptr<TextCache>(font->buildTextCache(dispString, Vector2f(0, 0), mColor, mSize.x(), mHorizontalAlignment));
 
+  Display mode = getCurrentDisplayMode();
+  const String dispString = mUppercase ? getDisplayString(mode).UpperCase() : getDisplayString(mode);
 	if(mAutoSize)
 	{
-		mSize = mTextCache->metrics.size;
+		mSize = mFont->sizeText(dispString);
 
 		//mAutoSize = false;
 		if(getParent() != nullptr)
@@ -250,19 +243,19 @@ void DateTimeComponent::updateTextCache()
 
 	//month
 	Vector2f start(0, 0);
-	Vector2f end = font->sizeText(dispString.SubString(0, 2));
+	Vector2f end = mFont->sizeText(dispString.SubString(0, 2));
 	Vector2f diff = end - start;
 	mCursorBoxes.push_back(Vector4f(start[0], start[1], diff[0], diff[1]));
 
 	//day
-	start[0] = font->sizeText(dispString.SubString(0, 3)).x();
-	end = font->sizeText(dispString.SubString(0, 5));
+	start[0] = mFont->sizeText(dispString.SubString(0, 3)).x();
+	end = mFont->sizeText(dispString.SubString(0, 5));
 	diff = end - start;
 	mCursorBoxes.push_back(Vector4f(start[0], start[1], diff[0], diff[1]));
 
 	//year
-	start[0] = font->sizeText(dispString.SubString(0, 6)).x();
-	end = font->sizeText(dispString.SubString(0, 10));
+	start[0] = mFont->sizeText(dispString.SubString(0, 6)).x();
+	end = mFont->sizeText(dispString.SubString(0, 10));
 	diff = end - start;
 	mCursorBoxes.push_back(Vector4f(start[0], start[1], diff[0], diff[1]));
 
@@ -272,8 +265,6 @@ void DateTimeComponent::updateTextCache()
 void DateTimeComponent::setColor(unsigned int color)
 {
 	mColor = color;
-	if(mTextCache)
-		mTextCache->setColor(color);
 }
 
 void DateTimeComponent::setFont(const std::shared_ptr<Font>& font)

@@ -8,10 +8,10 @@
 #include "animations/MoveCameraAnimation.h"
 #include "animations/LambdaAnimation.h"
 
-#include "guis/menus/GuiMenuSoftpatchingLauncher.h"
+#include "guis/menus/MenuSoftpatchingLauncher.h"
 #include "RotationManager.h"
 #include "guis/GuiSaveStates.h"
-#include "guis/menus/GuiFastMenuList.h"
+#include "guis/menus/FastMenuList.h"
 
 #include <MainRunner.h>
 #include <bios/BiosManager.h>
@@ -499,7 +499,7 @@ bool ViewController::CheckSoftPatching(const EmulatorData& emulator)
         std::vector<Path> patches = GameFilesUtils::GetSoftPatches(mGameToLaunch);
         if (!mGameLinkedData.ConfigurablePatch().IsConfigured() && !patches.empty())
         {
-          mWindow.pushGui(new GuiMenuSoftpatchingLauncher(mWindow, *mGameToLaunch, std::move(patches), mSoftPatchingLastChoice, this));
+          mWindow.pushGui(new MenuSoftpatchingLauncher(mWindow, *mGameToLaunch, std::move(patches), mSoftPatchingLastChoice, this));
           return true;
         }
         break;
@@ -536,16 +536,16 @@ void ViewController::LaunchCheck()
       if (mGameLinkedData.Crt().MustChoosePALorNTSC(mGameToLaunch->System()))
       {
         if (mGameToLaunch->System().Name() == "megadrive")
-          mWindow.pushGui(new GuiFastMenuList(mWindow, this, _("Game refresh rate"), mGameToLaunch->Name(),
-                                              (int) FastMenuType::FrequenciesMulti60,
-                                              {{_("AUTO")},
+          mWindow.pushGui(new FastMenuList(mWindow, this, _("Game refresh rate"), mGameToLaunch->Name(),
+                                           (int) FastMenuType::FrequenciesMulti60,
+                                           {{_("AUTO")},
                                                {_("60Hz (US)")},
                                                {_("60Hz (JP)")},
                                                {_("50Hz (EU)")}}, mFrequencyLastChoiceMulti60));
         else
-          mWindow.pushGui(new GuiFastMenuList(mWindow, this, _("Game refresh rate"), mGameToLaunch->Name(),
-                                              (int) FastMenuType::Frequencies,
-                                              {{_("AUTO")},
+          mWindow.pushGui(new FastMenuList(mWindow, this, _("Game refresh rate"), mGameToLaunch->Name(),
+                                           (int) FastMenuType::Frequencies,
+                                           {{_("AUTO")},
                                                {_("60Hz")},
                                                {_("50Hz")}}, mFrequencyLastChoice));
         return;
@@ -562,9 +562,9 @@ void ViewController::LaunchCheck()
       const bool isMultiSync = Board::Instance().CrtBoard().MultiSyncEnabled();
       if (mGameLinkedData.Crt().MustChooseResolution(mGameToLaunch, emulator))
       {
-        mWindow.pushGui(new GuiFastMenuList(mWindow, this, _("Game resolution"), mGameToLaunch->Name(),
-                                            (int) FastMenuType::CrtResolution,
-                                            {{(is31kHz && supports120Hz) ? "240p@120" : "240p"},
+        mWindow.pushGui(new FastMenuList(mWindow, this, _("Game resolution"), mGameToLaunch->Name(),
+                                         (int) FastMenuType::CrtResolution,
+                                         {{(is31kHz && supports120Hz) ? "240p@120" : "240p"},
                                              {(is31kHz || isMultiSync) ? "480p" : "480i"}}, mResolutionLastChoice));
         return;
       }
@@ -584,8 +584,8 @@ void ViewController::LaunchCheck()
   if ((mCheckFlags & LaunchCheckFlags::SuperGameboy) == 0)
     if(mCheckFlags |= LaunchCheckFlags::SuperGameboy; mGameLinkedData.SuperGameBoy().ShouldAskForSuperGameBoy(mGameToLaunch->System()))
     {
-      mWindow.pushGui(new GuiFastMenuList(mWindow, this, _("GameBoy Mode"), mGameToLaunch->Name(), (int)FastMenuType::SuperGameboy,
-                                          { { "GameBoy", _("Start the game standard Game Boy mode") }, { "SuperGameBoy", _("Start the game in Super Game Boy mode") } }, mSuperGameboyLastChoice));
+      mWindow.pushGui(new FastMenuList(mWindow, this, _("GameBoy Mode"), mGameToLaunch->Name(), (int)FastMenuType::SuperGameboy,
+                                       { { "GameBoy", _("Start the game standard Game Boy mode") }, { "SuperGameBoy", _("Start the game in Super Game Boy mode") } }, mSuperGameboyLastChoice));
       return;
     }
 
@@ -617,6 +617,10 @@ void ViewController::LaunchActually(const EmulatorData& emulator)
     Gui* gui = new GuiMsgBox(mWindow, text, _("OK"), TextAlignment::Left);
     mWindow.pushGui(gui);
   }
+
+  // Callback gamelist
+  if (mCurrentViewType == ViewType::GameList)
+    ((ISimpleGameListView*)mCurrentView)->ReturnedFromGame(mGameToLaunch);
 }
 
 void ViewController::LaunchAnimated(const EmulatorData& emulator)
@@ -958,11 +962,7 @@ void ViewController::UpdateSystem(SystemData* system)
   ISimpleGameListView** view = mGameListViews.try_get(system);
   if (view != nullptr)
     if (*view == mCurrentView)
-    {
-      int index = (*view)->getCursorIndex();
       (*view)->refreshList();
-      (*view)->setCursorIndex(index);
-    }
 }
 
 void ViewController::SystemShownWithNoGames(SystemData* system)
@@ -978,6 +978,9 @@ void ViewController::ToggleFavorite(FileData* game, bool forceStatus, bool force
 
   // Fire dynamic system refresh
   mSystemManager.UpdateSystemsOnGameChange(game, MetadataType::Favorite, false);
+  // Force refresh of current system cause we probably fired this event from there
+  if (mCurrentViewType == ViewType::GameList)
+    ((ISimpleGameListView*)mCurrentView)->ListRefreshRequired();
 
   // Refresh game in its regular view
   ISimpleGameListView** view = mGameListViews.try_get(&game->System());
@@ -1085,6 +1088,14 @@ void ViewController::Completed(const DelayedSystemOperationData& parameter, cons
 void ViewController::ForceGamelistRefresh(SystemData& data)
 {
   if (mGameListViews.contains(&data))
-    mGameListViews[&data]->refreshList();
+    mGameListViews[&data]->ListRefreshRequired();
+}
+
+void ViewController::FavoritesFirstConfigurationChanged(const bool& value)
+{
+  (void)value;
+  // Request a list refresh of all gamelist
+  for(auto& list : mGameListViews)
+    list.second->ListRefreshRequired();
 }
 

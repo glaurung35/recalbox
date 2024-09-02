@@ -72,8 +72,6 @@ void FpsOSD::Render(const Transform4x4f& parentTrans)
   float percent = CalculateFramePercentage();
   String s = (_F(" {0} Fps ({1}%) ") / _FOV(Frac, 1) / fps / percent).ToString();
   Renderer::DrawRectangle(mFPSArea, 0x000000C0);
-  TextCache* text = mFPSFont->buildTextCache(s, mFPSArea.Left(), mFPSArea.Top(), 0xFFFFFFFF);
-  mFPSFont->renderTextCache(text);
-  delete text;
+  mFPSFont->RenderDirect(s, mFPSArea.Left(), mFPSArea.Top(), 0xFFFFFFFF);
 }
 

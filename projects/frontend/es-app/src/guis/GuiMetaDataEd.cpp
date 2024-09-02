@@ -209,7 +209,7 @@ GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
 
         auto bracket = std::make_shared<ImageComponent>(mWindow);
 
-        bracket->setImage(menuTheme.Elements().arrow);
+        bracket->setImage(menuTheme.Elements().FromType(MenuThemeData::IconElement::Type::Arrow));
         bracket->setColorShift(menuTheme.Text().color);
         bracket->setResize(Vector2f(0, lbl->getFont()->getLetterHeight()));
         row.addElement(bracket, false);
@@ -256,7 +256,7 @@ GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
     y += lbl->getFont()->getHeight();
 
     auto bracket = std::make_shared<ImageComponent>(mWindow);
-    bracket->setImage(menuTheme.Elements().arrow);
+    bracket->setImage(menuTheme.Elements().FromType(MenuThemeData::IconElement::Type::Arrow));
     bracket->setColorShift(menuTheme.Text().color);
 
     bracket->setResize(Vector2f(0, lbl->getFont()->getLetterHeight()));

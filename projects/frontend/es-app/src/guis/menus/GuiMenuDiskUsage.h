@@ -6,10 +6,10 @@
 //
 #pragma once
 
-#include <guis/menus/GuiMenuBase.h>
+#include <guis/menus/base/Menu.h>
 #include "hardware/devices/mount/MountMonitor.h"
 
-class GuiMenuDiskUsage : public GuiMenuBase
+class GuiMenuDiskUsage : public Menu
 {
   public:
     //! Constructor

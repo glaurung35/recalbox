@@ -555,40 +555,26 @@ void Font::renderCharacter(unsigned int character, float x, float y, float wr, f
   glDisable(GL_BLEND);
 }
 
-void Font::renderTextCache(TextCache* cache)
+String Font::Font::ShortenText(const String& text, float maxWidth)
 {
-  if (cache == nullptr)
+  float total = 0.0f;
+
+  Glyph* threeDots = getGlyph(0x2026);
+  float threeDotWidth = threeDots->advance.x();
+  for(size_t i = 0; i < text.length(); )
   {
-    { LOG(LogError) << "[Font] Attempted to draw NULL TextCache!"; }
-    return;
+    int previous = (int)i;
+    UnicodeChar character = readUnicodeChar(text, i); // advances i
+
+    if (character == (UnicodeChar) '\n') { total = 0.0f; continue; }
+    Glyph* glyph = getGlyph(character);
+    if (glyph == nullptr) continue;
+
+    if (total + threeDotWidth + glyph->advance.x() > maxWidth)
+      return text.SubString(0, previous).AppendUTF8(0x2026);
+    total += glyph->advance.x();
   }
-
-  for (auto& vertexList : cache->vertexLists)
-  {
-    assert(vertexList.textureIdPtr != nullptr);
-
-    glBindTexture(GL_TEXTURE_2D, *vertexList.textureIdPtr);
-    glEnable(GL_TEXTURE_2D);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-    glEnableClientState(GL_COLOR_ARRAY);
-
-    glVertexPointer(2, GL_FLOAT, sizeof(TextCache::Vertex), vertexList.verts[0].pos.data());
-    glTexCoordPointer(2, GL_FLOAT, sizeof(TextCache::Vertex), vertexList.verts[0].tex.data());
-    glColorPointer(4, GL_UNSIGNED_BYTE, 0, vertexList.colors.data());
-
-    glDrawArrays(GL_TRIANGLES, 0, (int)vertexList.verts.size());
-
-    glDisableClientState(GL_VERTEX_ARRAY);
-    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-    glDisableClientState(GL_COLOR_ARRAY);
-
-    glDisable(GL_TEXTURE_2D);
-    glDisable(GL_BLEND);
-  }
+  return text;
 }
 
 Vector2f Font::sizeText(const String& text, float lineSpacing)
@@ -715,7 +701,7 @@ Vector2f Font::getWrappedTextCursorOffset(const String& text, float xLen, size_t
 }
 
 //=============================================================================================================
-//TextCache
+// Direct rendering
 //=============================================================================================================
 
 float Font::getNewlineStartOffset(const String& text, unsigned int charStart, float xLen, TextAlignment alignment)
@@ -739,18 +725,46 @@ float Font::getNewlineStartOffset(const String& text, unsigned int charStart, fl
   }
 }
 
-TextCache*
-Font::buildTextCache(const String& text, Vector2f offset, unsigned int color, float xLen, TextAlignment alignment,
-                     float lineSpacing, bool nospacing)
+float Font::TextWidth(const String& text)
 {
-  float x = offset[0] + (xLen != 0 ? getNewlineStartOffset(text, 0, xLen, alignment) : 0);
+  float highestWidth = 0;
+  float lineWidth = 0;
+  for(size_t i = 0; i < text.length(); )
+  {
+    UnicodeChar character = readUnicodeChar(text, i); // advances i
+    if (character == 0) continue;
+    if (character == (UnicodeChar) '\n')
+    {
+      if (lineWidth > highestWidth) highestWidth = lineWidth;
+      lineWidth = 0.0f;
+      continue;
+    }
+    Glyph* glyph = getGlyph(character);
+    if (glyph != nullptr)
+      lineWidth += glyph->advance.x();
+  }
+  if (lineWidth > highestWidth) highestWidth = lineWidth;
+  return highestWidth;
+}
 
-  float yTop = mBearingMax; // getGlyph((UnicodeChar)'S')->bearing.y();
+void Font::RenderDirect(const String& text, float offsetX, float offsetY, unsigned int color, float xLen, TextAlignment alignment, float lineSpacing, bool nospacing)
+{
+  float x = offsetX + (xLen != 0 ? getNewlineStartOffset(text, 0, xLen, alignment) : 0);
+
+  float yTop = mBearingMax;
   float yBot = getHeight(lineSpacing);
-  float y = offset[1] + (nospacing ? yTop : (yBot + yTop) / 2.0f);
+  float y = offsetY + (nospacing ? yTop : (yBot + yTop) / 2.0f);
 
-  // vertices by texture
-  std::map<FontTexture*, std::vector<TextCache::Vertex> > vertMap;
+  GLubyte colors[6 * 4];
+  Renderer::BuildGLColorArray(colors, color, 6);
+
+  glEnable(GL_TEXTURE_2D);
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+  glEnableClientState(GL_VERTEX_ARRAY);
+  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+  glEnableClientState(GL_COLOR_ARRAY);
 
   size_t cursor = 0;
   while (cursor < text.length())
@@ -758,94 +772,69 @@ Font::buildTextCache(const String& text, Vector2f offset, unsigned int color, fl
     UnicodeChar character = readUnicodeChar(text, cursor); // also advances cursor
 
     // invalid character
-    if (character == 0)
-      continue;
+    if (character == 0) continue;
 
     if (character == (UnicodeChar) '\n')
     {
       y += getHeight(lineSpacing);
-      x = offset[0] +
-          (xLen != 0 ? getNewlineStartOffset(text, cursor /* cursor is already advanced */, xLen, alignment) : 0);
+      x = offsetX + (xLen != 0 ? getNewlineStartOffset(text, cursor /* cursor is already advanced */, xLen, alignment) : 0);
       continue;
     }
 
     Glyph* glyph = getGlyph(character);
-    if (glyph == nullptr)
-      continue;
+    if (glyph == nullptr) continue;
 
-    std::vector<TextCache::Vertex>& verts = vertMap[glyph->texture];
-    size_t oldVertSize = verts.size();
-    verts.resize(oldVertSize + 6);
-    TextCache::Vertex* tri = verts.data() + oldVertSize;
-
+    Vertex tri[6]; // = verts.data() + oldVertSize;
     const float glyphStartX = x + glyph->bearing.x();
-
     const Vector2i& textureSize = glyph->texture->textureSize;
 
     // triangle 1
     // round to fix some weird "cut off" text bugs
-    tri[0].pos.Set(Math::round(glyphStartX),
+    tri[0].Target.Set(Math::round(glyphStartX),
                    Math::round(y + (glyph->texSize.y() * (float) textureSize.y() - glyph->bearing.y())));
-    tri[1].pos.Set(Math::round(glyphStartX + glyph->texSize.x() * (float) textureSize.x()),
+    tri[1].Target.Set(Math::round(glyphStartX + glyph->texSize.x() * (float) textureSize.x()),
                    Math::round(y - glyph->bearing.y()));
-    tri[2].pos.Set(tri[0].pos.x(), tri[1].pos.y());
+    tri[2].Target.Set(tri[0].Target.X, tri[1].Target.Y);
 
-    tri[0].tex.Set(glyph->texPos.x(), glyph->texPos.y() + glyph->texSize.y());
-    tri[1].tex.Set(glyph->texPos.x() + glyph->texSize.x(), glyph->texPos.y());
-    tri[2].tex.Set(tri[0].tex.x(), tri[1].tex.y());
+    tri[0].Source.Set(glyph->texPos.x(), glyph->texPos.y() + glyph->texSize.y());
+    tri[1].Source.Set(glyph->texPos.x() + glyph->texSize.x(), glyph->texPos.y());
+    tri[2].Source.Set(tri[0].Source.X, tri[1].Source.Y);
 
     // triangle 2
-    tri[3].pos = tri[0].pos;
-    tri[4].pos = tri[1].pos;
-    tri[5].pos.Set(tri[1].pos.x(), tri[0].pos.y());
+    tri[3].Target = tri[0].Target;
+    tri[4].Target = tri[1].Target;
+    tri[5].Target.Set(tri[1].Target.X, tri[0].Target.Y);
 
-    tri[3].tex = tri[0].tex;
-    tri[4].tex = tri[1].tex;
-    tri[5].tex.Set(tri[1].tex.x(), tri[0].tex.y());
+    tri[3].Source = tri[0].Source;
+    tri[4].Source = tri[1].Source;
+    tri[5].Source.Set(tri[1].Source.X, tri[0].Source.Y);
+
+    glBindTexture(GL_TEXTURE_2D, glyph->texture->textureId);
+
+    glVertexPointer(2, GL_FLOAT, sizeof(Vertex), &tri[0].Target);
+    glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &tri[0].Source);
+    glColorPointer(4, GL_UNSIGNED_BYTE, 0, colors);
+
+    glDrawArrays(GL_TRIANGLES, 0, 6);
 
     // advance
     x += glyph->advance.x();
   }
 
-  //TextCache::CacheMetrics metrics = { sizeText(text, lineSpacing) };
+  glDisableClientState(GL_VERTEX_ARRAY);
+  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+  glDisableClientState(GL_COLOR_ARRAY);
 
-  TextCache* cache = new TextCache();
-  cache->vertexLists.resize(vertMap.size());
-  cache->metrics = {sizeText(text, lineSpacing)};
+  glDisable(GL_TEXTURE_2D);
+  glDisable(GL_BLEND);
 
-  unsigned int i = 0;
-  for (auto& it : vertMap)
-  {
-    TextCache::VertexList& vertList = cache->vertexLists[i];
-
-    vertList.textureIdPtr = &it.first->textureId;
-    vertList.verts = it.second;
-
-    vertList.colors.resize(4 * it.second.size());
-    Renderer::BuildGLColorArray(vertList.colors.data(), color, (int)it.second.size());
-  }
-
-  clearFaceCache();
-
-  return cache;
-}
-
-TextCache*
-Font::buildTextCache(const String& text, float offsetX, float offsetY, unsigned int color, bool nospacing)
-{
-  return buildTextCache(text, Vector2f(offsetX, offsetY), color, 0.0f, TextAlignment::Left, 1.5f, nospacing);
-}
-
-void TextCache::setColor(unsigned int color)
-{
-  for (auto& vertexList : vertexLists)
-    Renderer::BuildGLColorArray(vertexList.colors.data(), color, (int)vertexList.verts.size());
+  //clearFaceCache();
 }
 
 std::shared_ptr<Font>
 Font::getFromTheme(const ThemeElement& elem, ThemePropertyCategory properties, const std::shared_ptr<Font>& orig)
 {
-  if (!hasFlags(properties, ThemePropertyCategory::FontPath, ThemePropertyCategory::FontSize))
+  if ((properties & (ThemePropertyCategory::FontPath | ThemePropertyCategory::FontSize)) == 0)
     return orig;
 
   std::shared_ptr<Font> font;

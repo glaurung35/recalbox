@@ -131,6 +131,15 @@ class IList : public Gui
     }
 
     // see onCursorChanged warn
+    void clear(int size)
+    {
+      mEntries.clear();
+      mEntries.reserve(size);
+      mCursor = 0;
+      listInput(0);
+    }
+
+    // see onCursorChanged warn
     void clear()
     {
       mEntries.clear();
@@ -145,6 +154,14 @@ class IList : public Gui
       {
         objects.push_back((*it).object);
       }
+      return objects;
+    }
+
+    inline Array<UserData> getObjectsArray()
+    {
+      Array<UserData> objects;
+      for (auto it = mEntries.begin(); it != mEntries.end(); it++)
+        objects.Add((*it).object);
       return objects;
     }
 
@@ -175,7 +192,7 @@ class IList : public Gui
       return mEntries[mCursor].object;
     }
 
-    inline EntryData& getSelectedEntry() const
+    inline const  EntryData& getSelectedEntry() const
     {
       assert(size() > 0);
       return mEntries[mCursor].data;
@@ -263,7 +280,6 @@ class IList : public Gui
 
       auto& entry = mEntries[cursor];
       entry.name = name;
-      entry.data.textCache.reset();
       return true;
     }
 
@@ -406,9 +422,7 @@ class IList : public Gui
       mGradient.setOpacity(mTitleOverlayOpacity);
       mGradient.Render(identTrans);
 
-      TextCache* cache = mTitleOverlayFont->buildTextCache(text, off.x(), off.y(), 0xFFFFFF00 | mTitleOverlayOpacity);
-      mTitleOverlayFont->renderTextCache(cache); // relies on mGradient's render for Renderer::setMatrix()
-      delete cache;
+      mTitleOverlayFont->RenderDirect(text, off.x(), off.y(), 0xFFFFFF00 | mTitleOverlayOpacity);
     }
 
     void scroll(int amt)

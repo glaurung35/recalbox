@@ -21,6 +21,8 @@ SliderComponent::SliderComponent(WindowManager&window, float min, float max, flo
   , mOriginColor(0)
   , mKnob(window)
   , mSuffix(suffix)
+  , mTextWidth(0)
+  , mTextHeight(0)
   , mInterface(nullptr)
   , mIdentifier(0)
 {
@@ -33,7 +35,7 @@ SliderComponent::SliderComponent(WindowManager&window, float min, float max, flo
 	mColor = mOriginColor = menuTheme.Text().color;
 
 	mKnob.setOrigin(0.5f, 0.5f);
-	mKnob.setImage(menuTheme.Elements().knob);
+	mKnob.setImage(menuTheme.Elements().FromType(MenuThemeData::IconElement::Type::Knob));
 	
 	mKnob.setColorShift(mColor);
 	setSize(Renderer::Instance().DisplayWidthAsFloat() * 0.15f, menuTheme.Text().font->getLetterHeight());
@@ -80,10 +82,10 @@ void SliderComponent::Render(const Transform4x4f& parentTrans)
 	Renderer::SetMatrix(trans);
 
 	// render suffix
-	if(mValueCache)
-		mFont->renderTextCache(mValueCache.get());
+  String val(mValue, 0); val.Append(mSuffix);
+  mFont->RenderDirect(val, mSize.x() - mTextWidth, (mSize.y() - mTextHeight) / 2, mColor);
 
-	float width = mSize.x() - mKnob.getSize().x() - (mValueCache ? mValueCache->metrics.size.x() + 4 : 0);
+	float width = mSize.x() - mKnob.getSize().x() - (mTextWidth + 4);
 
 	//render line
 	const float lineWidth = 2;
@@ -132,21 +134,18 @@ void SliderComponent::onSizeChanged()
 
 void SliderComponent::updateSlider()
 {
-	// update suffix textcache
+	// update suffix
 	if(mFont)
 	{
-		String val(mValue, 0); val.Append(mSuffix);
 		String max(mMax, 0); max.Append(mSuffix);
-
 		Vector2f textSize = mFont->sizeText(max);
-
-		mValueCache = std::shared_ptr<TextCache>(mFont->buildTextCache(val, mSize.x() - textSize.x(), (mSize.y() - textSize.y()) / 2, mColor));
-		mValueCache->metrics.size[0] = textSize.x(); // fudge the width
+    mTextWidth = textSize.x();
+    mTextHeight = textSize.y();
 	}
 
 	// update knob position/size
 	mKnob.setResize(0, mSize.y() * 0.7f);
-	float lineLength = mSize.x() - mKnob.getSize().x() - (mValueCache ? mValueCache->metrics.size.x() + 4 : 0);
+	float lineLength = mSize.x() - mKnob.getSize().x() - (mTextWidth + 4);
 	float position = mMin >= 0 ? (mValue + mMin) / mMax : (mValue - mMin) / (mMax - mMin);
 	mKnob.setPosition(position * lineLength + mKnob.getSize().x()/2, mSize.y() / 2);
 }

@@ -129,14 +129,18 @@ String Upgrade::GetDomainName()
   if (!mDomainName.empty()) return mDomainName;
 
   // Select DNS to query
-  String target = RecalboxConf::Instance().GetUpdatesType().LowerCase().Trim();
+
+  RecalboxConf::UpdateType update = RecalboxConf::Instance().GetUpdateType();
   // If target has been set to patron, we set it as not existing, to avoid the upgrade if the key is not valid
-  if(target == "patron")
-    target = "not-existing";
+  if (update == RecalboxConf::UpdateType::Patron)
+    update = RecalboxConf::UpdateType::Stable;
   // And if we are a patron, we can upgrade
-  if (PatronInfo::Instance().IsPatron() && target != "alpha" && target != "jamma" && target != "jamma-early")
-    target = "patron";
-  target.Remove(' ');
+  if (PatronInfo::Instance().IsPatron()
+      && update != RecalboxConf::UpdateType::Alpha
+      && update != RecalboxConf::UpdateType::Jamma
+      && update != RecalboxConf::UpdateType::JammaEarly)
+    update = RecalboxConf::UpdateType::Patron;
+  String target(RecalboxConf::UpdateTypeFromEnum(update));
   String domain(target);
   domain.Append(sUpgradeDNS);
 

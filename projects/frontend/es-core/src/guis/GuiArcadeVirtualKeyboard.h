@@ -171,9 +171,6 @@ class GuiArcadeVirtualKeyboard : public Gui
     //! Font used to draw text
     std::shared_ptr<Font> mTextFont;
 
-    //! Title character caches
-    std::unique_ptr<TextCache> mTitleCache;
-
     //! Hold the image under the selected char
     std::shared_ptr<TextureResource> mSelectedChar;
 
@@ -297,11 +294,6 @@ class GuiArcadeVirtualKeyboard : public Gui
      * @brief Render the string and the cursor
      */
     void RenderEditedString();
-
-    /*!
-     * @brief Prepare title text rendering
-     */
-    void PrepareTitle();
 
     /*!
      * @brief Move edit cursor

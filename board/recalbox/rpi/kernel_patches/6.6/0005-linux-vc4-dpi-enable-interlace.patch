@@ -1,0 +1,26 @@
+From 1b00276a429370c3d093f90e5f16dda93b8b58bf Mon Sep 17 00:00:00 2001
+From: David Barbion <davidb@230ruedubac.fr>
+Date: Fri, 18 Feb 2022 22:29:04 +0100
+Subject: [PATCH 5/8] linux vc4 dpi enable interlace
+
+---
+ drivers/gpu/drm/vc4/vc4_dpi.c | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/vc4/vc4_dpi.c b/drivers/gpu/drm/vc4/vc4_dpi.c
+index 39152e755a13..ca58f74e8b51 100644
+--- a/drivers/gpu/drm/vc4/vc4_dpi.c
++++ b/drivers/gpu/drm/vc4/vc4_dpi.c
+@@ -248,9 +248,6 @@ static void vc4_dpi_encoder_enable(struct drm_encoder *encoder)
+ static enum drm_mode_status vc4_dpi_encoder_mode_valid(struct drm_encoder *encoder,
+ 						       const struct drm_display_mode *mode)
+ {
+-	if (mode->flags & DRM_MODE_FLAG_INTERLACE)
+-		return MODE_NO_INTERLACE;
+-
+ 	return MODE_OK;
+ }
+ 
+-- 
+2.44.0
+

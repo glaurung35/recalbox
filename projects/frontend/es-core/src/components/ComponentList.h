@@ -7,15 +7,15 @@
 struct ComponentListElement
 {
 	explicit ComponentListElement(std::shared_ptr<Component> cmp, bool resize_w, bool inv)
-		: component(std::move(cmp)),
-		  resize_width(resize_w),
-		  invert_when_selected(inv)
+		: mComponent(std::move(cmp))
+		, mResizeWidth(resize_w)
+		, mInvertWhenSelected(inv)
   {
   };
 
-	std::shared_ptr<Component> component;
-	bool resize_width;
-	bool invert_when_selected;
+	std::shared_ptr<Component> mComponent;
+	bool mResizeWidth;
+	bool mInvertWhenSelected;
 };
 
 class IComponentListRow
@@ -33,13 +33,8 @@ class IComponentListRowEventInterceptor
 struct ComponentListRow
 {
   public:
-
-    std::vector<ComponentListElement> elements;
-    String name;
-
-    explicit ComponentListRow(/*String n = String()*/)
-      : name(/*n*/)
-      , mInterceptor(nullptr)
+    explicit ComponentListRow()
+      : mInterceptor(nullptr)
       , mInterface(nullptr)
       , mIdentifier(0)
     {
@@ -65,7 +60,7 @@ struct ComponentListRow
 
       // No input handler assigned, do the default, which is to give it to the rightmost element in the row
       if(!elements.empty())
-        if(elements.back().component->ProcessInput(event))
+        if(elements.back().mComponent->ProcessInput(event))
           return true;
 
       return false;
@@ -96,11 +91,17 @@ struct ComponentListRow
 
     inline bool HasHelpHandler() { return help_handler != nullptr; }
 
+    const std::vector<ComponentListElement>& Elements() const { return elements; }
+
+    void Clear() { elements.clear(); }
+
   private:
     // The input handler is called when the user enters any input while this row is highlighted (including up/down).
     // Return false to let the list try to use it or true if the input has been consumed.
     // If no input handler is supplied (input_handler == nullptr), the default behavior is to forward the input to
     // the rightmost element in the currently selected row.
+
+    std::vector<ComponentListElement> elements;
 
     std::function<void()> input_handler;
     std::function<void()> help_handler;

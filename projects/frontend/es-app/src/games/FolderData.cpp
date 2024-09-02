@@ -17,44 +17,32 @@ FolderData::~FolderData()
   {
     delete fd;
   }
-  mChildren.clear();
+  mChildren.Clear();
 }
 
 void FolderData::AddChild(FileData* file, bool lukeImYourFather)
 {
   assert(file->Parent() == nullptr || !lukeImYourFather);
 
-  mChildren.push_back(file);
+  mChildren.Add(file);
   if (lukeImYourFather)
     file->SetParent(this);
 }
 
 void FolderData::RemoveChild(const FileData* file)
 {
-  for (auto it = mChildren.begin(); it != mChildren.end(); it++)
-    if(*it == file)
-    {
-      mChildren.erase(it);
-      return;
-    }
+  mChildren.Remove((FileData*)file);
 }
 
-bool FolderData::RemoveChildRecursively(const FileData* file)
+bool FolderData::RemoveChildRecursively(const FileData* item)
 {
-  bool result = false;
   // Recurse
   bool found = false;
-  for(FileData* item : mChildren)
-    if (item->IsGame() && file == item) found = true;
-    else if (item->IsFolder())
-      if (CastFolder(item)->RemoveChildRecursively(file)) result = true;
-  // Erase
-  if (found)
-  {
-    erase(mChildren, file);
-    result = true;
-  }
-  return result;
+  for(int i = mChildren.Count(); --i >= 0; )
+    if (FileData* child = mChildren[i]; child->IsGame() && item == child) { mChildren.Delete(i); found = true; }
+    else if (child->IsFolder())
+      if (CastFolder(child)->RemoveChildRecursively(item)) found = true;
+  return found;
 }
 
 static bool IsMatching(const String& fileWoExt, const String& extension, const String& extensionList)
@@ -280,10 +268,10 @@ int FolderData::getAllFoldersRecursively(FileData::List& to) const
   {
     if (fd->IsFolder())
     {
-      to.push_back(fd);
-      int position = (int)to.size(); // TOOD: Check if the insert is necessary
+      to.Add(fd);
+      int position = (int)to.Count(); // TOOD: Check if the insert is necessary
       if (CastFolder(fd)->getAllFoldersRecursively(to) > 1)
-        to.insert(to.begin() + position, fd); // Include folders iif it contains more than one game.
+        to.Insert(fd, position); // Include folders iif it contains more than one game.
     }
     else if (fd->IsGame()) gameCount++;
   }
@@ -299,13 +287,13 @@ FileData::List FolderData::GetAllFolders() const
 
 void FolderData::ClearSubChildList()
 {
-  for (int i = (int)mChildren.size(); --i >= 0; )
+  for (int i = (int)mChildren.Count(); --i >= 0; )
   {
     const FileData* fd = mChildren[i];
     if (fd->IsFolder())
       CastFolder(fd)->ClearSubChildList();
     else
-      mChildren[i] = nullptr;
+      mChildren(i) = nullptr;
   }
 }
 
@@ -358,7 +346,7 @@ int FolderData::getMissingHashRecursively(FileData::List& to) const
     else if (fd->IsGame())
       if (fd->Metadata().RomCrc32() == 0)
       {
-        to.push_back(fd);
+        to.Add(fd);
         gameCount++;
       }
   }
@@ -374,13 +362,13 @@ int FolderData::getItemsRecursively(FileData::List& to, IFilter* filter, bool in
     {
       if (CastFolder(fd)->getItemsRecursively(to, filter, includefolders) > 1)
         if (includefolders)
-          to.push_back(fd); // Include folders iif it contains more than one game.
+          to.Add(fd); // Include folders iif it contains more than one game.
     }
     else if (fd->IsGame())
     {
       if (filter->ApplyFilter(*fd))
       {
-        to.push_back(fd);
+        to.Add(fd);
         gameCount++;
       }
     }
@@ -397,13 +385,13 @@ int FolderData::getItemsRecursively(FileData::List& to, Filter includes, Filter 
     {
       if (CastFolder(fd)->getItemsRecursively(to, includes, excludes, includefolders) > 1)
         if (includefolders)
-          to.push_back(fd); // Include folders iif it contains more than one game.
+          to.Add(fd); // Include folders iif it contains more than one game.
     }
     else if (fd->IsGame())
     {
       if(IsFiltered(fd, includes, excludes))
       {
-        to.push_back(fd);
+        to.Add(fd);
         gameCount++;
       }
     }
@@ -557,8 +545,8 @@ int FolderData::getItems(FileData::List& to, Filter includes, Filter excludes, b
       FolderData* folder = CastFolder(fd);
       // Seek for isolated file
       FileData* isolatedFile = nullptr;
-      while((folder->mChildren.size() == 1) && folder->mChildren[0]->IsFolder()) folder = CastFolder(folder->mChildren[0]);
-      if (folder->mChildren.size() == 1)
+      while((folder->mChildren.Count() == 1) && folder->mChildren[0]->IsFolder()) folder = CastFolder(folder->mChildren[0]);
+      if (folder->mChildren.Count() == 1)
       {
         FileData* item = folder->mChildren[0];
         if (item->IsGame())
@@ -567,17 +555,17 @@ int FolderData::getItems(FileData::List& to, Filter includes, Filter excludes, b
             isolatedFile = item;
         }
       }
-      if (isolatedFile != nullptr) to.push_back(isolatedFile);
+      if (isolatedFile != nullptr) to.Add(isolatedFile);
       else
       if (includefolders)
         if (folder->countItems(includes, excludes, includefolders ) > 0) // Only add if it contains at leas one game
-          to.push_back(fd);
+          to.Add(fd);
     }
     else
     {
       if(IsFiltered(fd, includes, excludes))
       {
-        to.push_back(fd);
+        to.Add(fd);
         gameCount++;
       }
     }
@@ -595,8 +583,8 @@ int FolderData::countItems(Filter includes, Filter excludes, bool includefolders
       FolderData* folder = CastFolder(fd);
       // Seek for isolated file
       FileData* isolatedFile = nullptr;
-      while((folder->mChildren.size() == 1) && folder->mChildren[0]->IsFolder()) folder = CastFolder(folder->mChildren[0]);
-      if (folder->mChildren.size() == 1)
+      while((folder->mChildren.Count() == 1) && folder->mChildren[0]->IsFolder()) folder = CastFolder(folder->mChildren[0]);
+      if (folder->mChildren.Count() == 1)
       {
         FileData* item = folder->mChildren[0];
         if (item->IsGame())
@@ -769,7 +757,7 @@ FileData* FolderData::GetNextFavoriteTo(FileData* reference)
 {
   // Look for position index. If not found, start from the begining
   int position = 0;
-  for (int i = (int)mChildren.size(); --i >= 0; )
+  for (int i = (int)mChildren.Count(); --i >= 0; )
     if (mChildren[i] == reference)
     {
       position = i;
@@ -777,7 +765,7 @@ FileData* FolderData::GetNextFavoriteTo(FileData* reference)
     }
 
   // Look forward
-  for (int i = position; i < (int)mChildren.size(); i++)
+  for (int i = position; i < (int)mChildren.Count(); i++)
     if (mChildren[i]->Metadata().Favorite())
       return mChildren[i];
   // Look backward
@@ -788,18 +776,18 @@ FileData* FolderData::GetNextFavoriteTo(FileData* reference)
   return nullptr;
 }
 
-void FolderData::Sort(FileData::List& items, FileData::Comparer comparer, bool ascending)
+void FolderData::Sort(FileData::List& items, FileSorts::Comparer comparer, bool ascending)
 {
-  if (items.size() > 1)
+  if (items.Count() > 1)
   {
     if (ascending)
-      QuickSortAscending(items, 0, (int)items.size() - 1, comparer);
+      QuickSortAscending(items, 0, (int)items.Count() - 1, comparer);
     else
-      QuickSortDescending(items, 0, (int)items.size() - 1, comparer);
+      QuickSortDescending(items, 0, (int)items.Count() - 1, comparer);
   }
 }
 
-void FolderData::QuickSortAscending(FileData::List& items, int low, int high, FileData::Comparer comparer)
+void FolderData::QuickSortAscending(FileData::List& items, int low, int high, FileSorts::Comparer comparer)
 {
   int Low = low, High = high;
   const FileData& pivot = *items[(Low + High) >> 1];
@@ -809,7 +797,7 @@ void FolderData::QuickSortAscending(FileData::List& items, int low, int high, Fi
     while((*comparer)(*items[High], pivot) > 0) High--;
     if (Low <= High)
     {
-      FileData* Tmp = items[Low]; items[Low] = items[High]; items[High] = Tmp;
+      FileData* Tmp = items[Low]; items(Low) = items[High]; items(High) = Tmp;
       Low++; High--;
     }
   }while(Low <= High);
@@ -817,7 +805,7 @@ void FolderData::QuickSortAscending(FileData::List& items, int low, int high, Fi
   if (Low < high) QuickSortAscending(items, Low, high, comparer);
 }
 
-void FolderData::QuickSortDescending(FileData::List& items, int low, int high, FileData::Comparer comparer)
+void FolderData::QuickSortDescending(FileData::List& items, int low, int high, FileSorts::Comparer comparer)
 {
   int Low = low, High = high;
   const FileData& pivot = *items[(Low + High) >> 1];
@@ -827,7 +815,7 @@ void FolderData::QuickSortDescending(FileData::List& items, int low, int high, F
     while((*comparer)(*items[High], pivot) < 0) High--;
     if (Low <= High)
     {
-      FileData* Tmp = items[Low]; items[Low] = items[High]; items[High] = Tmp;
+      FileData* Tmp = items[Low]; items(Low) = items[High]; items(High) = Tmp;
       Low++; High--;
     }
   }while(Low <= High);
@@ -851,9 +839,8 @@ bool FolderData::Contains(const FileData* item, bool recurse) const
 FileData::List FolderData::GetFilteredItemsRecursively(IFilter* filter, bool includefolders) const
 {
   FileData::List result;
-  result.reserve((unsigned long)countItemsRecursively(Filter::All, System().Excludes(), includefolders)); // Allocate once
+  result.Reserve((unsigned long)countItemsRecursively(Filter::All, System().Excludes(), includefolders)); // Allocate once
   getItemsRecursively(result, filter, includefolders);
-  result.shrink_to_fit();
 
   return result;
 }
@@ -861,7 +848,7 @@ FileData::List FolderData::GetFilteredItemsRecursively(IFilter* filter, bool inc
 FileData::List FolderData::GetFilteredItemsRecursively(Filter filters, Filter excludes, bool includefolders) const
 {
   FileData::List result;
-  result.reserve((unsigned long)countItemsRecursively(filters, excludes, includefolders)); // Allocate once
+  result.Reserve((unsigned long)countItemsRecursively(filters, excludes, includefolders)); // Allocate once
   getItemsRecursively(result, filters, excludes, includefolders);
 
   return result;
@@ -870,7 +857,7 @@ FileData::List FolderData::GetFilteredItemsRecursively(Filter filters, Filter ex
 FileData::List FolderData::GetAllItemsRecursively(bool includefolders,Filter excludes) const
 {
   FileData::List result;
-  result.reserve((unsigned long)countItemsRecursively(Filter::All, excludes, includefolders)); // Allocate once
+  result.Reserve((unsigned long)countItemsRecursively(Filter::All, excludes, includefolders)); // Allocate once
   getItemsRecursively(result, Filter::All, excludes, includefolders);
 
   return result;
@@ -879,7 +866,7 @@ FileData::List FolderData::GetAllItemsRecursively(bool includefolders,Filter exc
 FileData::List FolderData::GetAllDisplayableItemsRecursively(bool includefolders, Filter excludes) const
 {
   FileData::List result;
-  result.reserve((unsigned long)countItemsRecursively(Filter::Normal | Filter::Favorite, excludes, includefolders)); // Allocate once
+  result.Reserve((unsigned long)countItemsRecursively(Filter::Normal | Filter::Favorite, excludes, includefolders)); // Allocate once
   getItemsRecursively(result, Filter::Normal | Filter::Favorite, excludes, includefolders);
 
   return result;
@@ -888,7 +875,7 @@ FileData::List FolderData::GetAllDisplayableItemsRecursively(bool includefolders
 FileData::List FolderData::GetAllFavoritesRecursively(bool includefolders, Filter excludes) const
 {
   FileData::List result;
-  result.reserve((unsigned long)countItemsRecursively(Filter::Favorite, excludes, includefolders)); // Allocate once
+  result.Reserve((unsigned long)countItemsRecursively(Filter::Favorite, excludes, includefolders)); // Allocate once
   getItemsRecursively(result, Filter::Favorite, excludes, includefolders);
 
   return result;
@@ -897,7 +884,7 @@ FileData::List FolderData::GetAllFavoritesRecursively(bool includefolders, Filte
 FileData::List FolderData::GetFilteredItems(Filter filters, Filter excludes, bool includefolders) const
 {
   FileData::List result;
-  result.reserve((unsigned long)countItems(filters, excludes, includefolders)); // Allocate once
+  result.Reserve((unsigned long)countItems(filters, excludes, includefolders)); // Allocate once
   getItems(result, filters, excludes, includefolders);
 
   return result;
@@ -906,7 +893,7 @@ FileData::List FolderData::GetFilteredItems(Filter filters, Filter excludes, boo
 FileData::List FolderData::GetAllItems(bool includefolders, Filter excludes) const
 {
   FileData::List result;
-  result.reserve((unsigned long)countItems(Filter::All, excludes, includefolders)); // Allocate once
+  result.Reserve((unsigned long)countItems(Filter::All, excludes, includefolders)); // Allocate once
   getItems(result, Filter::All, excludes ,includefolders);
 
   return result;
@@ -915,7 +902,7 @@ FileData::List FolderData::GetAllItems(bool includefolders, Filter excludes) con
 FileData::List FolderData::GetAllDisplayableItems(bool includefolders, Filter excludes) const
 {
   FileData::List result;
-  result.reserve((unsigned long)countItems(Filter::Normal | Filter::Favorite, excludes, includefolders)); // Allocate once
+  result.Reserve((unsigned long)countItems(Filter::Normal | Filter::Favorite, excludes, includefolders)); // Allocate once
   getItems(result, Filter::Normal | Filter::Favorite, excludes, includefolders);
 
   return result;
@@ -924,7 +911,7 @@ FileData::List FolderData::GetAllDisplayableItems(bool includefolders, Filter ex
 FileData::List FolderData::GetAllFavorites(bool includefolders, Filter excludes) const
 {
   FileData::List result;
-  result.reserve((unsigned long)countItems(Filter::Favorite, excludes, includefolders)); // Allocate once
+  result.Reserve((unsigned long)countItems(Filter::Favorite, excludes, includefolders)); // Allocate once
   getItems(result, Filter::Favorite, excludes, includefolders);
 
   return result;
@@ -988,7 +975,7 @@ void FolderData::LookupGamesFromPath(const MetadataStringHolder::IndexAndDistanc
   for(FileData* game : mChildren)
     if (game->IsFolder()) CastFolder(game)->LookupGamesFromPath(index, games);
     else if (game->Metadata().IsMatchingFileIndex(index.Index))
-        games.push_back(game);
+        games.Add(game);
 }
 
 void FolderData::LookupGamesFromName(const MetadataStringHolder::IndexAndDistance& index, FileData::List& games) const
@@ -996,7 +983,7 @@ void FolderData::LookupGamesFromName(const MetadataStringHolder::IndexAndDistanc
   for(FileData* game : mChildren)
     if (game->IsFolder()) CastFolder(game)->LookupGamesFromName(index, games);
     else if (game->Metadata().IsMatchingNameIndex(index.Index))
-          games.push_back(game);
+          games.Add(game);
 }
 
 void FolderData::LookupGamesFromDescription(const MetadataStringHolder::IndexAndDistance& index, FileData::List& games) const
@@ -1004,7 +991,7 @@ void FolderData::LookupGamesFromDescription(const MetadataStringHolder::IndexAnd
   for(FileData* game : mChildren)
     if (game->IsFolder()) CastFolder(game)->LookupGamesFromDescription(index, games);
     else if (game->Metadata().IsMatchingDescriptionIndex(index.Index))
-          games.push_back(game);
+          games.Add(game);
 }
 
 void FolderData::LookupGamesFromDeveloper(const MetadataStringHolder::IndexAndDistance& index, FileData::List& games) const
@@ -1012,7 +999,7 @@ void FolderData::LookupGamesFromDeveloper(const MetadataStringHolder::IndexAndDi
   for(FileData* game : mChildren)
     if (game->IsFolder()) CastFolder(game)->LookupGamesFromDeveloper(index, games);
     else if (game->Metadata().IsMatchingDeveloperIndex(index.Index))
-          games.push_back(game);
+          games.Add(game);
 }
 
 void
@@ -1021,7 +1008,7 @@ FolderData::LookupGamesFromPublisher(const MetadataStringHolder::IndexAndDistanc
   for(FileData* game : mChildren)
     if (game->IsFolder()) CastFolder(game)->LookupGamesFromPublisher(index, games);
     else if (game->Metadata().IsMatchingPublisherIndex(index.Index))
-          games.push_back(game);
+          games.Add(game);
 }
 
 void FolderData::LookupGamesFromAll(const MetadataStringHolder::IndexAndDistance& index, FileData::List& games) const
@@ -1032,19 +1019,19 @@ void FolderData::LookupGamesFromAll(const MetadataStringHolder::IndexAndDistance
       switch ((FastSearchContext) index.Context)
       {
         case FastSearchContext::Path:
-          if (game->Metadata().IsMatchingFileIndex(index.Index)) games.push_back(game);
+          if (game->Metadata().IsMatchingFileIndex(index.Index)) games.Add(game);
           break;
         case FastSearchContext::Name:
-          if (game->Metadata().IsMatchingNameIndex(index.Index)) games.push_back(game);
+          if (game->Metadata().IsMatchingNameIndex(index.Index)) games.Add(game);
           break;
         case FastSearchContext::Description:
-          if (game->Metadata().IsMatchingDescriptionIndex(index.Index)) games.push_back(game);
+          if (game->Metadata().IsMatchingDescriptionIndex(index.Index)) games.Add(game);
           break;
         case FastSearchContext::Developer:
-          if (game->Metadata().IsMatchingDeveloperIndex(index.Index)) games.push_back(game);
+          if (game->Metadata().IsMatchingDeveloperIndex(index.Index)) games.Add(game);
           break;
         case FastSearchContext::Publisher:
-          if (game->Metadata().IsMatchingPublisherIndex(index.Index)) games.push_back(game);
+          if (game->Metadata().IsMatchingPublisherIndex(index.Index)) games.Add(game);
           break;
         case FastSearchContext::All:
         default: break;
@@ -1084,4 +1071,18 @@ void FolderData::BuildFastSearchSeriesPublisher(FolderData::FastSearchItemSerie&
   for(const FileData* game : mChildren)
     if (game->IsFolder()) CastFolder(game)->BuildFastSearchSeriesPublisher(into);
     else into.Set(game, game->Metadata().PublisherIndex());
+}
+
+std::random_device FolderData::sRandomDevice;
+std::mt19937 FolderData::sRandomGenerator(sRandomDevice());
+
+void FolderData::Shuffle(FileData::List& list)
+{
+  // Initialize randomize
+  std::uniform_int_distribution<int> randomizer(0, list.Count() - 1);
+  for(int i = (int)list.Count(); --i >= 0;)
+  {
+    int j = randomizer(sRandomGenerator);
+    list.Swap(i, j);
+  }
 }

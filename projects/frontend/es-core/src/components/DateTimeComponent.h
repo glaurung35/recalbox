@@ -78,7 +78,6 @@ public:
 
 	int mRelativeUpdateAccumulator;
 
-	std::unique_ptr<TextCache> mTextCache;
 	std::vector<Vector4f> mCursorBoxes;
 
 	unsigned int mColor;

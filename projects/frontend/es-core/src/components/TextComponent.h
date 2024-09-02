@@ -37,7 +37,7 @@ public:
 
 	void Render(const Transform4x4f& parentTrans) override;
 
-	[[nodiscard]] String getValue() const override { return mText; }
+	[[nodiscard]] String getValue() const override { return mOriginalText; }
 	void setValue(const String& value) override { setText(value); }
 
 	[[nodiscard]] unsigned char getOpacity() const override {	return (unsigned char)(mColor & 0xFF); }
@@ -63,11 +63,12 @@ private:
 	void calculateExtent();
 
 	void onTextChanged();
-	void onColorChanged();
 
   std::shared_ptr<Font> mFont;
-  std::shared_ptr<TextCache> mTextCache;
-  String mText;
+  int mTextWidth;
+  int mTextHeight;
+  String mOriginalText;
+  String mDisplayableText;
 	unsigned int mColor;
 	unsigned int mOriginColor;
 	unsigned int mBgColor;
@@ -80,4 +81,5 @@ private:
 	bool mAutoCalcExtentX;
   bool mAutoCalcExtentY;
   bool mClipped;
+  bool mIsMultiline;
 };

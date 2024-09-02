@@ -5,7 +5,6 @@
 #include "components/NinePatchComponent.h"
 
 class Font;
-class TextCache;
 
 // Used to enter text.
 class TextEditComponent : public Component, public IGuiArcadeVirtualKeyboardInterface
@@ -38,9 +37,12 @@ public:
 	void startEditing();
 	void stopEditing();
 
+  int getVerticalMargins() const;
+  int getTextHeight() const;
+
 private:
   static constexpr int TEXT_PADDING_HORIZ = 10;
-  static constexpr int TEXT_PADDING_VERT = 2;
+  static constexpr int TEXT_PADDING_VERT = 4;
 
   static constexpr int CURSOR_REPEAT_START_DELAY = 500;
   static constexpr int CURSOR_REPEAT_SPEED = 28; // lower is faster
@@ -52,7 +54,7 @@ private:
 	void moveCursor(int amt);
 
 	bool isMultiline();
-	static Vector2f getTextAreaPos()  { static Vector2f result( TEXT_PADDING_HORIZ / 2.0f, TEXT_PADDING_VERT / 2.0f ); return result; }
+	Vector2f getTextAreaPos();
 	Vector2f getTextAreaSize() const;
 
 	String mText;
@@ -64,13 +66,14 @@ private:
 
 	int mCursorRepeatTimer;
 	int mCursorRepeatDir;
+  int mTextWidth;
+  int mTextHeight;
 
 	Vector2f mScrollOffset;
 
 	NinePatchComponent mBox;
 
 	std::shared_ptr<Font> mFont;
-	std::unique_ptr<TextCache> mTextCache;
 
 
     /*

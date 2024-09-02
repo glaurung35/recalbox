@@ -45,6 +45,15 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
      * Enums
      */
 
+    enum class UpdateType
+    {
+      Stable,     //!< Stable release
+      Patron,     //!< Patreon versions
+      Alpha,      //!< Alpha versions
+      Jamma,      //!< Specila jamma versions
+      JammaEarly, //!< Specila early jamma versions
+    };
+
     enum class Menu
     {
         Default, //!< All menu available
@@ -88,6 +97,15 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
       DC  , //!< Dreamcast pad type
     };
 
+    enum class GamelistDecoration
+    {
+      None    = 0,    //!< Nothing
+      Regions = 1, //!< Region flags
+      Players = 2, //!< Players
+      Genre   = 4,   //!< normalized genre
+    };
+
+
     /*
      * Shortcuts
      */
@@ -108,6 +126,24 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
             name##ConfigurationNotify() { clazz::Instance().Add##name##ConfigurationNotification(this); }; \
             virtual ~name##ConfigurationNotify() { clazz::Instance().Remove##name##ConfigurationNotification(this); }; \
             virtual void name##ConfigurationChanged(const type& value) = 0; \
+        };
+
+    #define DoNotifySystem(name, system, value) do{ for(System##name##ConfigurationNotify* p : mArrayOfSystem##name##Notify) p->System##name##ConfigurationChanged(system, value); }while(false)
+
+    #define DefineSystemObservable(clazz, name, type) \
+      public: \
+        class System##name##ConfigurationNotify; \
+      private: \
+        Array<System##name##ConfigurationNotify*> mArrayOf##System##name##Notify; \
+      public: \
+        void AddSystem##name##ConfigurationNotification(System##name##ConfigurationNotify* notified) { mArrayOfSystem##name##Notify.Add(notified); } \
+        void RemoveSystem##name##ConfigurationNotification(System##name##ConfigurationNotify* notified) { mArrayOfSystem##name##Notify.Remove(notified); } \
+        class System##name##ConfigurationNotify \
+        { \
+          public: \
+            System##name##ConfigurationNotify() { clazz::Instance().AddSystem##name##ConfigurationNotification(this); }; \
+            virtual ~System##name##ConfigurationNotify() { clazz::Instance().RemoveSystem##name##ConfigurationNotification(this); }; \
+            virtual void System##name##ConfigurationChanged(const SystemData& system, const type& value) = 0; \
         };
 
     #define DefineGetterSetterGeneric(clazz, name, type, type2, key, defaultValue) \
@@ -133,7 +169,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
 
     #define DefineSystemGetterSetterImplementation(name, type, type2, key, defaultValue) \
       type RecalboxConf::GetSystem##name(const SystemData& system) const { return As##type2(String(system.Name()).Append('.').Append(key), defaultValue); } \
-      RecalboxConf& RecalboxConf::SetSystem##name(const SystemData& system, const type& value) { Set##type2(String(system.Name()).Append('.').Append(key), value); return *this; } \
+      RecalboxConf& RecalboxConf::SetSystem##name(const SystemData& system, const type& value) { Set##type2(String(system.Name()).Append('.').Append(key), value); DoNotifySystem(name, system, value); return *this; } \
       RecalboxConf& RecalboxConf::DeleteSystem##name(const SystemData& system) { Delete(String(system.Name()).Append('.').Append(key)); return *this; } \
       bool RecalboxConf::IsDefinedSystem##name(const SystemData& system) const { return IsDefined(String(system.Name()).Append('.').Append(key)); }
 
@@ -145,7 +181,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
       type GetSystem##name(const SystemData& system) const; \
       RecalboxConf& SetSystem##name(const SystemData& system, const type& value); \
       RecalboxConf& DeleteSystem##name(const SystemData& system); \
-      bool IsDefinedSystem##name(const SystemData& system) const;
+      bool IsDefinedSystem##name(const SystemData& system) const; \
+      DefineSystemObservable(RecalboxConf, name, type)
 
     #define DefineEmulationStationSystemGetterSetterDeclaration(name, type, type2, key) \
       type GetSystem##name(const SystemData& system) const; \
@@ -165,6 +202,14 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     #define DefineEmulationStationSystemGetterSetterNumericEnumImplementation(name, enumType, key, defaultValue) \
       enumType RecalboxConf::GetSystem##name(const SystemData& system) const { return (enumType)AsInt(String("emulationstation.").Append(system.Name()).Append('.').Append(key), (int)(defaultValue)); } \
       RecalboxConf& RecalboxConf::SetSystem##name(const SystemData& system, enumType value) { SetInt(String("emulationstation.").Append(system.Name()).Append('.').Append(key), (int)value); return *this; }
+
+    #define DefineEmulationStationSystemGetterSetterEnumDeclaration(name, enumType) \
+      enumType GetSystem##name(const SystemData& system) const; \
+      RecalboxConf& SetSystem##name(const SystemData& system, enumType value);
+
+    #define DefineEmulationStationSystemGetterSetterEnumImplementation(clazz, name, enumType, key, adapterPrefix) \
+      clazz::enumType clazz::GetSystem##name(const SystemData& system) const { return adapterPrefix##FromString(AsString(String("emulationstation.").Append(system.Name()).Append('.').Append(key), "")); } \
+      clazz& clazz::SetSystem##name(const SystemData& system, enumType value) { SetString(String("emulationstation.").Append(system.Name()).Append('.').Append(key), adapterPrefix##FromEnum(value)); return *this; }
 
     #define DefineEmulationStationSystemListGetterSetterDeclaration(name, key) \
       String::List Get##name(const SystemData& system) const; \
@@ -188,6 +233,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetterEnum(ScreenScraperVideo, ScreenScraperEnums::ScreenScraperVideoType, sScreenScraperVideo, ScreenScraperEnums::ScreenScraperVideoType)
     DefineGetterSetterEnum(AudioMode, AudioMode, sAudioOptions, AudioModeTools::AudioMode)
     DefineGetterSetterEnum(SystemSorting, SystemSorting, sSystemSorting, SystemSorting)
+    DefineGetterSetterEnum(UpdateType, UpdateType, sUpdateType, UpdateType)
 
     DefineGetterSetter(DebugLogs, bool, Bool, sDebugLogs, false)
 
@@ -233,6 +279,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(QuickSystemSelect, bool, Bool, sQuickSystemSelect, true)
     DefineGetterSetter(FilterAdultGames, bool, Bool, sFilterAdultGames, true)
     DefineGetterSetter(FavoritesOnly, bool, Bool, sFavoritesOnly, false)
+    DefineGetterSetter(FavoritesFirst, bool, Bool, sFavoritesFirst, false)
     DefineGetterSetter(ShowHidden, bool, Bool, sShowHidden, false)
     DefineGetterSetter(DisplayByFileName, bool, Bool, sDisplayByFileName, false)
     DefineGetterSetter(ShowOnlyLatestVersion, bool, Bool, sShowOnlyLatestVersion, false)
@@ -330,7 +377,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(ArcadeViewHideNonWorking, bool, Bool, sArcadeViewHideNonWorking, false)
 
     DefineGetterSetter(UpdatesEnabled, bool, Bool, sUpdatesEnabled, true)
-    DefineGetterSetter(UpdatesType, String, String, sUpdatesType, "stable")
+
 
     DefineGetterSetter(EmulationstationVideoMode, String, String, sEsVideoMode, "")
     DefineGetterSetter(GlobalVideoMode, String, String, sGlobalVideoMode, "")
@@ -345,7 +392,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(AutoPairOnBoot, bool, Bool, sAutoPairOnBoot, true)
 
     DefineGetterSetter(SuperGameBoy, String, String, sSuperGameBoyOption, "gb")
-    DefineGetterSetter(Experimental, bool, Bool, sExperimental, GetUpdatesType() != "stable")
+    DefineGetterSetter(Experimental, bool, Bool, sExperimental, GetUpdateType() != UpdateType::Stable)
 
     DefineGetterSetter(AutorunEnabled, bool, Bool, sAutorunEnabled, false)
     DefineGetterSetter(AutorunSystemUUID, String, String, sAutorunSystemUUID, "")
@@ -367,6 +414,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineSystemGetterSetterDeclaration(DemoInclude, bool, Bool, sSystemDemoInclude)
     DefineSystemGetterSetterDeclaration(DemoDuration, int, Int, sSystemDemoDuration)
     DefineSystemGetterSetterDeclaration(VideoMode, String, String, sSystemVideoMode)
+
+    DefineEmulationStationSystemGetterSetterEnumDeclaration(GamelistDecoration, GamelistDecoration)
 
     DefineEmulationStationSystemGetterSetterDeclaration(FilterAdult, bool, Bool, sSystemFilterAdult)
     DefineEmulationStationSystemGetterSetterDeclaration(FlatFolders, bool, Bool, sSystemFlatFolders)
@@ -488,6 +537,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sQuickSystemSelect          = "emulationstation.quicksystemselect";
     static constexpr const char* sFilterAdultGames           = "emulationstation.filteradultgames";
     static constexpr const char* sFavoritesOnly              = "emulationstation.favoritesonly";
+    static constexpr const char* sFavoritesFirst              = "emulationstation.favoritesfirst";
     static constexpr const char* sShowHidden                 = "emulationstation.showhidden";
     static constexpr const char* sShowOnlyLatestVersion      = "emulationstation.showonlylatestversion";
     static constexpr const char* sHideNoGames                = "emulationstation.hidenogames";
@@ -589,7 +639,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sAutorunGamePath            = "autorun.path";
 
     static constexpr const char* sUpdatesEnabled             = "updates.enabled";
-    static constexpr const char* sUpdatesType                = "updates.type";
+    static constexpr const char* sUpdateType                 = "updates.type";
 
     static constexpr const char* sPadHeader                  = "emulationstation.pad";
 
@@ -600,6 +650,13 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sSuperGameBoyOption         = "gb.supergameboy";
 
     static constexpr const char* sArcadeSystemHiddenManufacturers  = "hiddendrivers";
+
+    /*
+     * Public enumeration getter/setter
+     */
+
+    static UpdateType UpdateTypeFromString(const String& pad);
+    static const String& UpdateTypeFromEnum(UpdateType type);
 
   private:
     HashMap<String, Array<IRecalboxConfChanged*>> mWatchers;
@@ -629,4 +686,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static const String& ScraperTypeFromEnum(ScraperType type);
     static PadOSDType PadOSDTypeFromString(const String& pad);
     static const String& PadOSDTypeFromEnum(PadOSDType type);
+    static GamelistDecoration GamelistDecorationFromString(const String& gameDecoration);
+    static const String GamelistDecorationFromEnum(GamelistDecoration gameDecoration);
 };
+
+DEFINE_BITFLAG_ENUM(RecalboxConf::GamelistDecoration, int)

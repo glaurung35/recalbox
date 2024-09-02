@@ -7,15 +7,15 @@
 
 #include <components/EditableComponent.h>
 #include <guis/GuiArcadeVirtualKeyboard.h>
-#include <utils/Log.h>
 #include <themes/ThemeData.h>
-#include <Renderer.h>
 #include <WindowManager.h>
 
 EditableComponent::EditableComponent(WindowManager& window)
   : Component(window)
   , mBackground(window, Path(":/textinput_ninepatch.png"))
   , mFont(Font::get(FONT_SIZE_MEDIUM))
+  , mTextWidth(0)
+  , mTextHeight(0)
   , mInterface(nullptr)
   , mIndentifier(0)
   , mColor(0x000000FF)
@@ -42,7 +42,7 @@ EditableComponent::EditableComponent(WindowManager&window, const String& editTit
   mIndentifier = id;
   mInterface = interface;
   mFont = font;
-  mText = text;
+  mOriginalText = text;
   mEditTitle = editTitle;
   mColor = color;
   mColorOpacity = (unsigned char)(color & 0xFF);
@@ -55,7 +55,7 @@ EditableComponent::EditableComponent(WindowManager&window, const String& editTit
 {
   mTextChanged = callback;
   mFont = font;
-  mText = text;
+  mOriginalText = text;
   mEditTitle = editTitle;
   mColor = color;
   mColorOpacity = (unsigned char)(color & 0xFF);
@@ -68,7 +68,7 @@ EditableComponent::EditableComponent(WindowManager&window, const String& editTit
 {
   mTextChanged = callback;
   mFont = font;
-  mText = text;
+  mOriginalText = text;
   mEditTitle = editTitle;
   mColor = color;
   mColorOpacity = (unsigned char)(color & 0xFF);
@@ -97,8 +97,6 @@ void EditableComponent::setColor(unsigned int color)
   Component::setOpacity(opacity);
 
   mColorOpacity = mColor & 0x000000FF;
-
-  onColorChanged();
 }
 
 //  Scale the opacity
@@ -111,15 +109,12 @@ void EditableComponent::setOpacity(unsigned char opacity)
   unsigned char o = (unsigned char)((float)opacity / 255.f * (float) mColorOpacity);
   mColor = (mColor & 0xFFFFFF00) | (unsigned char) o;
 
-  onColorChanged();
-
   Component::setOpacity(opacity);
 }
 
 void EditableComponent::setText(const String& text)
 {
-  mText = text;
-  if (mUppercase) mText.UpperCaseUTF8();
+  mOriginalText = text;
   onTextChanged();
 }
 
@@ -140,120 +135,105 @@ void EditableComponent::Render(const Transform4x4f& parentTrans)
     mBackground.setSize(mSize);
   mBackground.Render(trans);
 
-  if(mTextCache)
+  float yOff = 0;
+  switch(mVerticalAlignment)
   {
-    const Vector2f& textSize = mTextCache->metrics.size;
-    float yOff = 0;
-    switch(mVerticalAlignment)
-    {
-      case TextAlignment::Top: yOff = 0; break;
-      case TextAlignment::Bottom: yOff = (getSize().y() - textSize.y()); break;
-      case TextAlignment::Center: yOff = (getSize().y() - textSize.y()) / 2.0f; break;
-      case TextAlignment::Left:
-      case TextAlignment::Right: break;
-    }
-    Vector3f off(mBackground.MargingX(), yOff, 0);
-
-    /*if (Settings::Instance().DebugText())
-    {
-      // draw the "textbox" area, what we are aligned within
-      Renderer::SetMatrix(trans);
-      Renderer::DrawRectangle(0.f, 0.f, mSize.x(), mSize.y(), 0xFF000033);
-    }*/
-
-    trans.translate(off);
-    trans.round();
-    Renderer::SetMatrix(trans);
-
-    // draw the text area, where the text actually is going
-    /*if (Settings::Instance().DebugText())
-    {
-      float usableSize = mSize.x() - mBackground.MargingX() * 2;
-      switch(mHorizontalAlignment)
-      {
-        case TextAlignment::Left:
-          Renderer::DrawRectangle(mBackground.MargingX(), 0.0f, mTextCache->metrics.size.x(), mTextCache->metrics.size.y(), 0x00000033);
-          break;
-        case TextAlignment::Center:
-          Renderer::DrawRectangle(mBackground.MargingX() +(usableSize - mTextCache->metrics.size.x()) / 2.0f, 0.0f, mTextCache->metrics.size.x(), mTextCache->metrics.size.y(), 0x00000033);
-          break;
-        case TextAlignment::Right:
-          Renderer::DrawRectangle(mBackground.MargingX() + usableSize - mTextCache->metrics.size.x(), 0.0f, mTextCache->metrics.size.x(), mTextCache->metrics.size.y(), 0x00000033);
-          break;
-        case TextAlignment::Top:
-        case TextAlignment::Bottom:break;
-      }
-    }*/
-
-    mFont->renderTextCache(mTextCache.get());
+    case TextAlignment::Top: yOff = 0; break;
+    case TextAlignment::Bottom: yOff = (getSize().y() - mTextHeight); break;
+    case TextAlignment::Center: yOff = (getSize().y() - mTextHeight) / 2.0f; break;
+    case TextAlignment::Left:
+    case TextAlignment::Right: break;
   }
+  Vector3f off(mBackground.MargingX(), yOff, 0);
 
+  /*if (Settings::Instance().DebugText())
+  {
+    // draw the "textbox" area, what we are aligned within
+    Renderer::SetMatrix(trans);
+    Renderer::DrawRectangle(0.f, 0.f, mSize.x(), mSize.y(), 0xFF000033);
+  }*/
+
+  trans.translate(off);
+  trans.round();
+  Renderer::SetMatrix(trans);
+
+  // draw the text area, where the text actually is going
+  /*if (Settings::Instance().DebugText())
+  {
+    float usableSize = mSize.x() - mBackground.MargingX() * 2;
+    switch(mHorizontalAlignment)
+    {
+      case TextAlignment::Left:
+        Renderer::DrawRectangle(mBackground.MargingX(), 0.0f, mTextCache->metrics.size.x(), mTextCache->metrics.size.y(), 0x00000033);
+        break;
+      case TextAlignment::Center:
+        Renderer::DrawRectangle(mBackground.MargingX() +(usableSize - mTextCache->metrics.size.x()) / 2.0f, 0.0f, mTextCache->metrics.size.x(), mTextCache->metrics.size.y(), 0x00000033);
+        break;
+      case TextAlignment::Right:
+        Renderer::DrawRectangle(mBackground.MargingX() + usableSize - mTextCache->metrics.size.x(), 0.0f, mTextCache->metrics.size.x(), mTextCache->metrics.size.y(), 0x00000033);
+        break;
+      case TextAlignment::Top:
+      case TextAlignment::Bottom:break;
+    }
+  }*/
+
+  mFont->RenderDirect(mDisplayableText, 0, 0, (mColor >> 8 << 8) | mOpacity, mTextWidth, mHorizontalAlignment, mLineSpacing);
 }
 
 void EditableComponent::calculateExtent()
 {
   if(mAutoCalcExtentX)
   {
-    mSize = mFont->sizeText(mText, mLineSpacing) + mBackground.MargingX() * 2;
+    mSize = mFont->sizeText(mDisplayableText, mLineSpacing) + mBackground.MargingX() * 2;
   }else{
     if(mAutoCalcExtentY)
     {
-      mSize[1] = mFont->sizeWrappedText(mText, getSize().x(), mLineSpacing).y();
+      mSize[1] = mFont->sizeWrappedText(mDisplayableText, getSize().x(), mLineSpacing).y();
     }
   }
 }
 
 void EditableComponent::onTextChanged()
 {
+  mDisplayableText = mMasked ? String('*', mOriginalText.size()) : (mUppercase ? mOriginalText.ToUpperCaseUTF8() : mOriginalText);
   calculateExtent();
+  if (!mFont || mDisplayableText.empty()) return;
 
-  if(!mFont || mText.empty())
-  {
-    mTextCache.reset();
-    return;
-  }
-
-  String text = mMasked ? String('*', mText.size()) : (mUppercase ? mText.ToUpperCaseUTF8() : mText);
-
-  std::shared_ptr<Font> f = mFont;
-  const bool isMultiline = (mSize.y() == 0 || mSize.y() > f->getHeight()*1.2f);
-
+  const bool isMultiline = (mSize.y() == 0 || mSize.y() > mFont->getHeight()*1.2f);
   bool addAbbrev = false;
   if (!isMultiline)
   {
-    int newline = text.Find('\n');
-    text = text.SubString(0, newline); // single line of text - stop at the first newline since it'll mess everything up
+    int newline = mDisplayableText.Find('\n');
+    if (newline >= 0) mDisplayableText = mDisplayableText.Delete(newline, INT32_MAX); // single line of text - stop at the first newline since it'll mess everything up
     addAbbrev = newline >= 0;
   }
 
-  Vector2f size = f->sizeText(text);
+  Vector2f size = mFont->sizeText(mDisplayableText);
   float usableSize = mSize.x() - mBackground.MargingX() * 2;
-  if(!isMultiline && (mSize.x() != 0) && !text.empty() && (size.x() > usableSize || addAbbrev))
+  if(!isMultiline && (mSize.x() != 0) && (size.x() > usableSize || addAbbrev))
   {
     // abbreviate text
     const String abbrev = "\u2026";
-    Vector2f abbrevSize = f->sizeText(abbrev);
+    Vector2f abbrevSize = mFont->sizeText(abbrev);
 
-    while(!text.empty() && size.x() + abbrevSize.x() > usableSize)
+    while(!mDisplayableText.empty() && size.x() + abbrevSize.x() > usableSize)
     {
-      size_t newSize = Font::getPrevCursor(text, text.size());
-      text.erase(newSize, text.size() - newSize);
-      size = f->sizeText(text);
+      size_t newSize = Font::getPrevCursor(mDisplayableText, mDisplayableText.size());
+      mDisplayableText.erase(newSize, mDisplayableText.size() - newSize);
+      size = mFont->sizeText(mDisplayableText);
     }
 
-    text.Append(abbrev);
+    mDisplayableText.Append(abbrev);
 
-    mTextCache = std::shared_ptr<TextCache>(f->buildTextCache(text, Vector2f(0, 0), (mColor >> 8 << 8) | mOpacity, usableSize, mHorizontalAlignment, mLineSpacing));
-  }else{
-    mTextCache = std::shared_ptr<TextCache>(f->buildTextCache(f->wrapText(text, mSize.x()), Vector2f(0, 0), (mColor >> 8 << 8) | mOpacity, usableSize, mHorizontalAlignment, mLineSpacing));
+    mTextWidth = size.x() - mBackground.MargingX() * 2;
+    mTextHeight = size.y();
   }
-}
-
-void EditableComponent::onColorChanged()
-{
-  if(mTextCache)
+  else
   {
-    mTextCache->setColor(mColor);
+    mDisplayableText = mFont->wrapText(mDisplayableText, usableSize);
+    size = mFont->sizeWrappedText(mDisplayableText, usableSize, mLineSpacing);
+    mTextWidth = size.x();
+    mTextHeight = size.y();
   }
 }
 
@@ -306,7 +286,7 @@ void EditableComponent::setLineSpacing(float spacing)
 
 void EditableComponent::StartEditing()
 {
-  mTextBackup = mText;
+  mTextBackup = mOriginalText;
   mWindow.pushGui(new GuiArcadeVirtualKeyboard(mWindow, mEditTitle, mTextBackup, this));
 }
 

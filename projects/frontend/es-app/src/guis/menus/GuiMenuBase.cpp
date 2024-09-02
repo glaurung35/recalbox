@@ -15,7 +15,7 @@
 #include <components/EditableComponent.h>
 #include <patreon/PatronInfo.h>
 
-GuiMenuBase::GuiMenuBase(WindowManager& window, const String& title, IGuiMenuBase* interface)
+GuiMenuBase::GuiMenuBase(WindowManager& window, const String& title, ISubMenuSelected* interface)
   : Gui(window)
   , mMenu(window, title)
   , mTheme(ThemeManager::Instance().Menu())

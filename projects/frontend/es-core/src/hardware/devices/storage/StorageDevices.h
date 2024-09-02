@@ -79,6 +79,8 @@ class StorageDevices
         }
       }
 
+      bool operator ==(const Device& right) { return UUID == right.UUID; }
+
       [[nodiscard]] String HumanSize() const { return Sizes(Size).ToHumanSize(); }
 
       [[nodiscard]] String HumanFree() const { return Sizes(Free).ToHumanSize(); };

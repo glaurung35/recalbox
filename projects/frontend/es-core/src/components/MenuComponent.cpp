@@ -248,7 +248,7 @@ std::shared_ptr<ImageComponent> MenuComponent::MakeArrow(WindowManager& window)
 {
   const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
   auto bracket = std::make_shared<ImageComponent>(window);
-  bracket->setImage(menuTheme.Elements().arrow);
+  bracket->setImage(menuTheme.Elements().FromType(MenuThemeData::IconElement::Type::Arrow));
   bracket->setColorShift(menuTheme.Text().color);
   bracket->setResize(0, round(menuTheme.Text().font->getLetterHeight()));
 

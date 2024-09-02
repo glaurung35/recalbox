@@ -99,6 +99,25 @@
 		};
 	};
 
+    fragment@50 {
+        target = <&rp1_gpio>;
+        __overlay__ {
+            rp1_i2s0_jamma: rp1_i2s0_jamma {
+                function = "i2s0";
+                pins = "gpio18", "gpio19", "gpio27";
+                bias-disable;
+            };
+        };
+    };
+    fragment@51 {
+        target = <&i2s_clk_producer>;
+        __overlay__ {
+            pinctrl-names = "default";
+            pinctrl-0 = <&rp1_i2s0_jamma>;
+            status = "okay";
+        };
+    };
+
 
 	fragment@5 {
 		target = <&sound>;
@@ -109,7 +128,7 @@
 			simple-audio-card,dai-link@1 {
 				format = "i2s";
 				cpu {
-					sound-dai = <&i2s_clk_producer_27>;
+					sound-dai = <&i2s_clk_producer>;
 					dai-tdm-slot-num = <2>;
 					dai-tdm-slot-width = <32>;
 				};
@@ -132,7 +151,7 @@
 	};
 
 	fragment@7 {
-		target = <&i2s_clk_producer_27>;
+		target = <&i2s_clk_producer>;
 		__overlay__ {
 			#sound-dai-cells = <0>;
 			status = "okay";

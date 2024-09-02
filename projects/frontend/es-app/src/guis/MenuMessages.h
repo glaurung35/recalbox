@@ -122,6 +122,7 @@ class MenuMessages
     #define MENUMESSAGE_UI_DIPLAY_BY_FILENAME_MSG "Display games by file names."
     #define MENUMESSAGE_UI_ONLY_LAST_VERSION_MSG "Hide non final versions of a same game."
     #define MENUMESSAGE_UI_FAVORITES_ONLY_MSG "Switch between seing or not only the favorites games. To add a game in the favorite list, select the game and toggle its state using 'Y'."
+    #define MENUMESSAGE_UI_FAVORITES_FIRST_MSG "Display favorites first in gamelist."
     #define MENUMESSAGE_UI_SHOW_HIDDEN_MSG "Switch between seing or not the hidden games. To hide a game, edit its data and select 'Hide'."
     #define MENUMESSAGE_UI_HIDE_PREINSTALLED_MSG "Hide all pre-installed games."
     #define MENUMESSAGE_UI_HIDE_NO_GAMES_MSG "Hide no executable games. for example bios"
@@ -234,6 +235,7 @@ class MenuMessages
 
     #define MENUMESSAGE_GAMELISTOPTION_JUMP_LETTER_MSG "Select a letter and the listing will go directly on the first game starting with this letter."
     #define MENUMESSAGE_GAMELISTOPTION_SORT_GAMES_MSG "Select the way the game list is sortered (alphabetically, by notation...)."
+    #define MENUMESSAGE_GAMELISTOPTION_DECORATIONS_MSG "Select what kind of information you want to see on the right of your gamelist: regions flags, players or game genre."
     #define MENUMESSAGE_GAMELISTOPTION_FILTER_REGION_MSG "Select a region to filter out games not matching the selected region."
     #define MENUMESSAGE_GAMELISTOPTION_SHOW_FOLDER_CONTENT_MSG "Switch between seeing the folders structure and seeing all games in a flatten top level."
     #define MENUMESSAGE_GAMELISTOPTION_EDIT_METADATA_MSG "This option display a menu which allows to change game data and many others options."

@@ -8,6 +8,7 @@
 #include "IThemeSwitchable.h"
 #include "ThemeFileCache.h"
 #include "guis/GuiSyncWaiter.h"
+#include "MenuThemeDataCache.h"
 #include <utils/os/system/ThreadPool.h>
 
 // forward declaration
@@ -59,6 +60,9 @@ class ThemeManager : public StaticLifeCycleControler<ThemeManager>
     //! Menu theme
     [[nodiscard]] const MenuThemeData& Menu() const { return mMenu; }
 
+    //! Menu cache
+    [[nodiscard]] MenuThemeDataCache& MenuCache() { return mMenuCache; }
+
     //! System theme
     const ThemeData& System(const SystemData* system) { return CreateOrGetSystem(system); }
 
@@ -100,6 +104,9 @@ class ThemeManager : public StaticLifeCycleControler<ThemeManager>
     HashMap<const SystemData*, ThemeData*> mSystem;
     //! Hashmap protection
     Mutex mSystemLocker;
+
+    // Theme menu data cache
+    MenuThemeDataCache mMenuCache;
 
     //! Current theme root path
     Path mRootPath;

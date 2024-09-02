@@ -37,7 +37,7 @@ class EditableComponent : public Component, private IGuiArcadeVirtualKeyboardInt
 
     void Render(const Transform4x4f& parentTrans) override;
 
-    String getValue() const override { return mText; }
+    String getValue() const override { return mOriginalText; }
     void setValue(const String& value) override { setText(value); }
 
     unsigned char getOpacity() const override {	return (unsigned char)(mColor & 0xFF); }
@@ -55,12 +55,13 @@ class EditableComponent : public Component, private IGuiArcadeVirtualKeyboardInt
     void calculateExtent();
 
     void onTextChanged();
-    void onColorChanged();
 
     NinePatchComponent mBackground;
     std::shared_ptr<Font> mFont;
-    std::shared_ptr<TextCache> mTextCache;
-    String mText;
+    int mTextWidth;
+    int mTextHeight;
+    String mOriginalText;
+    String mDisplayableText;
     String mTextBackup;
     String mEditTitle;
     std::function<void(const String&)> mTextChanged;

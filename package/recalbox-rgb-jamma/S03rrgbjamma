@@ -22,11 +22,7 @@ if test "$1" == "start"; then
     modprobe i2c-dev
     dtoverlay "i2c0custom${board}"
     res="$(i2cdetect -y "${i2c}" 36 39 | grep '20:')"
-    if echo "$res" | grep -q -e "24 25 -- --"; then
-      adapter="recalboxrgbjamma-v2"
-    elif echo "$res" | grep -q -e "24 25 -- 27"; then
-      adapter="recalboxrgbjamma-v3"
-    elif echo "$res" | grep -q -e "24 25 26 27"; then
+    if echo "$res" | grep -q -e "24 25 26 27"; then
       adapter="recalboxrgbjamma"
     fi
     dtoverlay -r "i2c0custom${board}"

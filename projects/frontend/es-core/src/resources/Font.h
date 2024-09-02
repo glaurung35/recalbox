@@ -1,21 +1,13 @@
 #pragma once
 
-#include <utils/String.h>
 #include <memory>
 #include <map>
-
-#include <platform_gl.h>
-#include <ft2build.h>
-#include <themes/PropertyCategories.h>
-#include <resources/IReloadable.h>
-#include <utils/math/Vector2i.h>
-#include <utils/math/Vector2f.h>
-#include <utils/os/fs/Path.h>
 #include <Renderer.h>
+#include <freetype/freetype.h>
+#include "themes/PropertyCategories.h"
 
 #include FT_FREETYPE_H
 
-class TextCache;
 class ThemeElement;
 class ResourceManager;
 
@@ -117,8 +109,6 @@ class Font : public IReloadable
 
     float getNewlineStartOffset(const String& text, unsigned int charStart, float xLen, TextAlignment alignment);
 
-    friend TextCache;
-
   public:
     static Path sRecalboxIconPath; //!< Recalbox icons
     static Path sDroidPath;        //!< japanese, chinese, korean
@@ -132,9 +122,11 @@ class Font : public IReloadable
     virtual ~Font();
 
     Vector2f sizeText(const String& text, float lineSpacing = 1.5f); // Returns the expected size of a string when rendered.  Extra spacing is applied to the Y axis.
-    TextCache* buildTextCache(const String& text, float offsetX, float offsetY, unsigned int color, bool nospacing = false);
-    TextCache* buildTextCache(const String& text, Vector2f offset, unsigned int color, float xLen, TextAlignment alignment = TextAlignment::Left, float lineSpacing = 1.5f, bool nospacing = false);
-    static void renderTextCache(TextCache* cache);
+    float TextWidth(const String& text);
+    void RenderDirect(const String& text, float offsetX, float offsetY, unsigned int color, bool nospacing = false) { RenderDirect(text, offsetX, offsetY, color, 0.0f, TextAlignment::Left, 1.5f, nospacing); }
+    void RenderDirect(const String& text, float offsetX, float offsetY, unsigned int color, float xLen, bool nospacing = false) { RenderDirect(text, offsetX, offsetY, color, xLen, TextAlignment::Left, 1.5f, nospacing); }
+    void RenderDirect(const String& text, float offsetX, float offsetY, unsigned int color, float xLen, TextAlignment alignment, bool nospacing = false) { RenderDirect(text, offsetX, offsetY, color, xLen, alignment, 1.5f, nospacing); }
+    void RenderDirect(const String& text, float offsetX, float offsetY, unsigned int color, float xLen, TextAlignment alignment, float lineSpacing, bool nospacing = false);
     void renderCharacter(unsigned int unicode, float x, float y, float wr, float hr, unsigned int color);
 
     String wrapText(String text, float xLen); // Inserts newlines into text to make it wrap properly.
@@ -164,6 +156,15 @@ class Font : public IReloadable
     static UnicodeChar readUnicodeChar(const String& str, size_t& cursor); // reads unicode character at cursor AND moves cursor to the next valid unicode char
 
     /*!
+     * @brief Shortent text according to the given max width
+     * If the original text width is higher than the max width, the test is shortened with a three dot caracter
+     * @param text Original text
+     * @param mawWidth Maximum width allowed
+     * @return Shortened text or original text there is no need to cut it
+     */
+    String ShortenText(const String& text, float mawWidth);
+
+    /*!
      * @brief Return the max bearing (distance from top to baseline)
      * @return Max bearing value
      */
@@ -177,37 +178,4 @@ class Font : public IReloadable
 
 
     Glyph& Character(unsigned int unicode) { return *getGlyph(unicode); }
-};
-
-// Used to store a sort of "pre-rendered" string.
-// When a TextCache is constructed (Font::buildTextCache()), the vertices and texture coordinates of the string are calculated and stored in the TextCache object.
-// Rendering a previously constructed TextCache (Font::renderTextCache) every frame is MUCH faster than rebuilding one every frame.
-// Keep in mind you still need the Font object to render a TextCache (as the Font holds the OpenGL texture), and if a Font changes your TextCache may become invalid.
-class TextCache
-{
-protected:
-	struct Vertex
-	{
-		Vector2f pos;
-		Vector2f tex;
-	};
-
-	struct VertexList
-	{
-		GLuint* textureIdPtr; // this is a pointer because the texture ID can change during deinit/reinit (when launching a game)
-		std::vector<Vertex> verts;
-		std::vector<GLubyte> colors;
-	};
-
-	std::vector<VertexList> vertexLists;
-
-public:
-	struct CacheMetrics
-	{
-		Vector2f size;
-	} metrics;
-
-	void setColor(unsigned int color);
-
-	friend Font;
 };

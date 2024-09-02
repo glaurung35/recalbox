@@ -10,257 +10,259 @@ class Regions
   public:
     enum class GameRegions : unsigned char
     {
-        Unknown = 0, // Unknown/unset region
-        DJ, // Djibouti
-        ER, // Eritrea
-        ET, // Ethiopia
-        AF, // Afghanistan
-        NA, // Namibia
-        ZA, // South Africa
-        CM, // Cameroon
-        GH, // Ghana
-        AM, // Armenia
-        AR, // Argentina
-        WOR, // World
-        AE, // United Arab Emirates
-        BH, // Bahrain
-        DZ, // Algeria
-        EG, // Egypt
-        IL, // Israel
-        IQ, // Iraq
-        JO, // Jordan
-        KM, // Comoros
-        KW, // Kuwait
-        LB, // Lebanon
-        LY, // Libya
-        MA, // Morocco
-        MR, // Mauritania
-        OM, // Oman
-        PS, // Palestinian Authority
-        QA, // Qatar
-        SA, // Saudi Arabia
-        SD, // Sudan
-        SO, // Somalia
-        SS, // South Sudan
-        SY, // Syria
-        TD, // Chad
-        TN, // Tunisia
-        YE, // Yemen
-        CL, // Chile
-        AS, // American Samoa
-        IN, // India
-        TZ, // Tanzania
-        ES, // Spain
-        AZ, // Azerbaijan
-        BA, // Bosnia and Herzegovina
-        RU, // Russia
-        BE, // Belgium
-        BY, // Belarus
-        ZM, // Zambia
-        BG, // Bulgaria
-        NG, // Nigeria
-        BM, // Bermuda
-        ML, // Mali
-        BN, // Brunei
-        BD, // Bangladesh
-        BO, // Bolivia
-        CN, // China
-        BR, // Brazil
-        FR, // France
-        BS, // Bahamas
-        CA, // Canada
-        AD, // Andorra
-        IT, // Italy
-        UG, // Uganda
-        CO, // Colombia
-        CZ, // Czechia
-        CU, // Cuba
-        CY, // Cyprus
-        UK, // United Kingdom
-        DK, // Denmark
-        GL, // Greenland
-        KE, // Kenya
-        DE, // Germany
-        AT, // Austria
-        CH, // Switzerland
-        LI, // Liechtenstein
-        LU, // Luxembourg
-        NE, // Niger
-        MV, // Maldives
-        SN, // Senegal
-        BT, // Bhutan
-        EE, // Estonia
-        TG, // Togo
-        GR, // Greece
-        CAR, // Caribbean
-        EU, // Europe
-        AG, // Antigua and Barbuda
-        AI, // Anguilla
-        AU, // Australia
-        BB, // Barbados
-        BI, // Burundi
-        BW, // Botswana
-        BZ, // Belize
-        CC, // Cocos (Keeling) Islands
-        CK, // Cook Islands
-        CX, // Christmas Island
-        DM, // Dominica
-        FI, // Finland
-        FJ, // Fiji
-        FK, // Falkland Islands
-        FM, // Micronesia
-        GD, // Grenada
-        GG, // Guernsey
-        GI, // Gibraltar
-        GM, // Gambia
-        GU, // Guam
-        GY, // Guyana
-        HK, // Hong Kong SAR
-        ID, // Indonesia
-        IE, // Ireland
-        IM, // Isle of Man
-        IO, // British Indian Ocean Territory
-        JE, // Jersey
-        JM, // Jamaica
-        KI, // Kiribati
-        KN, // Saint Kitts and Nevis
-        KY, // Cayman Islands
-        LC, // Saint Lucia
-        LR, // Liberia
-        LS, // Lesotho
-        MG, // Madagascar
-        MH, // Marshall Islands
-        MO, // Macao SAR
-        MP, // Northern Mariana Islands
-        MS, // Montserrat
-        MT, // Malta
-        MU, // Mauritius
-        MW, // Malawi
-        MY, // Malaysia
-        NF, // Norfolk Island
-        NL, // Netherlands
-        NR, // Nauru
-        NU, // Niue
-        NZ, // New Zealand
-        PG, // Papua New Guinea
-        PH, // Philippines
-        PK, // Pakistan
-        PN, // Pitcairn Islands
-        PR, // Puerto Rico
-        PW, // Palau
-        RW, // Rwanda
-        SB, // Solomon Islands
-        SC, // Seychelles
-        SE, // Sweden
-        SG, // Singapore
-        SH, // St Helena, Ascension, Tristan da Cunha
-        SI, // Slovenia
-        SL, // Sierra Leone
-        SX, // Sint Maarten
-        SZ, // Swaziland
-        TC, // Turks and Caicos Islands
-        TK, // Tokelau
-        TO, // Tonga
-        TT, // Trinidad and Tobago
-        TV, // Tuvalu
-        UM, // U.S. Outlying Islands
-        VC, // Saint Vincent and the Grenadines
-        VG, // British Virgin Islands
-        VI, // U.S. Virgin Islands
-        VU, // Vanuatu
-        WS, // Samoa
-        ZW, // Zimbabwe
-        AME, // Latin America
-        CR, // Costa Rica
-        DO, // Dominican Republic
-        EC, // Ecuador
-        GQ, // Equatorial Guinea
-        GT, // Guatemala
-        HN, // Honduras
-        MX, // Mexico
-        NI, // Nicaragua
-        PA, // Panama
-        PE, // Peru
-        PY, // Paraguay
-        SV, // El Salvador
-        UY, // Uruguay
-        VE, // Venezuela
-        IR, // Iran
-        GN, // Guinea
-        FO, // Faroe Islands
-        BF, // Burkina Faso
-        BJ, // Benin
-        BL, // Saint Barthélemy
-        CD, // Congo (DRC)
-        CF, // Central African Republic
-        CG, // Congo
-        CI, // Côte d’Ivoire
-        GA, // Gabon
-        GF, // French Guiana
-        GP, // Guadeloupe
-        HT, // Haiti
-        MC, // Monaco
-        MF, // Saint Martin
-        MQ, // Martinique
-        NC, // New Caledonia
-        PF, // French Polynesia
-        PM, // Saint Pierre and Miquelon
-        RE, // Réunion
-        WF, // Wallis and Futuna
-        YT, // Mayotte
-        HR, // Croatia
-        HU, // Hungary
-        IS, // Iceland
-        SM, // San Marino
-        VA, // Vatican City
-        JP, // Japan
-        GE, // Georgia
-        CV, // Cabo Verde
-        KZ, // Kazakhstan
-        KH, // Cambodia
-        KP, // North Korea
-        KR, // Korea
-        KG, // Kyrgyzstan
-        LA, // Laos
-        AO, // Angola
-        LT, // Lithuania
-        LV, // Latvia
-        MZ, // Mozambique
-        MK, // Macedonia, FYRO
-        MN, // Mongolia
-        MM, // Myanmar
-        NO, // Norway
-        SJ, // Svalbard and Jan Mayen
-        NP, // Nepal
-        AW, // Aruba
-        BQ, // Bonaire, Sint Eustatius and Saba
-        CW, // Curaçao
-        SR, // Suriname
-        PL, // Poland
-        PT, // Portugal
-        GW, // Guinea-Bissau
-        ST, // São Tomé and Príncipe
-        TL, // Timor-Leste
-        RO, // Romania
-        MD, // Moldova
-        UA, // Ukraine
-        LK, // Sri Lanka
-        SK, // Slovakia
-        AL, // Albania
-        XK, // Kosovo
-        ME, // Montenegro
-        RS, // Serbia
-        AX, // Åland Islands
-        TJ, // Tajikistan
-        TH, // Thailand
-        TM, // Turkmenistan
-        TR, // Turkey
-        UZ, // Uzbekistan
-        VN, // Vietnam
-        TW, // Taiwan
-        US, // USA
-        ASI, // Asia
-        __Count
+      Unknown = 0, // Unknown/unset region
+      // Master regions
+      WOR, // World
+      US, // USA
+      EU, // Europe
+      JP, // Japan
+      ASI, // Asia
+      AME, // Latin America
+      // Countries or regions
+      AD, // Andorra
+      AE, // United Arab Emirates
+      AF, // Afghanistan
+      AG, // Antigua and Barbuda
+      AI, // Anguilla
+      AL, // Albania
+      AM, // Armenia
+      AO, // Angola
+      AR, // Argentina
+      AS, // American Samoa
+      AT, // Austria
+      AU, // Australia
+      AW, // Aruba
+      AX, // Åland Islands
+      AZ, // Azerbaijan
+      BA, // Bosnia and Herzegovina
+      BB, // Barbados
+      BD, // Bangladesh
+      BE, // Belgium
+      BF, // Burkina Faso
+      BG, // Bulgaria
+      BI, // Burundi
+      BJ, // Benin
+      BL, // Saint Barthélemy
+      BM, // Bermuda
+      BN, // Brunei
+      BQ, // Bonaire, Sint Eustatius and Saba
+      BS, // Bahamas
+      BT, // Bhutan
+      BW, // Botswana
+      BY, // Belarus
+      BZ, // Belize
+      BH, // Bahrain
+      BO, // Bolivia
+      BR, // Brazil
+      CA, // Canada
+      CAR, // Caribbean
+      CC, // Cocos (Keeling) Islands
+      CD, // Congo (DRC)
+      CF, // Central African Republic
+      CG, // Congo
+      CH, // Switzerland
+      CI, // Côte d’Ivoire
+      CK, // Cook Islands
+      CL, // Chile
+      CM, // Cameroon
+      CN, // China
+      CO, // Colombia
+      CR, // Costa Rica
+      CU, // Cuba
+      CV, // Cabo Verde
+      CW, // Curaçao
+      CX, // Christmas Island
+      CY, // Cyprus
+      CZ, // Czechia
+      DE, // Germany
+      DJ, // Djibouti
+      DK, // Denmark
+      DM, // Dominica
+      DO, // Dominican Republic
+      DZ, // Algeria
+      EC, // Ecuador
+      EE, // Estonia
+      EG, // Egypt
+      ER, // Eritrea
+      ES, // Spain
+      ET, // Ethiopia
+      FI, // Finland
+      FJ, // Fiji
+      FK, // Falkland Islands
+      FM, // Micronesia
+      FO, // Faroe Islands
+      FR, // France
+      GA, // Gabon
+      GD, // Grenada
+      GE, // Georgia
+      GF, // French Guiana
+      GG, // Guernsey
+      GH, // Ghana
+      GI, // Gibraltar
+      GL, // Greenland
+      GM, // Gambia
+      GN, // Guinea
+      GP, // Guadeloupe
+      GQ, // Equatorial Guinea
+      GR, // Greece
+      GT, // Guatemala
+      GU, // Guam
+      GW, // Guinea-Bissau
+      GY, // Guyana
+      HK, // Hong Kong SAR
+      HN, // Honduras
+      HR, // Croatia
+      HT, // Haiti
+      HU, // Hungary
+      ID, // Indonesia
+      IE, // Ireland
+      IL, // Israel
+      IM, // Isle of Man
+      IN, // India
+      IO, // British Indian Ocean Territory
+      IQ, // Iraq
+      IR, // Iran
+      IS, // Iceland
+      IT, // Italy
+      JE, // Jersey
+      JM, // Jamaica
+      JO, // Jordan
+      KE, // Kenya
+      KG, // Kyrgyzstan
+      KH, // Cambodia
+      KI, // Kiribati
+      KM, // Comoros
+      KN, // Saint Kitts and Nevis
+      KP, // North Korea
+      KR, // Korea
+      KW, // Kuwait
+      KY, // Cayman Islands
+      KZ, // Kazakhstan
+      LA, // Laos
+      LC, // Saint Lucia
+      LB, // Lebanon
+      LI, // Liechtenstein
+      LK, // Sri Lanka
+      LR, // Liberia
+      LS, // Lesotho
+      LT, // Lithuania
+      LU, // Luxembourg
+      LV, // Latvia
+      LY, // Libya
+      MA, // Morocco
+      MC, // Monaco
+      MD, // Moldova
+      ME, // Montenegro
+      MF, // Saint Martin
+      MG, // Madagascar
+      MH, // Marshall Islands
+      MK, // Macedonia, FYRO
+      ML, // Mali
+      MM, // Myanmar
+      MN, // Mongolia
+      MO, // Macao SAR
+      MP, // Northern Mariana Islands
+      MQ, // Martinique
+      MR, // Mauritania
+      MS, // Montserrat
+      MT, // Malta
+      MU, // Mauritius
+      MV, // Maldives
+      MW, // Malawi
+      MX, // Mexico
+      MY, // Malaysia
+      MZ, // Mozambique
+      NA, // Namibia
+      NC, // New Caledonia
+      NE, // Niger
+      NF, // Norfolk Island
+      NG, // Nigeria
+      NI, // Nicaragua
+      NL, // Netherlands
+      NO, // Norway
+      NP, // Nepal
+      NR, // Nauru
+      NU, // Niue
+      NZ, // New Zealand
+      OM, // Oman
+      PA, // Panama
+      PE, // Peru
+      PF, // French Polynesia
+      PG, // Papua New Guinea
+      PH, // Philippines
+      PK, // Pakistan
+      PL, // Poland
+      PM, // Saint Pierre and Miquelon
+      PN, // Pitcairn Islands
+      PR, // Puerto Rico
+      PS, // Palestinian Authority
+      PT, // Portugal
+      PW, // Palau
+      PY, // Paraguay
+      QA, // Qatar
+      RE, // Réunion
+      RO, // Romania
+      RS, // Serbia
+      RU, // Russia
+      RW, // Rwanda
+      SA, // Saudi Arabia
+      SB, // Solomon Islands
+      SC, // Seychelles
+      SD, // Sudan
+      SE, // Sweden
+      SG, // Singapore
+      SH, // St Helena, Ascension, Tristan da Cunha
+      SI, // Slovenia
+      SJ, // Svalbard and Jan Mayen
+      SK, // Slovakia
+      SL, // Sierra Leone
+      SM, // San Marino
+      SN, // Senegal
+      SO, // Somalia
+      SR, // Suriname
+      SS, // South Sudan
+      ST, // São Tomé and Príncipe
+      SV, // El Salvador
+      SX, // Sint Maarten
+      SY, // Syria
+      SZ, // Swaziland
+      TC, // Turks and Caicos Islands
+      TD, // Chad
+      TG, // Togo
+      TH, // Thailand
+      TJ, // Tajikistan
+      TK, // Tokelau
+      TL, // Timor-Leste
+      TM, // Turkmenistan
+      TN, // Tunisia
+      TO, // Tonga
+      TR, // Turkey
+      TT, // Trinidad and Tobago
+      TV, // Tuvalu
+      TW, // Taiwan
+      TZ, // Tanzania
+      UA, // Ukraine
+      UG, // Uganda
+      UK, // United Kingdom
+      UM, // U.S. Outlying Islands
+      UY, // Uruguay
+      UZ, // Uzbekistan
+      VA, // Vatican City
+      VC, // Saint Vincent and the Grenadines
+      VE, // Venezuela
+      VG, // British Virgin Islands
+      VI, // U.S. Virgin Islands
+      VN, // Vietnam
+      VU, // Vanuatu
+      WF, // Wallis and Futuna
+      WS, // Samoa
+      XK, // Kosovo
+      YE, // Yemen
+      YT, // Mayotte
+      ZA, // South Africa
+      ZM, // Zambia
+      ZW, // Zimbabwe
+      __Count
     };
 
     // Packed regions
@@ -274,6 +276,14 @@ class Regions
       RegionPack() : Pack(0)
       {
       }
+
+      //! Copy constructor
+      RegionPack(const RegionPack& source)
+      {
+        Pack = source.Pack;
+      }
+      //! = operator
+      RegionPack& operator =(const RegionPack& right) { Pack = right.Pack; return *this; }
 
       //! Push a new region in an empty slot
       RegionPack& Push(GameRegions region)
@@ -295,6 +305,47 @@ class Regions
             Push(slot);
         return *this;
       }
+
+      //! Sort regions, lowest value in highest slot (MSB of Pack)
+      RegionPack& Sort()
+      {
+        unsigned int pack = (unsigned int)Pack;
+        if (pack != 0)
+        {
+          unsigned char i0 = (unsigned char) pack;
+          unsigned char i1 = (unsigned char) (pack >> 8);
+          unsigned char i2 = (unsigned char) (pack >> 16);
+          unsigned char i3 = (unsigned char) (pack >> 24);
+          #define __SwapByte(a, b) { unsigned char c = b; b = a; a = c; }
+          if (i0 < i1) __SwapByte(i0, i1)
+          if (i2 < i3) __SwapByte(i2, i3)
+          if (i0 < i2) __SwapByte(i0, i2)
+          if (i1 < i3) __SwapByte(i1, i3)
+          if (i1 < i2) __SwapByte(i1, i2)
+          #undef __SwapByte
+          pack = (int) (i0 | ((unsigned int) i1 << 8) | ((unsigned int) i2 << 16) | ((unsigned int) i3 << 24));
+          if ((pack >> 24) == 0)
+            if (pack <<= 8; (pack >> 24) == 0)
+              if (pack <<= 8; (pack >> 24) == 0)
+                pack <<= 8;
+          Pack = pack;
+        }
+        return *this;
+      }
+
+      //! Opoerator - for sorting
+      int operator -(const RegionPack& right) const
+      {
+        if (int d = (int)Regions[3] - (int)right.Regions[3]; d != 0) return d;
+        if (int d = (int)Regions[2] - (int)right.Regions[2]; d != 0) return d;
+        if (int d = (int)Regions[1] - (int)right.Regions[1]; d != 0) return d;
+        return (int)Regions[0] - (int)right.Regions[0];
+      }
+
+      //! Opoerator ==
+      bool operator ==(const RegionPack& right) const { return Pack == right.Pack; }
+      //! Opoerator !=
+      bool operator !=(const RegionPack& right) const { return Pack != right.Pack; }
 
       //! Reset
       void Reset() { Pack = 0; }

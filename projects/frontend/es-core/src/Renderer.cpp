@@ -714,10 +714,10 @@ void Renderer::DrawTexturedTriangles(GLuint id, const Vertex vertices[], Colors:
 
 void Renderer::DrawTexture(TextureResource& texture, int x, int y, int w, int h, bool keepratio)
 {
-  if (keepratio && texture.width() != 0 && texture.height() != 0)
+  if (keepratio && texture.realWidth() != 0 && texture.realHeight() != 0)
   {
     float areaRatio = (float)w / (float)h;
-    float textureRatio = texture.width() / texture.height();
+    float textureRatio = texture.realWidth() / texture.realHeight();
     if (areaRatio < textureRatio)
     {
       double height = (float)w / textureRatio;
@@ -772,10 +772,10 @@ void Renderer::DrawTexture(TextureResource& texture, int x, int y, int w, int h,
 
 void Renderer::DrawTexture(TextureResource& texture, int x, int y, int w, int h, bool keepratio, unsigned char alpha)
 {
-  if (keepratio && texture.width() != 0 && texture.height() != 0)
+  if (keepratio && texture.realWidth() != 0 && texture.realHeight() != 0)
   {
     float areaRatio = (float)w / (float)h;
-    float textureRatio = texture.width() / texture.height();
+    float textureRatio = texture.realWidth() / texture.realHeight();
     if (areaRatio < textureRatio)
     {
       double height = (float)w / textureRatio;
@@ -835,10 +835,10 @@ void Renderer::DrawTexture(TextureResource& texture, int x, int y, int w, int h,
 void Renderer::DrawTexture(TextureResource& texture, int x, int y, int w, int h, bool keepratio, Colors::ColorARGB color)
 {
   //DrawRectangle(x, y, w, h, 0xFF000040);
-  if (keepratio && texture.width() != 0 && texture.height() != 0)
+  if (keepratio && texture.realWidth() != 0 && texture.realHeight() != 0)
   {
     float areaRatio = (float)w / (float)h;
-    float textureRatio = texture.width() / texture.height();
+    float textureRatio = texture.realWidth() / texture.realHeight();
     if (areaRatio < textureRatio)
     {
       double height = (float)w / textureRatio;
@@ -852,7 +852,6 @@ void Renderer::DrawTexture(TextureResource& texture, int x, int y, int w, int h,
       w = (int)width;
     }
   }
-  //DrawRectangle(x, y, w, h, 0x00FF0040);
 
   if (texture.bind())
   {
@@ -899,14 +898,86 @@ void Renderer::DrawTexture(TextureResource& texture, int x, int y, int w, int h,
   }
 }
 
+void Renderer::DrawTexture(TextureResource& texture, int x, int y, int w, int h, bool flipX, bool flipY, bool keepratio, Colors::ColorARGB color)
+{
+  //DrawRectangle(x, y, w, h, 0xFF000040);
+  if (keepratio && texture.realWidth() != 0 && texture.realHeight() != 0)
+  {
+    float areaRatio = (float)w / (float)h;
+    float textureRatio = texture.realWidth() / texture.realHeight();
+    if (areaRatio < textureRatio)
+    {
+      double height = (float)w / textureRatio;
+      y += (h - (int) height) / 2;
+      h = (int)height;
+    }
+    else
+    {
+      double width = (float)h * textureRatio;
+      x += (w - (int) width) / 2;
+      w = (int)width;
+    }
+  }
+
+  if (texture.bind())
+  {
+    int x1 = x;
+    int x2 = x;
+    if (flipX) x1 += w; else x2 += w;
+    int y1 = y;
+    int y2 = y;
+    if (flipY) y1 += h; else y2 += h;
+    bool tiled = texture.isTiled();
+    float tx = tiled ? (float)w / (float)texture.realWidth() : 1.f;
+    float ty = tiled ? (float)h / (float)texture.realHeight() : 1.f;
+    Vertex vertices[Vertex::sVertexPerRectangle]
+      {
+        { { x1, y1 }, { 0.f,  ty } },
+        { { x1, y2 }, { 0.f, 0.f } },
+        { { x2, y1 }, {  tx,  ty } },
+        { { x2, y1 }, {  tx,  ty } },
+        { { x1, y2 }, { 0.f, 0.f } },
+        { { x2, y2 }, {  tx, 0.f } }
+      };
+
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, tiled ? GL_REPEAT : GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, tiled ? GL_REPEAT : GL_CLAMP_TO_EDGE);
+
+    glColor4ub((GLubyte)(color >> 24),
+               (GLubyte)(color >> 16),
+               (GLubyte)(color >> 8),
+               (GLubyte)(color >> 0));
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+    glVertexPointer(2, GL_FLOAT, sizeof(Vertex), &vertices[0].Target);
+    glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &vertices[0].Source);
+
+    glDrawArrays(GL_TRIANGLES, 0, Vertex::sVertexPerRectangle);
+
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+    glColor4ub(0xFF, 0xFF, 0xFF, 0xFF);
+
+    glDisable(GL_TEXTURE_2D);
+    glDisable(GL_BLEND);
+  }
+}
+
 void Renderer::DrawTexture(TextureResource& texture, int x, int y, int w, int h, bool keepratio,
                            Colors::ColorARGB topleftcolor, Colors::ColorARGB toprightcolor,
                            Colors::ColorARGB bottomrightcolor, Colors::ColorARGB bottomleftcolor)
 {
-  if (keepratio && texture.width() != 0 && texture.height() != 0)
+  if (keepratio && texture.realWidth() != 0 && texture.realHeight() != 0)
   {
     float areaRatio = (float)w / (float)h;
-    float textureRatio = texture.width() / texture.height();
+    float textureRatio = texture.realWidth() / texture.realHeight();
     if (areaRatio < textureRatio)
     {
       double height = (float)w / textureRatio;
@@ -979,10 +1050,10 @@ void Renderer::DrawTexture(TextureResource& texture, int x, int y, int w, int h,
                            Colors::ColorARGB bottomrightcolor, Colors::ColorARGB bottomleftcolor,
                            float topAlphaReflection, float bottomAlphaReflection)
 {
-  if (keepratio && texture.width() != 0 && texture.height() != 0)
+  if (keepratio && texture.realWidth() != 0 && texture.realHeight() != 0)
   {
     float areaRatio = (float)w / (float)h;
-    float textureRatio = texture.width() / texture.height();
+    float textureRatio = texture.realWidth() / texture.realHeight();
     if (areaRatio < textureRatio)
     {
       double height = (float)w / textureRatio;

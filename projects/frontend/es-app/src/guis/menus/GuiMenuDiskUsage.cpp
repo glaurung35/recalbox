@@ -6,13 +6,15 @@
 //
 
 #include "GuiMenuDiskUsage.h"
+#include <guis/menus/base/ItemBar.h>
 
 GuiMenuDiskUsage::GuiMenuDiskUsage(WindowManager& window, MountMonitor& mountMonitor)
-  : GuiMenuBase(window, _("DISK USAGE (FREE/TOTAL)"), nullptr)
+  : Menu(window, _("DISK USAGE (FREE/TOTAL)"))
 {
   for(DeviceMount* device : mountMonitor.AllMountPoints())
   {
     device->UpdateSize();
-    AddText(device->DisplayableDeviceName(), device->DisplayableFreeSpace());
+    AddBar(device->DisplayableDeviceName(), device->DisplayableFreeSpace(),
+           device->TotalSize() != 0 ? 1.f - (float)device->FreeSize() / (float)device->TotalSize() : 0);
   }
 }

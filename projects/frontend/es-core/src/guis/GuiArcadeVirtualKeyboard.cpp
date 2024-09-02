@@ -72,9 +72,6 @@ GuiArcadeVirtualKeyboard::GuiArcadeVirtualKeyboard(WindowManager& window, const 
   mCursor = (int)mText.size();
   AdjustCursor();
 
-  // Prepare title text
-  PrepareTitle();
-
   SDL_StartTextInput();
 }
 
@@ -171,16 +168,16 @@ bool GuiArcadeVirtualKeyboard::ProcessInput(const InputCompactEvent& event)
   if (event.IsKeyboard())
   {
     //{ LOG(LogDebug) << "[ArcadeVirtualKeyboard] Type: " << (int)event.RawEvent().Type() << " - Id: " << event.RawEvent().Id() << " - Device: " << event.RawEvent().Device() << " - Value: " << event.RawEvent().Value(); }
-    bool pressed = event.RawEvent().Value() != 0;
+    bool released = event.RawEvent().Value() == 0;
     switch(event.RawEvent().Id())
     {
-      case SDLK_BACKSPACE: if (pressed) Backspace(); break;
-      case SDLK_DELETE: if (pressed) Delete(); break;
+      case SDLK_BACKSPACE: if (released) Backspace(); break;
+      case SDLK_DELETE: if (released) Delete(); break;
       case SDLK_RETURN:
-      case SDLK_RETURN2: if (pressed) ValidateEditor(); break;
-      case SDLK_ESCAPE: if (pressed) CancelEditor(); break;
-      case SDLK_LEFT: ChangeCursor(true, false, pressed); break;
-      case SDLK_RIGHT: ChangeCursor(false, false, pressed); break;
+      case SDLK_RETURN2: if (released) ValidateEditor(); break;
+      case SDLK_ESCAPE: if (released) CancelEditor(); break;
+      case SDLK_LEFT: ChangeCursor(true, false, !released); break;
+      case SDLK_RIGHT: ChangeCursor(false, false, !released); break;
     }
   }
   else
@@ -618,21 +615,15 @@ void GuiArcadeVirtualKeyboard::RenderWheel(const Wheel& wheel, double raymultipl
   RenderWheelChar(wheel, centerX, centerY, selectedChar, xray, yray, raymc, morphAngle);
 }
 
-void GuiArcadeVirtualKeyboard::PrepareTitle()
-{
-  TextCache* cache = mTitleFont->buildTextCache(mTitle,
-                                                mInnerEditor.x,
-                                                mOuterEditor.y - mTitleFont->getMaxHeight() * 1.2f,
-                                                sTitleTextColor, true);
-  mTitleCache = std::unique_ptr<TextCache>(cache);
-}
-
 void GuiArcadeVirtualKeyboard::RenderTextBox()
 {
   Renderer::DrawRectangle(mOuterEditor.x, mOuterEditor.y, mOuterEditor.w, mOuterEditor.h, 0x00000080);
 
   // Render title
-  mTitleFont->renderTextCache(mTitleCache.get());
+  mTitleFont->RenderDirect(mTitle,
+                           mInnerEditor.x,
+                           mOuterEditor.y - mTitleFont->getMaxHeight() * 1.2f,
+                           sTitleTextColor, true);
 
   // Clip text display
   Renderer::Instance().PushClippingRect(Vector2i((int)mInnerEditor.x, (int)mInnerEditor.y), Vector2i((int)mInnerEditor.w, (int)mInnerEditor.h));

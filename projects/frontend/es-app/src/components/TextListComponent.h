@@ -1,5 +1,6 @@
 #pragma once
 
+#include <components/IList.h>
 #include <components/ITextListComponentOverlay.h>
 #include <utils/String.h>
 #include <memory>
@@ -14,7 +15,7 @@ enum class HorizontalAlignment : char
 
 struct TextListData
 {
-  std::shared_ptr<TextCache> textCache;
+  int textWidth = -1;
 	signed char colorId;
   signed char colorBackgroundId;
   HorizontalAlignment hzAlignement;
@@ -52,7 +53,8 @@ public:
 	void Render(const Transform4x4f& parentTrans) override;
 
 	void add(const String& name, const T& obj, int colorId, bool toTheBeginning = false);
-  void add(const String& name, const T& obj, int colorId, signed char colorBackgroundId, HorizontalAlignment alignment);
+  void add(const String& name, const T& obj, int colorId, int colorBackgroundId, HorizontalAlignment alignment);
+  void add(const String& name, const T& obj, int colorId, HorizontalAlignment alignment);
   void changeTextAt(int index, const String& name);
   void changeBackgroundColorAt(int index, int colorIndex);
   int Lookup(T object);
@@ -66,18 +68,17 @@ public:
 	inline void setFont(const std::shared_ptr<Font>& font)
 	{
 		mFont = font;
-		for (auto& entry : mEntries)
-			entry.data.textCache.reset();
 	}
 
-	inline void setUppercase(bool uppercase) 
+  inline bool IsUppercase() const { return mUppercase; }
+  inline void setUppercase(bool uppercase)
 	{
 		(void)uppercase;
 		mUppercase = true; // TODO: Check
-		for (auto& entry : mEntries)
-			entry.data.textCache.reset();
 	}
 
+  void setAutoAlternate(bool state) { mAutoAlternate = state; }
+  void setShiftSelectedTextColor(bool invert) { mShiftSelectedTextColor = invert; }
 	inline void setSelectorHeight(float selectorScale) { mSelectorHeight = selectorScale; }
 	inline void setSelectorOffsetY(float selectorOffsetY) { mSelectorOffsetY = selectorOffsetY; }
 	inline void setSelectorColor(unsigned int color) { mSelectorColor = color; updateBarColor(); }
@@ -89,6 +90,7 @@ public:
   inline void setHorizontalMargin(float horizontalMargin) { mHorizontalMargin = horizontalMargin; }
 
   [[nodiscard]] inline float EntryHeight() const { return mFont->getSize() * mLineSpacing; }
+  [[nodiscard]] inline float FontHeight() const { return mFont->getSize(); }
   [[nodiscard]] inline unsigned int Color(unsigned int id) const { return mColors[id]; }
 
   [[nodiscard]] inline float getHorizontalMargin() const { return mHorizontalMargin; }
@@ -169,6 +171,8 @@ public:
   int mBarTimer;
   bool mShowBar;
   bool mUppercase;
+  bool mShiftSelectedTextColor;
+  bool mAutoAlternate;
 };
 
 template<typename T>
@@ -203,6 +207,8 @@ TextListComponent<T>::TextListComponent(WindowManager& window)
   , mBarTimer(-1)
   , mShowBar(false)
   , mUppercase(false)
+  , mShiftSelectedTextColor(false)
+  , mAutoAlternate(false)
 {
 }
 
@@ -253,10 +259,12 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
       else
         Renderer::DrawRectangle(0.f, (float)(i - startEntry) * entrySize + mSelectorOffsetY, mSize.x(), mSelectorHeight, mSelectorColor);
     }
+    /// Draw light/dark alternatively
+    else if (mAutoAlternate && entry.data.colorBackgroundId < 0)
+      Renderer::DrawRectangle(0.f, (float) (i - startEntry) * entrySize + mSelectorOffsetY, mSize.x(), mSelectorHeight, (i & 1) != 0 ? 0xFFFFFF10 : 0x00000010);
     // Draw background
     else if ((unsigned int) entry.data.colorBackgroundId < COLOR_ID_COUNT)
-      Renderer::DrawRectangle(0.f, (float) (i - startEntry) * entrySize + mSelectorOffsetY, mSize.x(), mSelectorHeight,
-                              mColors[entry.data.colorBackgroundId]);
+      Renderer::DrawRectangle(0.f, (float) (i - startEntry) * entrySize + mSelectorOffsetY, mSize.x(), mSelectorHeight, mColors[entry.data.colorBackgroundId]);
   }
 
 	// Draw text items
@@ -268,21 +276,18 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
   for (int i = startEntry; i <= listCutoff; i++)
 	{
 		typename IList<TextListData, T>::Entry& entry = mEntries[i];
+    if (entry.data.textWidth < 0) entry.data.textWidth = mFont->sizeText(mUppercase ? entry.name.ToUpperCaseUTF8() : entry.name).x();
 
     unsigned int color = (mCursor == i && (mSelectedColor != 0)) ? mSelectedColor : mColors[entry.data.colorId];
-
-		if(!entry.data.textCache)
-			entry.data.textCache = std::unique_ptr<TextCache>(font->buildTextCache(mUppercase ? entry.name.ToUpperCaseUTF8() : entry.name, 0, 0, 0x000000FF));
-
-		entry.data.textCache->setColor(color);
+    color = mShiftSelectedTextColor && mCursor == i ? color + 1 : color;
 
     leftMargin = mHorizontalMargin;
     rightMargin = mHorizontalMargin;
     if (mOverlay != nullptr)
     {
       // overlay?
-      leftMargin += mOverlay->OverlayGetLeftOffset(entry.object);
-      rightMargin += mOverlay->OverlayGetRightOffset(entry.object);
+      leftMargin += mOverlay->OverlayGetLeftOffset(entry.object, entry.data.textWidth);
+      rightMargin += mOverlay->OverlayGetRightOffset(entry.object, entry.data.textWidth);
       //if (leftMargin)
       if (leftMargin != previousLeftMargin || rightMargin != previousRightMargin)
       {
@@ -301,11 +306,11 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
 		{
       case HorizontalAlignment::Left: break;
       case HorizontalAlignment::Center:
-        offset[0] += (size.x() - entry.data.textCache->metrics.size.x()) / 2;
+        offset[0] += (size.x() - entry.data.textWidth) / 2;
         if(offset[0] < mHorizontalMargin) offset[0] = mHorizontalMargin;
         break;
       case HorizontalAlignment::Right:
-        offset[0] += (size.x() - entry.data.textCache->metrics.size.x());
+        offset[0] += (size.x() - entry.data.textWidth);
         if(offset[0] < mHorizontalMargin)	offset[0] = mHorizontalMargin;
         break;
 		  default : break;
@@ -314,18 +319,12 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
     // Draw text
     if(mCursor == i) offset[0] -= mMarqueeOffset;
 
-		Transform4x4f drawTrans = trans;
-		drawTrans.translate(offset);
-		Renderer::SetMatrix(drawTrans);
-		font->renderTextCache(entry.data.textCache.get());
+    font->RenderDirect(mUppercase ? entry.name.ToUpperCaseUTF8() : entry.name, offset.x(), y, color);
 
     if (mCursor == i && mMarqueeOffset > 0)
     {
-      offset[0] += entry.data.textCache->metrics.size.x() + mSize.x() / 4;
-      drawTrans = trans;
-      drawTrans.translate(offset);
-      Renderer::SetMatrix(drawTrans);
-      font->renderTextCache(entry.data.textCache.get());
+      offset[0] += entry.data.textWidth + mSize.x() / 4;
+      font->RenderDirect(mUppercase ? entry.name.ToUpperCaseUTF8() : entry.name, offset.x(), y, color);
     }
 
     y += entrySize;
@@ -377,7 +376,7 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
       drawTrans.translate(position);
       Renderer::SetMatrix(drawTrans);
 
-      mOverlay->OverlayApply(drawTrans, Vector2f(0), size, entry.object, color);
+      mOverlay->OverlayApply(drawTrans, Vector2f(0), size, entry.data.textWidth, entry.object, color);
 
       y += entrySize;
     }
@@ -436,15 +435,17 @@ void TextListComponent<T>::Update(int deltaTime)
   if (mBarTimer > 0) mBarTimer -= deltaTime;
 
 	listUpdate(deltaTime);
-	if(!isScrolling() && size() > 0 && mEntries[mCursor].data.textCache)
+	if(!isScrolling() && size() > 0)
 	{
-		//if we're not scrolling and this object's text goes outside our size, marquee it!
-		const int textWidth = (int)(mEntries[mCursor].data.textCache->metrics.size.x()) + 1;
+		// if we're not scrolling and this object's text goes outside our size, marquee it!
+    auto& entry = mEntries[mCursor];
+    int textWidth = entry.data.textWidth;
+    if (textWidth < 0) textWidth = entry.data.textWidth = mFont->sizeText(mUppercase ? entry.name.ToUpperCaseUTF8() : entry.name).x();
 
 		//it's long enough to marquee
     float fwidth = mSize.x() - 2 * mHorizontalMargin;
-    if (mOverlay != nullptr) fwidth -= mOverlay->OverlayGetLeftOffset(mEntries[mCursor].object) +
-                                       mOverlay->OverlayGetRightOffset(mEntries[mCursor].object);
+    if (mOverlay != nullptr) fwidth -= mOverlay->OverlayGetLeftOffset(mEntries[mCursor].object, textWidth) +
+                                       mOverlay->OverlayGetRightOffset(mEntries[mCursor].object, textWidth);
     int width = (int)fwidth;
 
 		if (textWidth > width)
@@ -504,7 +505,7 @@ void TextListComponent<T>::add(const String& name, const T& obj, int color, bool
 }
 
 template <typename T>
-void TextListComponent<T>::add(const String& name, const T& obj, int color, signed char colorBackground, HorizontalAlignment align)
+void TextListComponent<T>::add(const String& name, const T& obj, int color, int colorBackground, HorizontalAlignment align)
 {
   assert((unsigned int)color < COLOR_ID_COUNT);
 
@@ -513,6 +514,21 @@ void TextListComponent<T>::add(const String& name, const T& obj, int color, sign
   entry.object = obj;
   entry.data.colorId = color;
   entry.data.colorBackgroundId = colorBackground;
+  entry.data.useHzAlignment = true;
+  entry.data.hzAlignement = align;
+  ((IList< TextListData, T >*)this)->add(entry);
+}
+
+template <typename T>
+void TextListComponent<T>::add(const String& name, const T& obj, int color, HorizontalAlignment align)
+{
+  assert((unsigned int)color < COLOR_ID_COUNT);
+
+  typename IList<TextListData, T>::Entry entry;
+  entry.name = name;
+  entry.object = obj;
+  entry.data.colorId = color;
+  entry.data.colorBackgroundId = -1;
   entry.data.useHzAlignment = true;
   entry.data.hzAlignement = align;
   ((IList< TextListData, T >*)this)->add(entry);

@@ -28,6 +28,30 @@ String RecalboxConf::GetCountry()
   return (locale.length() == 5) ? locale.SubString(3, 2) : "us";
 }
 
+RecalboxConf::UpdateType RecalboxConf::UpdateTypeFromString(const String& ut)
+{
+  if (ut == "patron"      ) return UpdateType::Patron;
+  if (ut == "alpha"       ) return UpdateType::Alpha;
+  if (ut == "jamma"       ) return UpdateType::Jamma;
+  if (ut == "jamma-early" ) return UpdateType::JammaEarly;
+  return UpdateType::Stable;
+}
+
+const String& RecalboxConf::UpdateTypeFromEnum(UpdateType type)
+{
+  switch(type)
+  {
+    case UpdateType::Patron: { static String s("patron"); return s; }
+    case UpdateType::Alpha: { static String s("alpha"); return s; }
+    case UpdateType::Jamma: { static String s("jamma"); return s; }
+    case UpdateType::JammaEarly: { static String s("jamma-early"); return s; }
+    case UpdateType::Stable:
+    default: break;
+  }
+  static String s("stable");
+  return s;
+}
+
 RecalboxConf::SoftPatching RecalboxConf::SoftPatchingFromString(const String& softpatching)
 {
   if (softpatching == "auto") return SoftPatching::Auto;
@@ -197,6 +221,32 @@ const String& RecalboxConf::ScraperTypeFromEnum(ScraperType type)
   return defaultString;
 }
 
+RecalboxConf::GamelistDecoration RecalboxConf::GamelistDecorationFromString(const String& gameDecoration)
+{
+  // Default value when the key does not exist
+  if (gameDecoration.ToTrim().empty()) return GamelistDecoration::Regions;
+
+  GamelistDecoration result = GamelistDecoration::None;
+  for(const String& item : gameDecoration.Split(','))
+  {
+    if (item == "regions") result |= GamelistDecoration::Regions;
+    if (item == "players") result |= GamelistDecoration::Players;
+    if (item == "genre") result |= GamelistDecoration::Genre;
+    if (item == "none") { result = GamelistDecoration::None; break; }
+  }
+  return result;
+}
+
+const String RecalboxConf::GamelistDecorationFromEnum(RecalboxConf::GamelistDecoration gameDecoration)
+{
+  String result;
+  if (hasFlag(gameDecoration, GamelistDecoration::Regions)) result.Append("regions");
+  if (hasFlag(gameDecoration, GamelistDecoration::Players)) { if (!result.empty()) result.Append(','); result.Append("players"); }
+  if (hasFlag(gameDecoration, GamelistDecoration::Genre)) { if (!result.empty()) result.Append(','); result.Append("genre"); }
+  if (gameDecoration == GamelistDecoration::None) result.Assign("none");
+  return result;
+}
+
 DefineSystemGetterSetterImplementation(Emulator, String, String, sSystemEmulator, "")
 DefineSystemGetterSetterImplementation(Core, String, String, sSystemCore, "")
 DefineSystemGetterSetterImplementation(Ratio, String, String, sSystemRatio, GetGlobalRatio())
@@ -216,6 +266,8 @@ DefineEmulationStationSystemGetterSetterNumericEnumImplementation(Sort, FileSort
 DefineEmulationStationSystemGetterSetterNumericEnumImplementation(RegionFilter, Regions::GameRegions, sSystemRegionFilter, Regions::GameRegions::Unknown)
 
 DefineEmulationStationSystemListGetterSetterImplementation(ArcadeSystemHiddenManufacturers, sArcadeSystemHiddenManufacturers, "")
+
+DefineEmulationStationSystemGetterSetterEnumImplementation(RecalboxConf, GamelistDecoration, GamelistDecoration, "decoration", GamelistDecoration) \
 
 void RecalboxConf::Watch(const String& key, IRecalboxConfChanged& callback)
 {

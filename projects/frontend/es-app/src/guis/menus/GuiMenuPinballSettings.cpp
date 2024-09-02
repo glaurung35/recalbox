@@ -6,32 +6,28 @@
 //
 
 #include "GuiMenuPinballSettings.h"
-#include "ResolutionAdapter.h"
-#include <components/SwitchComponent.h>
-#include <WindowManager.h>
-#include <utils/locale/LocaleHelper.h>
 #include <guis/MenuMessages.h>
 
 GuiMenuPinballSettings::GuiMenuPinballSettings(WindowManager& window)
-  : GuiMenuBase(window, _("PINBALL SETTINGS"), nullptr)
+  : Menu(window, _("PINBALL SETTINGS"))
 {
   // Enable Pinball Cabinet
-  mPinballCabinet = AddSwitch(_("ENABLE CABINET MODE"), RecalboxConf::Instance().GetPinballCabinet(), (int)Components::Cabinet, this, _(MENUMESSAGE_ADVANCED_PINBALL_CABINET_HELP_MSG));
+  AddSwitch(_("ENABLE CABINET MODE"), RecalboxConf::Instance().GetPinballCabinet(), (int)Components::Cabinet, this, _(MENUMESSAGE_ADVANCED_PINBALL_CABINET_HELP_MSG));
   
   // Enable Pinball Trail
-  mPinballTrail = AddSwitch(_("ENABLE BALL TRAIL"), RecalboxConf::Instance().GetPinballTrail(), (int)Components::Trail, this, _(MENUMESSAGE_ADVANCED_PINBALL_CABINET_HELP_MSG));
+  AddSwitch(_("ENABLE BALL TRAIL"), RecalboxConf::Instance().GetPinballTrail(), (int)Components::Trail, this, _(MENUMESSAGE_ADVANCED_PINBALL_CABINET_HELP_MSG));
   
   // Select Backglass Screen
-  AddList<String>(_("BACKGLASS SCREEN"), (int)Components::BackglassScreen, this, GetPinballBackglassScreenEntries(), _(MENUMESSAGE_ADVANCED_PINBALL_CABINET_HELP_MSG));
+  AddList<String>(_("BACKGLASS SCREEN"), (int)Components::BackglassScreen, this, GetPinballBackglassScreenEntries(), RecalboxConf::Instance().GetPinballBackglassScreen(), "1", _(MENUMESSAGE_ADVANCED_PINBALL_CABINET_HELP_MSG));
   
   // Select Backglass resolution
-  AddList<String>(_("BACKGLASS RESOLUTION"), (int)Components::BackglassResolution, this, GetPinballBackglassResolutionEntries(), _(MENUMESSAGE_ADVANCED_PINBALL_CABINET_HELP_MSG));
+  AddList<String>(_("BACKGLASS RESOLUTION"), (int)Components::BackglassResolution, this, GetPinballBackglassResolutionEntries(), RecalboxConf::Instance().GetPinballBackglassResolution(), "1920x1080", _(MENUMESSAGE_ADVANCED_PINBALL_CABINET_HELP_MSG));
 
   // Select Profile
-  AddList<String>(_("PROFILE"), (int)Components::Profile, this, GetPinballProfileEntries(), _(MENUMESSAGE_ADVANCED_PINBALL_CABINET_HELP_MSG));
+  AddList<String>(_("PROFILE"), (int)Components::Profile, this, GetPinballProfileEntries(), RecalboxConf::Instance().GetPinballProfile(), "1", _(MENUMESSAGE_ADVANCED_PINBALL_CABINET_HELP_MSG));
 }
 
-void GuiMenuPinballSettings::SwitchComponentChanged(int id, bool& status)
+void GuiMenuPinballSettings::MenuSwitchChanged(int id, bool& status)
 {	
   switch((Components)id)
   {
@@ -39,47 +35,41 @@ void GuiMenuPinballSettings::SwitchComponentChanged(int id, bool& status)
     case Components::Trail: RecalboxConf::Instance().SetPinballTrail(status).Save(); break;
     case Components::BackglassScreen:
     case Components::BackglassResolution:
+    case Components::Profile:
     default: break;
   }
 }
 
-std::vector<GuiMenuBase::ListEntry<String>> GuiMenuPinballSettings::GetPinballBackglassResolutionEntries()
+SelectorEntry<String>::List GuiMenuPinballSettings::GetPinballBackglassResolutionEntries()
 {
-  std::vector<GuiMenuBase::ListEntry<String>> result;
-
-  String currentOption = RecalboxConf::Instance().GetPinballBackglassResolution();
-  result.push_back({ _("1920x1080"), "1920x1080", currentOption == "1920x1080" });
-  result.push_back({ _("1280x1024"), "1280x1024", currentOption == "1280x1024" });
-
-  return result;
+  return SelectorEntry<String>::List
+  {
+    {_("1920x1080"), "1920x1080" },
+    {_("1280x1024"), "1280x1024" },
+  };
 }
 
-std::vector<GuiMenuBase::ListEntry<String>> GuiMenuPinballSettings::GetPinballBackglassScreenEntries()
+SelectorEntry<String>::List GuiMenuPinballSettings::GetPinballBackglassScreenEntries()
 {
-  std::vector<GuiMenuBase::ListEntry<String>> result;
-
-  String currentOption = RecalboxConf::Instance().GetPinballBackglassScreen();
-  result.push_back({ _("1"), "1", currentOption == "1" });
-  result.push_back({ _("2"), "2", currentOption == "2" });
-
-  return result;
+  return SelectorEntry<String>::List
+  {
+    { _("1"), "1"},
+    { _("2"), "2"},
+  };
 }
 
-std::vector<GuiMenuBase::ListEntry<String>> GuiMenuPinballSettings::GetPinballProfileEntries()
+SelectorEntry<String>::List GuiMenuPinballSettings::GetPinballProfileEntries()
 {
-  std::vector<GuiMenuBase::ListEntry<String>> result;
-
-  String currentOption = RecalboxConf::Instance().GetPinballProfile();
-  result.push_back({ _("light"), "1", currentOption == "1" });
-  result.push_back({ _("normal"), "2", currentOption == "2" });
-  result.push_back({ _("max"), "3", currentOption == "3" });
-
-  return result;
+  return SelectorEntry<String>::List
+  {
+    { _("light"), "1" },
+    { _("normal"), "2" },
+    { _("max"), "3" },
+  };
 }
 
-void GuiMenuPinballSettings::OptionListComponentChanged(int id, int index, const String& value, bool quickChange)
+void GuiMenuPinballSettings::MenuSingleChanged(int id, int index, const String& value)
 {
-  (void)quickChange;
   (void)index;
   switch((Components)id)
   {

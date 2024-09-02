@@ -89,7 +89,7 @@ class MenuThemeOptions : public Menu
     void MenuSingleChanged(int id, int index, const ThemeSpec& value) override;
 
     /*
-     * ISwitchComponent implementation
+     * ISwitchChanged implementation
      */
 
     void MenuSwitchChanged(int id, bool& status) override;

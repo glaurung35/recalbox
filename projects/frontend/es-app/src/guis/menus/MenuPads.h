@@ -134,7 +134,7 @@ class MenuPads : public Menu
     void MenuSingleChanged(int id, int index, const RecalboxConf::PadOSDType& value) override;
 
     /*
-     * ISwitchComponent
+     * ISwitchChanged implementation
      */
     void MenuSwitchChanged(int id, bool& status) override;
 };

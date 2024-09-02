@@ -5,10 +5,10 @@
 // http://www.recalbox.com
 //
 
-#include "GuiMenuDiskUsage.h"
+#include "MenuDiskUsage.h"
 #include <guis/menus/base/ItemBar.h>
 
-GuiMenuDiskUsage::GuiMenuDiskUsage(WindowManager& window, MountMonitor& mountMonitor)
+MenuDiskUsage::MenuDiskUsage(WindowManager& window, MountMonitor& mountMonitor)
   : Menu(window, _("DISK USAGE (FREE/TOTAL)"))
 {
   for(DeviceMount* device : mountMonitor.AllMountPoints())

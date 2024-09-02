@@ -1,7 +1,6 @@
 #include <RecalboxConf.h>
 #include <guis/GuiMsgBox.h>
 #include "MenuTate.h"
-#include "components/SwitchComponent.h"
 #include "guis/MenuMessages.h"
 #include "recalbox/BootConf.h"
 #include <views/ViewController.h>

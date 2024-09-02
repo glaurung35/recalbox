@@ -82,7 +82,7 @@ class MenuNetplay : public Menu
     void MenuSingleChanged(int id, int index, const RecalboxConf::Relay& value) final;
 
     /*
-     * ISWitchComponent implementation
+     * ISwitchChanged implementation
      */
 
     void MenuSwitchChanged(int id, bool& status) final;

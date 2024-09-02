@@ -88,7 +88,7 @@ class MenuGameSettings : public Menu
     void MenuSingleChanged(int id, int index, const RecalboxConf::SoftPatching& value) override;
 
     /*
-     * ISwitchComponent implementation
+     * ISwitchChanged implementation
      */
 
     void MenuSwitchChanged(int id, bool& status) override;

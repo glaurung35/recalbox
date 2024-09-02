@@ -6,7 +6,6 @@
 //
 
 #include <guis/menus/MenuVirtualSystemPerGenre.h>
-#include <components/SwitchComponent.h>
 #include <systems/SystemManager.h>
 #include <utils/locale/LocaleHelper.h>
 #include <guis/GuiMsgBox.h>

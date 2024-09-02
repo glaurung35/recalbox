@@ -1,9 +1,7 @@
 #pragma once
 
 #include "guis/Gui.h"
-#include "components/MenuComponent.h"
 #include "GuiScraperSingleGameRun.h"
-
 #include <systems/SystemData.h>
 #include <views/gamelist/ISimpleGameListView.h>
 

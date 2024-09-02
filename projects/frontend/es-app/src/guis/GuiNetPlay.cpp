@@ -8,7 +8,7 @@
 #include "components/TextComponent.h"
 #include "components/ButtonComponent.h"
 #include "components/MenuComponent.h"
-#include "GuiNetPlayClientPasswords.h"
+#include <guis/menus/MenuNetPlayClientPasswords.h>
 #include "RootFolders.h"
 #include <netplay/NetPlayThread.h>
 #include <systems/SystemManager.h>
@@ -280,7 +280,7 @@ void GuiNetPlay::launch()
   LobbyGame game = mLobbyList[index];
 
   if (!game.mCoreLongName.empty() && game.mGame != nullptr)
-    mWindow.pushGui(new GuiNetPlayClientPasswords(mWindow, game));
+    mWindow.pushGui(new MenuNetPlayClientPasswords(mWindow, game));
 }
 
 void GuiNetPlay::LoadCoreMap()

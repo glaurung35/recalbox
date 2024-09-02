@@ -8,7 +8,7 @@
 #include <guis/GuiArcadeVirtualKeyboard.h>
 #include <views/ViewController.h>
 #include "GuiSearch.h"
-#include "GuiNetPlayHostPasswords.h"
+#include <guis/menus/MenuNetPlayHostPasswords.h>
 #include <VideoEngine.h>
 
 #define BUTTON_GRID_VERT_PADDING Renderer::Instance().DisplayHeightAsFloat() * 0.025f
@@ -201,7 +201,7 @@ bool GuiSearch::ProcessInput(const class InputCompactEvent & event)
         && cursor->System().Descriptor().HasNetPlayCores())
     {
       clear();
-      mWindow.pushGui(new GuiNetPlayHostPasswords(mWindow, *cursor));
+      mWindow.pushGui(new MenuNetPlayHostPasswords(mWindow, *cursor));
       return true;
     }
     if (event.YReleased())

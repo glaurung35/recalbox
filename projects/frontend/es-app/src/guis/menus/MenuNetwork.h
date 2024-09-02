@@ -23,6 +23,8 @@ class MenuNetwork : public Menu
                      , private IEditableChanged
                      , private ISwitchChanged
                      , private IActionTriggered
+                     , private Thread
+                     , private ISyncMessageReceiver<bool>
 {
   public:
     /*!
@@ -44,6 +46,8 @@ class MenuNetwork : public Menu
       WPS,
     };
 
+    //! Sender
+    SyncMessageSender<bool> mSender;
     //! SSID list
     ItemSelector<String>* mSSIDList;
     //! Hostname
@@ -73,6 +77,9 @@ class MenuNetwork : public Menu
 
     //! Need backup into /boot/recalbox-backup.conf
     bool mNeedBackup;
+
+    //! Last ping
+    bool mLastPing;
 
     /*!
      * @brief Try WPS connection
@@ -148,5 +155,22 @@ class MenuNetwork : public Menu
      */
 
     void MenuActionTriggered(int id);
+
+    /*
+     * Thread
+     */
+
+    //! Pïng thread
+    void Run() final;
+
+    /*
+     * Synchronous event
+     */
+
+    /*!
+     * @brief Receive message from the command thread
+     * @param game Game data
+     */
+    void ReceiveSyncMessage(bool connected) override;
 };
 

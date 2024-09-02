@@ -84,7 +84,7 @@ tests emulationstation:
   services:
     - docker:dind
   rules:
-    - !reference [.only-default, rules]
+    - if: '$CI_COMMIT_REF_NAME == "master" || $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_TAG'
       changes:
         - projects/frontend/**/*
   script:
@@ -139,7 +139,7 @@ tests nvidia:
   stage: lint
   image: python:3.9-slim
   rules:
-    - !reference [.only-default, rules]
+    - if: '$CI_COMMIT_REF_NAME == "master" || $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_TAG'
       changes:
         - projects/recalbox-hardware/videocard/**/*
   script:

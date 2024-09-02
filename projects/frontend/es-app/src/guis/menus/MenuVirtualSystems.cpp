@@ -6,7 +6,6 @@
 //
 
 #include <guis/menus/MenuVirtualSystems.h>
-#include <components/SwitchComponent.h>
 #include <utils/locale/LocaleHelper.h>
 #include <MainRunner.h>
 #include <guis/MenuMessages.h>

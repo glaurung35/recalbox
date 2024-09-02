@@ -10,7 +10,6 @@
 #include <guis/MenuMessages.h>
 #include <recalbox/RecalboxSystem.h>
 #include <systems/SystemManager.h>
-#include <components/SwitchComponent.h>
 
 MenuBootSettings::MenuBootSettings(WindowManager& window, SystemManager& systemManager)
   : Menu(window, _("BOOT SETTINGS"))

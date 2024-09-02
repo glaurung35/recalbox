@@ -9,7 +9,6 @@
 #include <scraping/scrapers/IScraperEngine.h>
 #include <scraping/scrapers/screenscraper/ScreenScraperApis.h>
 #include "guis/menus/base/IEditableChanged.h"
-#include "components/ISwitchComponent.h"
 
 class MenuScreenScraperOptions : public Menu
                                , private IEditableChanged

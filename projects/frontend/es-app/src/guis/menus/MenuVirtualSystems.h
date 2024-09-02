@@ -6,7 +6,6 @@
 //
 #pragma once
 
-#include <guis/menus/GuiMenuBase.h>
 #include <guis/menus/base/Menu.h>
 #include <guis/menus/base/ISwitchChanged.h>
 

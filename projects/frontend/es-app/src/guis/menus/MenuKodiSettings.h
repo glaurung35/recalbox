@@ -11,8 +11,6 @@
 
 // Forward declaration
 class SystemManager;
-class SwitchComponent;
-template<class T> class OptionListComponent;
 
 class MenuKodiSettings : public Menu
                        , private ISingleSelectorChanged<String>
@@ -40,7 +38,7 @@ class MenuKodiSettings : public Menu
     SelectorEntry<String>::List GetKodiResolutionsEntries();
 
     /*
-     * ISwitchComponent implementation
+     * ISwitchChanged implementation
      */
     void MenuSwitchChanged(int id, bool& status) override;
 

@@ -10,7 +10,6 @@
 #include "systems/arcade/ArcadeVirtualSystems.h"
 #include "views/ViewController.h"
 #include <CrtConf.h>
-#include <components/SwitchComponent.h>
 #include <guis/MenuMessages.h>
 #include <hardware/crt/CrtAdapterDetector.h>
 #include <recalbox/RecalboxSystem.h>

@@ -3,11 +3,9 @@
 //
 
 #include <utils/locale/LocaleHelper.h>
-#include <components/SliderComponent.h>
 #include <audio/AudioController.h>
 #include <audio/AudioManager.h>
 #include "MenuSound.h"
-#include "GuiMenuBase.h"
 #include "MenuSoundPair.h"
 #include "guis/MenuMessages.h"
 #include <guis/GuiMsgBox.h>

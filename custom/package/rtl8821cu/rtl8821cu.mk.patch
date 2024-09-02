@@ -1,0 +1,13 @@
+diff --git a/package/rtl8821cu/rtl8821cu.mk b/package/rtl8821cu/rtl8821cu.mk
+index 5a93376c20..1cf79aefa2 100644
+--- a/package/rtl8821cu/rtl8821cu.mk
++++ b/package/rtl8821cu/rtl8821cu.mk
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-RTL8821CU_VERSION = 69c903b75bde36293c66b25c051916a74dbadf58
++RTL8821CU_VERSION = 1597dfeda6cefd2e603fc7020ceca226d05fb108
+ RTL8821CU_SITE = $(call github,morrownr,8821cu-20210916,$(RTL8821CU_VERSION))
+ RTL8821CU_LICENSE = GPL-2.0
+ RTL8821CU_LICENSE_FILES = LICENSE

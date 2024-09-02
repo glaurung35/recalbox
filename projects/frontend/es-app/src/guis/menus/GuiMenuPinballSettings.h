@@ -6,17 +6,15 @@
 //
 #pragma once
 
-#include <guis/menus/GuiMenuBase.h>
+#include <guis/menus/base/Menu.h>
 #include "ResolutionAdapter.h"
 
 // Forward declaration
 class SystemManager;
-class SwitchComponent;
-template<class T> class OptionListComponent;
 
-class GuiMenuPinballSettings : public GuiMenuBase
-                          , private IOptionListComponent<String>
-                          , private ISwitchComponent
+class GuiMenuPinballSettings : public Menu
+                             , private ISingleSelectorChanged<String>
+                             , private ISwitchChanged
 {
   public:
     /*!
@@ -35,19 +33,21 @@ class GuiMenuPinballSettings : public GuiMenuBase
       Profile,
     };
 
-    //! Enable Cabinet mode
-    std::shared_ptr<SwitchComponent> mPinballCabinet;
-    //! Enable ball trail
-    std::shared_ptr<SwitchComponent> mPinballTrail;
+    SelectorEntry<String>::List GetPinballBackglassResolutionEntries();
+    SelectorEntry<String>::List GetPinballBackglassScreenEntries();
+    SelectorEntry<String>::List GetPinballProfileEntries();
 
     /*
-     * ISwitchComponent implementation
+     * ISwitchChanged implementation
      */
-    void SwitchComponentChanged(int id, bool& status) override;
-    void OptionListComponentChanged(int id, int index, const String& value, bool quickChange) override;
-    std::vector<ListEntry<String>> GetPinballBackglassResolutionEntries();
-    std::vector<ListEntry<String>> GetPinballBackglassScreenEntries();
-    std::vector<ListEntry<String>> GetPinballProfileEntries();
+
+    void MenuSwitchChanged(int id, bool& status) final;
+
+    /*
+     * ISingleSelectorChanged implementation
+     */
+
+    void MenuSingleChanged(int id, int index, const String& value) final;
 };
 
 

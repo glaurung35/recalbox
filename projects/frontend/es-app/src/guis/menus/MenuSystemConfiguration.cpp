@@ -6,8 +6,6 @@
 //
 
 #include <guis/menus/MenuSystemConfiguration.h>
-#include <components/OptionListComponent.h>
-#include <components/SwitchComponent.h>
 #include <systems/SystemManager.h>
 #include <guis/MenuMessages.h>
 #include <LibretroRatio.h>

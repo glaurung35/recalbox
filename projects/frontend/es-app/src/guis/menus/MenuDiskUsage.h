@@ -9,11 +9,11 @@
 #include <guis/menus/base/Menu.h>
 #include "hardware/devices/mount/MountMonitor.h"
 
-class GuiMenuDiskUsage : public Menu
+class MenuDiskUsage : public Menu
 {
   public:
     //! Constructor
-    GuiMenuDiskUsage(WindowManager& window, MountMonitor& mountMonitor);
+    MenuDiskUsage(WindowManager& window, MountMonitor& mountMonitor);
 };
 
 

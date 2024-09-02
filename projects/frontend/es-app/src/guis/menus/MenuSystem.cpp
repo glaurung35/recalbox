@@ -6,10 +6,8 @@
 //
 
 #include "MenuSystem.h"
-#include <guis/menus/GuiMenuDiskUsage.h>
+#include <guis/menus/MenuDiskUsage.h>
 #include <guis/MenuMessages.h>
-#include <components/OptionListComponent.h>
-#include <components/SwitchComponent.h>
 #include <systems/SystemManager.h>
 #include <Upgrade.h>
 #include <utils/Files.h>
@@ -193,6 +191,6 @@ void MenuSystem::MenuSingleChanged(int id, int index, const StorageDevices::Devi
 void MenuSystem::SubMenuSelected(int id)
 {
   if ((Components)id == Components::DiskUsage)
-    mWindow.pushGui(new GuiMenuDiskUsage(mWindow, mSystemManager.GetMountMonitor()));
+    mWindow.pushGui(new MenuDiskUsage(mWindow, mSystemManager.GetMountMonitor()));
 }
 

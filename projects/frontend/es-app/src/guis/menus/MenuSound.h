@@ -96,7 +96,7 @@ class MenuSound : public Menu
     void MenuSingleChanged(int id, int index, const AudioMode& value) override;
 
     /*
-     * ISliderComponent implementation
+     * ISliderChanged implementation
      */
 
     void MenuSliderMoved(int id, float value) override;

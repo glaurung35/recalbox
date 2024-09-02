@@ -15,7 +15,6 @@
 #include "hardware/RPiEepromUpdater.h"
 #include "views/MenuFilter.h"
 #include <guis/MenuMessages.h>
-#include <components/SwitchComponent.h>
 #include <utils/Files.h>
 #include <guis/GuiMsgBox.h>
 #include <MainRunner.h>

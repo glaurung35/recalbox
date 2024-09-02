@@ -10,8 +10,6 @@
 
 // Forward declaration
 class SystemManager;
-template<class T> class OptionListComponent;
-class SwitchComponent;
 
 class MenuUpdates : public Menu
                   , private ISwitchChanged
@@ -39,7 +37,7 @@ class MenuUpdates : public Menu
     static SelectorEntry<RecalboxConf::UpdateType>::List GetUpdateTypeEntries();
 
     /*
-     * ISwitchComponent implementation
+     * ISwitchChanged implementation
      */
 
     void MenuSwitchChanged(int id, bool& status) override;

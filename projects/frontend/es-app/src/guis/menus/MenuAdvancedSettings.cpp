@@ -83,7 +83,7 @@ MenuAdvancedSettings::MenuAdvancedSettings(WindowManager& window, SystemManager&
 
   // User scripts
   if (NotificationManager::Instance().HasManualScript())
-    AddSubMenu(_("USER SCRIPTS"), (int)Components::UserScripts, _(MENUMESSAGE_ADVANCED_USER_SCRIPTS));
+    AddSubMenu(_("USER SCRIPTS"), (int)Components::UserScripts, this, _(MENUMESSAGE_ADVANCED_USER_SCRIPTS));
 
   // Eeprom update
   if(MenuFilter::ShouldDisplayMenuEntry(MenuFilter::PiEeprom))

@@ -25,6 +25,7 @@ as release notes for end user on a Recalbox upgrade.
 - Change libretro sameboy repo to the official repo
 - Add support customize iso from Pi Imager (add sshkey, wifi, hostname)
 - Add Hyper Neo-Geo 64 virtual system
+- Add user script menu to run scripts from the interface
 
 ### Improvements
 - Add gamelist decoration on the right side: regions flags, genre & players

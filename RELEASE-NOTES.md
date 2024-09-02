@@ -7,18 +7,8 @@ as release notes for end user on a Recalbox upgrade.
 ## Version 10
 
 ### News
-- Add manuel script runnable from Recalbox interface
-## Version Next
-
-### News
 - Rpi bootloader updated to 2024-06-05 (Add support for NVMe boot with PCIe switches)
-
-
-## Version 10
-
-### Hardware
-
-### News
+- Add manuel script runnable from Recalbox interface
 - New menus design, better, faster, stronger !
 - Add meaningfull headers when using sorts other than alphabetical order
 - Reintroduced Favorites on top of gamelist as an option
@@ -46,9 +36,9 @@ as release notes for end user on a Recalbox upgrade.
 
 ### Fixes
 - Fix hidden and/or empty being shown after some user operations
-
 - Fix enable RetroAchievements for new systems 
 - Fix Supermodel config and configgen files (Thanks AxelR !)
+
 ### Bumps
 - Bump lr-vice
 

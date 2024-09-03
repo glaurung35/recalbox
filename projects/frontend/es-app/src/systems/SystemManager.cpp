@@ -1392,12 +1392,13 @@ FileData::List SystemManager::SearchTextInGames(FolderData::FastSearchContext co
 
   // Collect result
   FileData::List results;
+  FileData::TopLevelFilter filter = FileData::BuildTopLevelFilter();
   for(int i = -1; ++i < (int)resultIndexes.Count(); )
   {
     const MetadataStringHolder::IndexAndDistance& resultIndex = resultIndexes(i);
     FolderData::FastSearchItemSerie& serie = mFastSearchSeries[resultIndex.Context];
     for(FolderData::FastSearchItem* item = serie.Get(resultIndex.Index); item != nullptr; item = serie.Next(item))
-      if (item->Game != nullptr) results.Add((FileData*)item->Game);
+      if (item->Game != nullptr && item->Game->IsDisplayable(filter)) results.Add((FileData*)item->Game);
     if ((int)results.Count() >= maxglobal) break;
   }
   { LOG(LogDebug) << "[Search] Final result: " << results.Count() << " games"; }

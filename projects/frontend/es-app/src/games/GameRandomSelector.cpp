@@ -68,7 +68,12 @@ FileData* GameRandomSelector::NextGame()
   EnsureSystemIsInitialized(system);
   // Get next games
   FileData* game = mGamesMap[system].NextGame();
-  return game;
+  FileData::TopLevelFilter filter = FileData::BuildTopLevelFilter();
+
+  if (game->IsDisplayable(filter))
+    return game;
+
+  return NextGame();
 }
 
 

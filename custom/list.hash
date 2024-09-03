@@ -43,6 +43,8 @@ eccca9996f67a8e3091c986d75a6b85e  package/python-pygame/python-pygame.hash
 0f2a1376ed896b443e62fbf9434a99b5  package/rpi-firmware/Config.in
 bb6386cc54355917f1dad1fd576d9298  package/rpi-firmware/rpi-firmware.hash
 dd767d51e6ab8fa62a8cf94e23d44980  package/rpi-firmware/rpi-firmware.mk
+6f91cb93427f48814997f0f4b16f1673  package/rtl8821cu/rtl8821cu.hash
+a9e1dfeb93963b629064233249ba74d4  package/rtl8821cu/rtl8821cu.mk
 3bfcf3601bf15f5e14fc4aa202bb7c86  package/sdl2/sdl2.mk
 f976cbc5a7299cfc48ec83f255ddf85b  package/sdl2_mixer/sdl2_mixer.mk
 76f5941c64fe63d71fdbafde3594ba78  package/sdl_sound/Config.in

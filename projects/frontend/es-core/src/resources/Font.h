@@ -93,6 +93,12 @@ class Font : public IReloadable
     };
 
   private:
+    //! Cached vertex array size
+    static constexpr int sVertexArraySize = Vertex::sVertexPerRectangle * 1024;
+    //! Direct drawing vertex cache
+    static Vertex mVertexes[sVertexArraySize + Vertex::sVertexPerRectangle];
+
+    //! Graphic char map
     std::map<UnicodeChar, Glyph> mGlyphMap;
 
     Glyph* getGlyph(UnicodeChar id);

@@ -13,6 +13,8 @@ Path Font::sDroidPath("/usr/share/fonts/truetype/DroidSansFallback.ttf");
 Path Font::sDejaVuPath("/usr/share/fonts/truetype/DejaVuSansCondensed.ttf");
 Path Font::sUbuntuPath("/usr/share/fonts/truetype/ubuntu_condensed.ttf");
 
+Vertex Font::mVertexes[sVertexArraySize + Vertex::sVertexPerRectangle];
+
 int Font::getSize() const
 { return mSize; }
 
@@ -758,13 +760,19 @@ void Font::RenderDirect(const String& text, float offsetX, float offsetY, unsign
   GLubyte colors[6 * 4];
   Renderer::BuildGLColorArray(colors, color, 6);
 
+  int vertexIndex = 0;
+  GLuint previousTextureId = -1;
+
   glEnable(GL_TEXTURE_2D);
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
   glEnableClientState(GL_VERTEX_ARRAY);
   glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-  glEnableClientState(GL_COLOR_ARRAY);
+  glColor4ub((GLubyte)(color >> 24),
+             (GLubyte)(color >> 16),
+             (GLubyte)(color >> 8),
+             (GLubyte)(color >> 0));
 
   size_t cursor = 0;
   while (cursor < text.length())
@@ -784,7 +792,17 @@ void Font::RenderDirect(const String& text, float offsetX, float offsetY, unsign
     Glyph* glyph = getGlyph(character);
     if (glyph == nullptr) continue;
 
-    Vertex tri[6]; // = verts.data() + oldVertSize;
+    if (previousTextureId != glyph->texture->textureId || vertexIndex >= sVertexArraySize)
+    {
+      glBindTexture(GL_TEXTURE_2D, previousTextureId);
+      glVertexPointer(2, GL_FLOAT, sizeof(Vertex), &mVertexes[0].Target);
+      glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &mVertexes[0].Source);
+      glDrawArrays(GL_TRIANGLES, 0, vertexIndex);
+      vertexIndex = 0;
+      previousTextureId = glyph->texture->textureId;
+    }
+
+    Vertex* tri = &mVertexes[vertexIndex];
     const float glyphStartX = x + glyph->bearing.x();
     const Vector2i& textureSize = glyph->texture->textureSize;
 
@@ -809,21 +827,22 @@ void Font::RenderDirect(const String& text, float offsetX, float offsetY, unsign
     tri[4].Source = tri[1].Source;
     tri[5].Source.Set(tri[1].Source.X, tri[0].Source.Y);
 
-    glBindTexture(GL_TEXTURE_2D, glyph->texture->textureId);
-
-    glVertexPointer(2, GL_FLOAT, sizeof(Vertex), &tri[0].Target);
-    glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &tri[0].Source);
-    glColorPointer(4, GL_UNSIGNED_BYTE, 0, colors);
-
-    glDrawArrays(GL_TRIANGLES, 0, 6);
+    vertexIndex += 6;
 
     // advance
     x += glyph->advance.x();
   }
 
+  if (vertexIndex != 0)
+  {
+    glBindTexture(GL_TEXTURE_2D, previousTextureId);
+    glVertexPointer(2, GL_FLOAT, sizeof(Vertex), &mVertexes[0].Target);
+    glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &mVertexes[0].Source);
+    glDrawArrays(GL_TRIANGLES, 0, vertexIndex);
+  }
+
   glDisableClientState(GL_VERTEX_ARRAY);
   glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-  glDisableClientState(GL_COLOR_ARRAY);
 
   glDisable(GL_TEXTURE_2D);
   glDisable(GL_BLEND);

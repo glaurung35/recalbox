@@ -31,7 +31,7 @@ if os.path.isfile(data_file):
         if "passwd" in userconf["users"][0]:
             password = userconf["users"][0]["passwd"]
             recallog("Configuration Root password")
-            text_shadow = "root:{}:19949::::::".format(password)
+            text_shadow = "root:{}:::::::".format(password)
             if not os.path.isfile(shadow_file):
                 f = open(shadow_file, "a")
                 f.close
@@ -41,7 +41,7 @@ if os.path.isfile(data_file):
                 f.close
             except IOError:
                 recallog("While trying to perform write password, an error occurred.")
-            recalconf.setOption("system.default_password", 0)
+            recalconf.setOption("system.default_password", password)
             recalconf.safeSaveFile()
 
     if "hostname" in userconf:

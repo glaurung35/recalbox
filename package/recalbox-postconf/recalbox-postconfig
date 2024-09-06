@@ -6,6 +6,7 @@ ssh_file = "/recalbox/share/system/.ssh/authorized_keys"
 data_file = "/boot/user-data"
 network_files = ["/boot/network-.con", "/boot/network-config"]
 shadow_file = "/run/recalbox.shadow"
+cmdline_file = "/boot/cmdline.txt"
 
 if os.path.isfile(data_file):
     import yaml
@@ -48,6 +49,17 @@ if os.path.isfile(data_file):
         recallog("Configuration Hostname")
         recalconf.setOption("system.hostname", userconf["hostname"])
         recalconf.safeSaveFile()
+
+    if "timezone" in userconf:
+        recallog("Configuration Timezone")
+        recalconf.setOption("system.timezone", userconf["timezone"])
+        recalconf.safeSaveFile()
+
+    if "runcmd" in userconf:
+        recallog("Configuration keyboard layout")
+        recalconf.setOption("system.kblayout", userconf["runcmd"][0].split()[2].replace('"', ''))
+        recalconf.safeSaveFile()
+
     try:
         os.remove(data_file)
     except OSError as error:
@@ -75,11 +87,27 @@ for network_file in network_files:
             recalconf.setOption("wifi.enabled", "1")
             recalconf.setOption("wifi.ssid", ssid)
             recalconf.setOption("wifi.key", password)
+
+            if os.path.isfile(cmdline_file):
+                import re
+                f = open("cmdline.txt", "r")
+                text = f.read()
+                f.close()
+                matches = re.search("cfg80211.ieee80211_regdom=(..)", text)
+                if matches:
+                    import configgen.recalboxFiles as recalboxFiles
+                    from configgen.settings.keyValueSettings import keyValueSettings
+
+                    recalconf = keyValueSettings(recalboxFiles.recalboxConf, False)
+                    recalconf.setOption("wifi.region", matches.group(1))
+
             recalconf.safeSaveFile()
             subprocess.run(["/etc/init.d/S09wifi", "start"])
         try:
             os.remove(network_file)
         except OSError as error:
             recallog(error)
+
+
 
 recallog("Not found postconfig data")

@@ -8,8 +8,9 @@ then
 fi
 
 settingsPassword="`$systemsetting -command load -key system.default_password`"
-if [[ "$settingsPassword" != "0" ]];then
-	systemsetting="recalbox_settings"
+if [[ "$settingsPassword" != "" ]];then
+	echo "root:${settingsPassword}:::::::" > /run/recalbox.shadow
+else
 	MASTERPASSWD="recalboxroot"
 
 	# write the /etc/shadow file

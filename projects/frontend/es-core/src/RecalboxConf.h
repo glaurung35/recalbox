@@ -174,8 +174,9 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
       type Get##name(const String& subkey) const { return As##type2(String(keybefore).Append(subkey).Append(keyafter), defaultValue); } \
       RecalboxConf& Set##name(const String& subkey, const type& value) { Set##type2(String(keybefore).Append(subkey).Append(keyafter), value); return *this; }
 
-    #define DefineSystemGetterSetterImplementation(name, type, type2, key, defaultValue) \
+    #define DefineSystemGetterSetterImplementation(name, type, type2, key, defaultValue, neutralValue) \
       type RecalboxConf::GetSystem##name(const SystemData& system) const { return As##type2(String(system.Name()).Append('.').Append(key), defaultValue); } \
+      type RecalboxConf::GetSystem##name##NoDefault(const SystemData& system) const { return As##type2(String(system.Name()).Append('.').Append(key), neutralValue); } \
       RecalboxConf& RecalboxConf::SetSystem##name(const SystemData& system, const type& value) { Set##type2(String(system.Name()).Append('.').Append(key), value); DoNotifySystem(name, system, value); return *this; } \
       RecalboxConf& RecalboxConf::DeleteSystem##name(const SystemData& system) { Delete(String(system.Name()).Append('.').Append(key)); return *this; } \
       bool RecalboxConf::IsDefinedSystem##name(const SystemData& system) const { return IsDefined(String(system.Name()).Append('.').Append(key)); }
@@ -186,6 +187,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
 
     #define DefineSystemGetterSetterDeclaration(name, type, type2, key) \
       type GetSystem##name(const SystemData& system) const; \
+      type GetSystem##name##NoDefault(const SystemData& system) const; \
       RecalboxConf& SetSystem##name(const SystemData& system, const type& value); \
       RecalboxConf& DeleteSystem##name(const SystemData& system); \
       bool IsDefinedSystem##name(const SystemData& system) const; \

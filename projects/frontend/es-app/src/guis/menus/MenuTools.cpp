@@ -9,6 +9,7 @@
 #include <guis/menus/MenuTools.h>
 #include <utils/locale/LocaleHelper.h>
 #include <algorithm>
+#include "ResolutionAdapter.h"
 
 const Path MenuTools::sShadersPath("/recalbox/share/shaders");
 
@@ -142,4 +143,16 @@ MenuTools::ShaderList MenuTools::ListShaders()
   }
 
   return result;
+}
+
+String MenuTools::GetResolutionText(const String& resolution)
+{
+  if (resolution.empty()) return _("UNSET");
+  if (resolution == "default")
+  {
+    ResolutionAdapter::Resolution res = ResolutionAdapter().DefaultResolution();
+    return String(res.Width).Append('x').Append(res.Height);
+  }
+  Resolutions::SimpleResolution res = Resolutions::ConvertSimpleResolution(resolution);
+  return String(res.Width).Append('x').Append(res.Height);
 }

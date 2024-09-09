@@ -8,6 +8,7 @@
 #include "MenuResolutionByEmulator.h"
 #include "guis/MenuMessages.h"
 #include "ResolutionAdapter.h"
+#include "MenuTools.h"
 #include <systems/SystemManager.h>
 
 MenuResolutionByEmulator::MenuResolutionByEmulator(WindowManager& window, SystemManager& systemManager)
@@ -22,14 +23,14 @@ void MenuResolutionByEmulator::BuildMenuItems()
   const SystemManager::List& systems = mSystemManager.AllSystems();
   for(int i = 0; i < (int)systems.Count(); ++i)
     if (!systems[i]->IsVirtual())
-      AddList<String>(systems[i]->FullName(), i, this, GetResolutionEntries(), RecalboxConf::Instance().GetSystemVideoMode(*systems[i]), String::Empty, _(MENUMESSAGE_ADVANCED_RESOLUTION_SYSTEM_HELP_MSG));
+      AddList<String>(systems[i]->FullName(), i, this, GetResolutionEntries(), RecalboxConf::Instance().GetSystemVideoModeNoDefault(*systems[i]), String::Empty, _(MENUMESSAGE_ADVANCED_RESOLUTION_SYSTEM_HELP_MSG));
 }
 
 SelectorEntry<String>::List MenuResolutionByEmulator::GetResolutionEntries()
 {
   SelectorEntry<String>::List result;
-  result.push_back({ _("USE GLOBAL"), "" });
-  result.push_back({ _("NATIVE"), "default" });
+  result.push_back({ _("USE GLOBAL").Append(" (").Append(MenuTools::GetResolutionText(RecalboxConf::Instance().GetGlobalVideoMode())).Append(')'), "" });
+  result.push_back({ _("NATIVE").Append(" (").Append(MenuTools::GetResolutionText("default")).Append(')'), "default" });
   ResolutionAdapter resolutionAdapter;
   for(const ResolutionAdapter::Resolution& resolution : resolutionAdapter.Resolutions(false))
   {

@@ -54,9 +54,8 @@ void MenuAdvancedSettings::BuildMenuItems()
     AddSubMenu(_("RECALBOX CRT"), (int)Components::CrtSubMenu, this, _(MENUMESSAGE_ADVANCED_CRT_HELP_MSG));
 
   // RESOLUTION
-  if (mResolutionAdapter.Resolutions(true).size() > 1 &&
-      !isCrt &&
-      Board::Instance().GetBoardType() != BoardType::PCx64)
+  if (!isCrt /*&&
+      Board::Instance().GetBoardType() != BoardType::PCx64*/)
     AddSubMenu(_("RESOLUTIONS"), (int)Components::ResolutionSubMenu, this, _(MENUMESSAGE_ADVANCED_RESOLUTION_HELP_MSG));
 
   // Custom config for systems

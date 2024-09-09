@@ -96,8 +96,8 @@ public:
   [[nodiscard]] inline float getHorizontalMargin() const { return mHorizontalMargin; }
 
   protected:
-	virtual void onScroll(int amt) { (void)amt; AudioManager::Instance().PlaySound(mScrollSound); }
-	virtual void onCursorChanged(const CursorState& state);
+	void onScroll(int amt) override { (void)amt; AudioManager::Instance().PlaySound(mScrollSound); }
+	void onCursorChanged(const CursorState& state) override;
 
     /*
      * Themable implementation
@@ -117,6 +117,8 @@ public:
     [[nodiscard]] ThemeElementType GetThemeElementType() const override { return ThemeElementType::TextList; }
     
   private:
+    using IList<TextListData, T>::setColor;
+
   void updateBarColor()
   {
     unsigned char lr = mSelectorColor >> 24;

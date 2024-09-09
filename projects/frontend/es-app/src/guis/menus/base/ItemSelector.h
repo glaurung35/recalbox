@@ -440,7 +440,7 @@ template<typename T> class ItemSelector : public ItemBase
          * @brief This little window displays over the menu option that called it
          * @return True if the GUI is an overlay
          */
-        [[nodiscard]] virtual bool IsOverlay() const { return true; }
+        [[nodiscard]] virtual bool IsOverlay() const final { return true; }
 
         /*!
          * @brief Notification of an input event
@@ -474,7 +474,7 @@ template<typename T> class ItemSelector : public ItemBase
          * @brief Lazy selector initialization
          * @param deltaTime Elapsed time from the previous frame, in millisecond
          */
-        void Update(int deltaTime) override
+        void Update(int deltaTime) final
         {
           Gui::Update(deltaTime);
           if (!mInitialized)
@@ -484,7 +484,7 @@ template<typename T> class ItemSelector : public ItemBase
           }
         }
 
-        void Render(const Transform4x4f& parentTrans)
+        void Render(const Transform4x4f& parentTrans) final
         {
 
           Transform4x4f trans = parentTrans * getTransform();

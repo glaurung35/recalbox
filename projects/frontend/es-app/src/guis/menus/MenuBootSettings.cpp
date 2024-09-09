@@ -15,6 +15,10 @@ MenuBootSettings::MenuBootSettings(WindowManager& window, SystemManager& systemM
   : Menu(window, _("BOOT SETTINGS"))
   , mSystemManager(systemManager)
 {
+}
+
+void MenuBootSettings::BuildMenuItems()
+{
   // Kodi at startup
   if (RecalboxSystem::kodiExists() && RecalboxConf::Instance().GetKodiEnabled())
     AddSwitch(_("KODI AT START"), RecalboxConf::Instance().GetKodiAtStartup(), (int)Components::KodiAtStartup, this, _(MENUMESSAGE_ADVANCED_KODI_AT_START_HELP_MSG));

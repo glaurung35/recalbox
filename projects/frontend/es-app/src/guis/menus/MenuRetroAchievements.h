@@ -19,6 +19,9 @@ class MenuRetroAchievements : public Menu
      */
     explicit MenuRetroAchievements(WindowManager& window);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
   private:
     enum class Components
     {

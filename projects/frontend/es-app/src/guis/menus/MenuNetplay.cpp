@@ -23,6 +23,10 @@ MenuNetplay::MenuNetplay(WindowManager& window, SystemManager& systemManager)
   , mPreviousProgressPercent(0)
   , mOperation(nullptr)
 {
+}
+
+void MenuNetplay::BuildMenuItems()
+{
   // Netplay Enabled
   AddSwitch(_("NETPLAY"), RecalboxConf::Instance().GetNetplayEnabled(), (int)Components::Enabled, this, _(MENUMESSAGE_NP_ONOFF_HELP_MSG));
 

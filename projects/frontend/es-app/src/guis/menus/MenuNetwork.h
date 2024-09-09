@@ -33,6 +33,9 @@ class MenuNetwork : public Menu
      */
     explicit MenuNetwork(WindowManager& window);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
     //! Default dstructor
     ~MenuNetwork() override;
 

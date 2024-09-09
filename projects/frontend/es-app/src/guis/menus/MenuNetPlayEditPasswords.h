@@ -10,6 +10,9 @@ class MenuNetPlayEditPasswords : public Menu
   public:
     explicit MenuNetPlayEditPasswords(WindowManager& window);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
   private:
     /*
      * IEditableChanged implementation

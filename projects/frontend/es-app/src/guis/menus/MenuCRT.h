@@ -31,6 +31,9 @@ class MenuCRT : public Menu
     //! Default destructor
     ~MenuCRT() override;
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
   private:
     enum class Components
     {

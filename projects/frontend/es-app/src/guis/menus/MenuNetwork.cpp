@@ -20,6 +20,12 @@ MenuNetwork::MenuNetwork(WindowManager& window)
   , mNeedBackup(false)
   , mLastPing(false)
 {
+  //! Start thread
+  Thread::Start("Pinger");
+}
+
+void MenuNetwork::BuildMenuItems()
+{
   // Network status
   mStatus = AddText(_("STATUS"), String::Empty, _(MENUMESSAGE_NETWORK_STATUS_HELP_MSG));
 
@@ -40,9 +46,6 @@ MenuNetwork::MenuNetwork(WindowManager& window)
 
   // Buttons
   AddAction(_("AUTOMATIC WPS CONNECTION"), _("CONNECT"), (int)Components::WPS, true, this);
-
-  //! Start thread
-  Thread::Start("Pinger");
 
   // Set current SSID
   Completed(NetworkOperation::ScanSSID, true);

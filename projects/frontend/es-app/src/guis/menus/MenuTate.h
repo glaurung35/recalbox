@@ -13,6 +13,9 @@ class MenuTate : public Menu
     //! Constructor
     MenuTate(WindowManager& window, SystemManager& systemManager);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
     //! Destructor
     ~MenuTate() override;
 

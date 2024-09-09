@@ -11,6 +11,10 @@ MenuGameFilters::MenuGameFilters(WindowManager& window, SystemManager& systemMan
   :	Menu(window, _("GAME FILTERS"))
   , mSystemManager(systemManager)
 {
+}
+
+void MenuGameFilters::BuildMenuItems()
+{
   AddSwitch(_("SHOW ONLY LATEST VERSION") + " (BETA)", RecalboxConf::Instance().GetShowOnlyLatestVersion(), (int)Components::ShowOnlyLatestVersion, this, _(MENUMESSAGE_UI_ONLY_LAST_VERSION_MSG));
 
   AddSwitch(_("SHOW ONLY FAVORITES"), RecalboxConf::Instance().GetFavoritesOnly(), (int)Components::FavoritesOnly, this, _(MENUMESSAGE_UI_FAVORITES_ONLY_MSG));

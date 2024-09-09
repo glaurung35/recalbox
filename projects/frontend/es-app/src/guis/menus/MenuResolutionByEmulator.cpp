@@ -14,8 +14,12 @@ MenuResolutionByEmulator::MenuResolutionByEmulator(WindowManager& window, System
   : Menu(window, _("SYSTEM RESOLUTIONS"))
   , mSystemManager(systemManager)
 {
+}
+
+void MenuResolutionByEmulator::BuildMenuItems()
+{
   // For each activated system
-  const SystemManager::List& systems = systemManager.AllSystems();
+  const SystemManager::List& systems = mSystemManager.AllSystems();
   for(int i = 0; i < (int)systems.Count(); ++i)
     if (!systems[i]->IsVirtual())
       AddList<String>(systems[i]->FullName(), i, this, GetResolutionEntries(), RecalboxConf::Instance().GetSystemVideoMode(*systems[i]), String::Empty, _(MENUMESSAGE_ADVANCED_RESOLUTION_SYSTEM_HELP_MSG));

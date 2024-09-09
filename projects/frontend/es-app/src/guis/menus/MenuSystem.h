@@ -26,6 +26,9 @@ class MenuSystem : public Menu
      */
     explicit MenuSystem(WindowManager& window, SystemManager& systemManager);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
     //! Destructeur
     ~MenuSystem() override;
 

@@ -19,6 +19,9 @@ class MenuScraper : public Menu
   public:
     explicit MenuScraper(WindowManager& window, SystemManager& systemManager);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
   private:
     enum class Components
     {

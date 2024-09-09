@@ -20,6 +20,10 @@ MenuGameSettings::MenuGameSettings(WindowManager& window, SystemManager& systemM
   : Menu(window, _("GAMES SETTINGS"))
   , mSystemManager(systemManager)
 {
+}
+
+void MenuGameSettings::BuildMenuItems()
+{
   // Screen ratio choice
   bool isCrt = Board::Instance().CrtBoard().IsCrtAdapterAttached();
   bool isJamma = Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJamma;

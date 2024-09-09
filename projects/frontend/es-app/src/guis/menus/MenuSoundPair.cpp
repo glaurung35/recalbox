@@ -14,6 +14,10 @@ MenuSoundPair::MenuSoundPair(WindowManager& window, const String::List& deviceLi
   : Menu(window, _("PAIR A BLUETOOTH AUDIO DEVICE"))
   , mDevices(deviceList)
 {
+}
+
+void MenuSoundPair::BuildMenuItems()
+{
   int index = -1;
   for (const auto & controllerString : mDevices)
     AddAction(controllerString, _("PAIR"), ++index, true, this);
@@ -37,4 +41,3 @@ void MenuSoundPair::MenuActionTriggered(int id)
   String text = _("PAIRING %s ...").Replace("%s", device);
   mWindow.pushGui((new GuiWaitLongExecution<String, bool>(mWindow, *this))->Execute(device, text));
 }
-

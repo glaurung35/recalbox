@@ -10,6 +10,10 @@ MenuScreensavers::MenuScreensavers(WindowManager& window, SystemManager& systemM
   : Menu(window, _("SCREENSAVER"))
   , mSystemManager(systemManager)
 {
+}
+
+void MenuScreensavers::BuildMenuItems()
+{
   // screensaver time
   AddSlider(_("SCREENSAVER AFTER"), 0.f, 30.f, 1.f, 5.f,  (float)RecalboxConf::Instance().GetScreenSaverTime(), "m", (int)Components::Time, this, _(MENUMESSAGE_UI_SCREENSAVER_AFTER_HELP_MSG));
 
@@ -66,4 +70,3 @@ void MenuScreensavers::MenuMultiChanged(int id, int index, const String::List& v
     RecalboxConf::Instance().SetScreenSaverSystemList(value).Save();
   }
 }
-

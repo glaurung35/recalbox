@@ -24,6 +24,9 @@ class MenuVirtualSystems : public Menu
      */
     explicit MenuVirtualSystems(WindowManager& window, SystemManager& systemManager);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
   private:
     enum class Components
     {

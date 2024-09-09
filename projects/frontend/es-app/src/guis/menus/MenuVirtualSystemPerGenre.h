@@ -21,6 +21,9 @@ class MenuVirtualSystemPerGenre : public Menu
      */
     explicit MenuVirtualSystemPerGenre(WindowManager& window, SystemManager& systemManager);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
   private:
     //! System manager reference
     SystemManager& mSystemManager;

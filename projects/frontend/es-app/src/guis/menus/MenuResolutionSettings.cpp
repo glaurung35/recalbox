@@ -15,6 +15,10 @@ MenuResolutionSettings::MenuResolutionSettings(WindowManager& window, SystemMana
   : Menu(window, _("RESOLUTIONS"))
   , mSystemManager(systemManager)
 {
+}
+
+void MenuResolutionSettings::BuildMenuItems()
+{
   // Add global video mode
   AddList<String>(_("GLOBAL RESOLUTION"), (int)Components::GlobalResolution, this, GetGlobalResolutionEntries(), RecalboxConf::Instance().GetGlobalVideoMode(), "default", _(MENUMESSAGE_ADVANCED_RESOLUTION_GLOBAL_HELP_MSG));
 

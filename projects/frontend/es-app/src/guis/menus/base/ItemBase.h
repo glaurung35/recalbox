@@ -63,11 +63,21 @@ class ItemBase : public IOverlay
      * Generic setter
      */
 
+    /*!
+     * @brief Change item label (left text)
+     * @param newLabel
+     */
     void ChangeLabel(const String& newLabel)
     {
       mLabel = newLabel;
       LabelChanged();
     }
+
+    /*!
+     * @brief Set item selectable or unselectable
+     * @param selectable True to make the item selectable, false to make it grayed & unselectable
+     */
+    void SetSelectable(bool selectable) { mIsUnselectable = !selectable; }
 
     /*
      * Filtering

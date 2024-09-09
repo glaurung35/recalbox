@@ -14,6 +14,13 @@ class MenuDiskUsage : public Menu
   public:
     //! Constructor
     MenuDiskUsage(WindowManager& window, MountMonitor& mountMonitor);
+
+    //! Build menu items
+    void BuildMenuItems() final;
+
+  private:
+    // Mount monitor reference
+    MountMonitor& mMountMonitor;
 };
 
 

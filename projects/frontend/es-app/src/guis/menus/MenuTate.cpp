@@ -13,6 +13,10 @@ MenuTate::MenuTate(WindowManager& window, SystemManager& systemManager)
   , mOriginalSystemRotation(BootConf::Instance().GetRotation())
   , mOriginalTateOnly(RecalboxConf::Instance().GetShowOnlyTateGames())
 {
+}
+
+void MenuTate::BuildMenuItems()
+{
   // Enable virtual system
   AddSwitch(_("ENABLE TATE VIRTUAL SYSTEM"), mOriginalTateEnabled, (int)Components::TateEnabled, this, _(MENUMESSAGE_TATE_VIRTUALSYSTEM_MSG));
 
@@ -28,7 +32,7 @@ MenuTate::MenuTate(WindowManager& window, SystemManager& systemManager)
 
   // Enable virtual system
   bool hasTateGames = false;
-  for(const SystemData* system : systemManager.VisibleSystemList())
+  for(const SystemData* system : mSystemManager.VisibleSystemList())
     if (system->MasterRoot().HasFilteredItemsRecursively(&filter))
     {
       hasTateGames = true;
@@ -52,11 +56,11 @@ MenuTate::MenuTate(WindowManager& window, SystemManager& systemManager)
       if(isAuto)
         mOriginalGamesRotation = cap.defaultRotationWhenTate;
       AddList<RotationType>(_("GAMES ROTATION"), (int)Components::TateGamesRotation, this,
-                             SelectorEntry<RotationType>::List({
-                               { "AUTO", cap.defaultRotationWhenTate, isAuto },
-                               { "NONE", RotationType::None, !isAuto }
-                             }), isAuto ? cap.defaultRotationWhenTate : RotationType::None, RotationType::None,
-                             _(MENUMESSAGE_TATE_GAMESROTATION_MSG));
+                            SelectorEntry<RotationType>::List({
+                                                                { "AUTO", cap.defaultRotationWhenTate, isAuto },
+                                                                { "NONE", RotationType::None, !isAuto }
+                                                              }), isAuto ? cap.defaultRotationWhenTate : RotationType::None, RotationType::None,
+                            _(MENUMESSAGE_TATE_GAMESROTATION_MSG));
     }
     else
     {
@@ -127,4 +131,3 @@ void MenuTate::MenuSwitchChanged(int id, bool& status)
       break;
   }
 }
-

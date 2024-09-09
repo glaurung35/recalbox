@@ -15,6 +15,10 @@
 MenuSound::MenuSound(WindowManager& window)
   : Menu(window, _("SOUND SETTINGS"))
 {
+}
+
+void MenuSound::BuildMenuItems()
+{
   // Force configuration to reload so that any external modified volume is set properly
   RecalboxConf::Instance().ForceReload();
 

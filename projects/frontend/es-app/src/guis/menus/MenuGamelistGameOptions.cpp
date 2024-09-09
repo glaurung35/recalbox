@@ -24,6 +24,10 @@ MenuGamelistGameOptions::MenuGamelistGameOptions(WindowManager& window, ISimpleG
   , mSystem(system)
   , mGame(game)
 {
+}
+
+void MenuGamelistGameOptions::BuildMenuItems()
+{
   // Run width
   if (mGame.IsGame())
   {

@@ -18,6 +18,10 @@ MenuSystem::MenuSystem(WindowManager& window, SystemManager& systemManager)
   : Menu(window, _("SYSTEM SETTINGS"))
   , mSystemManager(systemManager)
 {
+}
+
+void MenuSystem::BuildMenuItems()
+{
   // Version
   String version = Upgrade::CurrentVersion();
   String arch = "unknown";
@@ -50,7 +54,7 @@ MenuSystem::MenuSystem(WindowManager& window, SystemManager& systemManager)
   AddText(_("VERSION"), version.Append(" (").Append(arch).Append(')'), _(MENUMESSAGE_VERSION_HELP_MSG));
 
   // Share space
-  MountMonitor::DeviceMountReferences mounts = systemManager.GetMountMonitor().AllMountPoints();
+  MountMonitor::DeviceMountReferences mounts = mSystemManager.GetMountMonitor().AllMountPoints();
   if (mounts.size() == 1)
   {
     mounts[0]->UpdateSize();
@@ -193,4 +197,3 @@ void MenuSystem::SubMenuSelected(int id)
   if ((Components)id == Components::DiskUsage)
     mWindow.pushGui(new MenuDiskUsage(mWindow, mSystemManager.GetMountMonitor()));
 }
-

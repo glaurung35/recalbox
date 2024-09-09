@@ -15,6 +15,10 @@
 MenuUpdates::MenuUpdates(WindowManager& window)
   : Menu(window, _("UPDATES"))
 {
+}
+
+void MenuUpdates::BuildMenuItems()
+{
   // Enable updates
   AddSwitch(_("CHECK UPDATES"), RecalboxConf::Instance().GetUpdatesEnabled(), (int)Components::Enable, this, _(MENUMESSAGE_UPDATE_CHECK_HELP_MSG));
 
@@ -31,9 +35,9 @@ MenuUpdates::MenuUpdates(WindowManager& window)
   // Enable updates
   if (
     #ifdef BETA
-      true ||
+    true ||
     #endif
-      PatronInfo::Instance().IsPatron())
+    PatronInfo::Instance().IsPatron())
     AddList<RecalboxConf::UpdateType>(_("UPDATE TYPE"), (int)Components::UpdateType, this, GetUpdateTypeEntries(), RecalboxConf::Instance().GetUpdateType(), RecalboxConf::UpdateType::Stable, _(MENUMESSAGE_UPDATE_TYPE_HELP_MSG));
 }
 

@@ -12,6 +12,10 @@ MenuScreenScraperOptions::MenuScreenScraperOptions(WindowManager& window, System
   , mSystemManager(systemManager)
   , mType(scraperType)
 {
+}
+
+void MenuScreenScraperOptions::BuildMenuItems()
+{
   AddList<ScreenScraperEnums::ScreenScraperImageType>(_("SELECT IMAGE TYPE"), (int)Components::Image, this, GetImagesEntries(), RecalboxConf::Instance().GetScreenScraperMainMedia(), ScreenScraperEnums::ScreenScraperImageType::MixV2,_(MENUMESSAGE_SCREENSCRAPER_IMAGE_HELP_MSG));
   AddList<ScreenScraperEnums::ScreenScraperVideoType>(_("SELECT VIDEO TYPE"), (int)Components::Video, this, GetVideosEntries(), RecalboxConf::Instance().GetScreenScraperVideo(), ScreenScraperEnums::ScreenScraperVideoType::None, _(MENUMESSAGE_SCREENSCRAPER_VIDEO_HELP_MSG));
   AddList<ScreenScraperEnums::ScreenScraperImageType>(_("SELECT THUMBNAIL TYPE"), (int)Components::Thumbnail, this, GetThumbnailsEntries(), RecalboxConf::Instance().GetScreenScraperThumbnail(), ScreenScraperEnums::ScreenScraperImageType::None, _(MENUMESSAGE_SCREENSCRAPER_THUMBNAIL_HELP_MSG));

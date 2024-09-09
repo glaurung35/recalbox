@@ -16,6 +16,9 @@ class MenuDownloadGamePacks: public Menu
     //! Constructor
     MenuDownloadGamePacks(WindowManager& window, SystemManager& systemManager);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
   private:
     //! Descriptor local array
     std::vector<SystemDescriptor> mDescriptors;

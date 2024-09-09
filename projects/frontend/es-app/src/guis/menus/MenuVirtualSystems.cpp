@@ -16,6 +16,10 @@ MenuVirtualSystems::MenuVirtualSystems(WindowManager& window, SystemManager& sys
   : Menu(window, _("VIRTUAL SYSTEMS"))
   , mSystemManager(systemManager)
 {
+}
+
+void MenuVirtualSystems::BuildMenuItems()
+{
   // All games
   AddSwitch(_("SHOW ALL-GAMES SYSTEM"), RecalboxConf::Instance().GetCollectionAllGames(), (int)Components::AllGames, this, _(MENUMESSAGE_ADVANCED_ALLGAMES_HELP_MSG));
 

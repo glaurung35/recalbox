@@ -11,6 +11,9 @@ class MenuNetPlayClientPasswords : public Menu
   public:
     explicit MenuNetPlayClientPasswords(WindowManager& window, LobbyGame& lobbygame);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
   private:
     //! PAssword type
     enum class PasswordType

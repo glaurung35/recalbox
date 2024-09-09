@@ -24,6 +24,10 @@ class MenuGameSettings : public Menu
      */
     explicit MenuGameSettings(WindowManager& window, SystemManager& systemManager);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
+    //! Destructor
     ~MenuGameSettings() override = default;
 
   private:

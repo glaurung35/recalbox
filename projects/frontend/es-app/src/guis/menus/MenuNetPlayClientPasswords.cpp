@@ -7,6 +7,10 @@ MenuNetPlayClientPasswords::MenuNetPlayClientPasswords(WindowManager& window, Lo
   : Menu(window, _("JOIN NETPLAY GAME")),
     mLobbyGame(lobby)
 {
+}
+
+void MenuNetPlayClientPasswords::BuildMenuItems()
+{
   // Password type
   AddList<PasswordType>(_("JOIN AS"), (int)Components::JoinAs, nullptr,
                         { { _("PLAYER"), PasswordType::Player }, { _("VIEWER-ONLY"), PasswordType::Viewer } }, PasswordType::Player, PasswordType::Player);
@@ -33,6 +37,7 @@ SelectorEntry<int>::List MenuNetPlayClientPasswords::GetPasswords()
 
 void MenuNetPlayClientPasswords::MenuSingleChanged(int id, int index, const int& value)
 {
+  (void)index;
   switch((Components)id)
   {
     case Components::Password: mConfiguration.SetNetplayPasswordClient(value).Save(); break;

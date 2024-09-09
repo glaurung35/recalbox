@@ -9,6 +9,9 @@ class MenuArcadeAllInOneSystem : public Menu
     //! Constructor
     explicit MenuArcadeAllInOneSystem(WindowManager& window, SystemManager& systemManager);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
   private:
     enum class Components
     {

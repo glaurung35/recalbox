@@ -15,6 +15,9 @@ class MenuDownloadContents: public Menu
     //! Constructor
     MenuDownloadContents(WindowManager& window, SystemManager& systemManager);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
   private:
     enum class Components
     {

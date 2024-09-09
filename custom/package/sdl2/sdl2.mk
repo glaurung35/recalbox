@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-SDL2_VERSION = 2.26.5
+SDL2_VERSION = 2.30.7
 SDL2_SOURCE = SDL2-$(SDL2_VERSION).tar.gz
 SDL2_SITE = http://www.libsdl.org/release
 SDL2_LICENSE = Zlib
@@ -207,10 +207,6 @@ endif
 # odroid go advance
 ifeq ($(BR2_PACKAGE_LIBRGA),y)
 SDL2_DEPENDENCIES += librga
-endif
-
-ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI5_64),y)
-  TARGET_CFLAGS += -DSDL_PI5_NO_ASYNCPAGEFLIP=1
 endif
 
 $(eval $(autotools-package))

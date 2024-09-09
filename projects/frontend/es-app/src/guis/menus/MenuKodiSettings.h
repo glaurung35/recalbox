@@ -23,6 +23,9 @@ class MenuKodiSettings : public Menu
      */
     explicit MenuKodiSettings(WindowManager& window);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
   private:
     enum class Components
     {

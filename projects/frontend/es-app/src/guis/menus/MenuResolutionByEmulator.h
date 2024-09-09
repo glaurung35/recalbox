@@ -20,6 +20,9 @@ class MenuResolutionByEmulator : public Menu
      */
     explicit MenuResolutionByEmulator(WindowManager& window, SystemManager& systemManager);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
   private:
     //! System manager reference
     SystemManager& mSystemManager;

@@ -19,6 +19,10 @@ MenuCRT::MenuCRT(WindowManager& window, SystemManager& systemManager, const Stri
   : Menu(window, title)
   , mSystemManager(systemManager)
 {
+}
+
+void MenuCRT::BuildMenuItems()
+{
   bool isRGBDual = Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBDual;
   bool isRGBJamma = Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJamma || Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJammaV2;
   bool is31kHz = Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31;
@@ -45,14 +49,14 @@ MenuCRT::MenuCRT(WindowManager& window, SystemManager& systemManager, const Stri
   if(isRGBJamma)
   {
     mScreenTypeList = AddList<ICrtInterface::HorizontalFrequency>(
-        _("SCREEN TYPE"), (int)Components::JammaScreenType, this,
-        SelectorEntry<ICrtInterface::HorizontalFrequency>::List(
+      _("SCREEN TYPE"), (int)Components::JammaScreenType, this,
+      SelectorEntry<ICrtInterface::HorizontalFrequency>::List(
         {
-            {"15kHz", ICrtInterface::HorizontalFrequency::KHz15 },
-            {"31kHz", ICrtInterface::HorizontalFrequency::KHz31 },
-            {"MultiSync", ICrtInterface::HorizontalFrequency::KHzMulti },
+          {"15kHz", ICrtInterface::HorizontalFrequency::KHz15 },
+          {"31kHz", ICrtInterface::HorizontalFrequency::KHz31 },
+          {"MultiSync", ICrtInterface::HorizontalFrequency::KHzMulti },
         }), Board::Instance().CrtBoard().GetHorizontalFrequency(), ICrtInterface::HorizontalFrequency::KHz15,
-        _(MENUMESSAGE_ADVANCED_CRT_JAMMA_SCREEN_TYPE));
+      _(MENUMESSAGE_ADVANCED_CRT_JAMMA_SCREEN_TYPE));
   }
   else
   {
@@ -93,16 +97,16 @@ MenuCRT::MenuCRT(WindowManager& window, SystemManager& systemManager, const Stri
   AddSwitch(_("REDUCED LATENCY (EXPERIMENTAL)"), RecalboxConf::Instance().GetGlobalReduceLatency(), (int)Components::ReduceLatency, this, _(MENUMESSAGE_ADVANCED_CRT_RUN_AHEAD_HELP_MSG));
   AddSwitch(_("RUN AHEAD (EXPERIMENTAL)"), RecalboxConf::Instance().GetGlobalRunAhead(), (int)Components::RunAhead, this, _(MENUMESSAGE_ADVANCED_CRT_RUN_AHEAD_HELP_MSG));
 
-/*#if false//defined(BETA) || defined(DEBUG)
-  // ConfiggenV2
-  AddSwitch(_("USE V2 (BETA)"), CrtConf::Instance().GetSystemCRTUseV2(), (int)Components::UseV2, this, _(MENUMESSAGE_ADVANCED_CRT_V2));
+  /*#if false//defined(BETA) || defined(DEBUG)
+    // ConfiggenV2
+    AddSwitch(_("USE V2 (BETA)"), CrtConf::Instance().GetSystemCRTUseV2(), (int)Components::UseV2, this, _(MENUMESSAGE_ADVANCED_CRT_V2));
 
-  // Extended range
-  AddSwitch(_("V2 - 15KHZ EXTENDED RANGE"), CrtConf::Instance().GetSystemCRTExtended15KhzRange(), (int)Components::Extended15kHzRange, this,  _(MENUMESSAGE_ADVANCED_CRT_EXTENDED));
+    // Extended range
+    AddSwitch(_("V2 - 15KHZ EXTENDED RANGE"), CrtConf::Instance().GetSystemCRTExtended15KhzRange(), (int)Components::Extended15kHzRange, this,  _(MENUMESSAGE_ADVANCED_CRT_EXTENDED));
 
-  // Superrez multiplier
-  AddList<String>(_("V2 - SUPERREZ MULTIPLIER"), (int)Components::SuperRez, this, GetSuperRezEntries(), CrtConf::Instance().GetSystemCRTSuperrez(), "x6", _(MENUMESSAGE_ADVANCED_CRT_SUPERREZ));
-#endif*/
+    // Superrez multiplier
+    AddList<String>(_("V2 - SUPERREZ MULTIPLIER"), (int)Components::SuperRez, this, GetSuperRezEntries(), CrtConf::Instance().GetSystemCRTSuperrez(), "x6", _(MENUMESSAGE_ADVANCED_CRT_SUPERREZ));
+  #endif*/
 
   // Force Jack
   mOriginalForceJack = CrtConf::Instance().GetSystemCRTForceJack();
@@ -115,49 +119,49 @@ MenuCRT::MenuCRT(WindowManager& window, SystemManager& systemManager, const Stri
   {
     AddList<String>(_("SOUND"), (int)Components::JammaSoundOutput, this,
                     SelectorEntry<String>::List(
-                    {
-                      { "JACK/MONO", "0" },
-                      { "JACK/PINS", "1" }
-                    }), CrtConf::Instance().GetSystemCRTJammaAmpDisable() ? "1" : "0", "0",
+                      {
+                        { "JACK/MONO", "0" },
+                        { "JACK/PINS", "1" }
+                      }), CrtConf::Instance().GetSystemCRTJammaAmpDisable() ? "1" : "0", "0",
                     _(MENUMESSAGE_ADVANCED_CRT_JAMMA_SOUND_OUTPUT));
 
     AddList<String>(_("MONO AMP BOOST"), (int)Components::JammaMonoBoost, this,
                     SelectorEntry<String>::List(
-                    {
-                      { "default", "0" },
-                      { "+6dB"   , "1" },
-                      { "+12dB"  , "2" },
-                      { "+16dB"  , "3" }
-                    }), CrtConf::Instance().GetSystemCRTJammaMonoAmpBoost(), "0",
+                      {
+                        { "default", "0" },
+                        { "+6dB"   , "1" },
+                        { "+12dB"  , "2" },
+                        { "+16dB"  , "3" }
+                      }), CrtConf::Instance().GetSystemCRTJammaMonoAmpBoost(), "0",
                     _(MENUMESSAGE_ADVANCED_CRT_JAMMA_MONO_AMP_BOOST));
 
     AddList<String>(_("PANEL TYPE"), (int)Components::JammaPanelButtons, this,
                     SelectorEntry<String>::List(
-                    {
-                      { "2 buttons", "2" },
-                      { "3 buttons", "3" },
-                      { "4 buttons", "4" },
-                      { "5 buttons", "5" },
-                      { "6 buttons", "6" },
-                    }), CrtConf::Instance().GetSystemCRTJammaPanelButtons(), "2",
+                      {
+                        { "2 buttons", "2" },
+                        { "3 buttons", "3" },
+                        { "4 buttons", "4" },
+                        { "5 buttons", "5" },
+                        { "6 buttons", "6" },
+                      }), CrtConf::Instance().GetSystemCRTJammaPanelButtons(), "2",
                     _(MENUMESSAGE_ADVANCED_CRT_JAMMA_PANEL_HELP_MSG));
 
     AddList<String>(_("NEOGEO/PGM LAYOUT P1"), (int)Components::JammaNeogeoLayoutP1, this,
                     SelectorEntry<String>::List(
-                    {
-                      { "Default", "neodefault" },
-                      { "Line", "line" },
-                      { "Square", "square" }
-                    }), CrtConf::Instance().GetSystemCRTJammaNeogeoLayoutP1(), "neodefault",
+                      {
+                        { "Default", "neodefault" },
+                        { "Line", "line" },
+                        { "Square", "square" }
+                      }), CrtConf::Instance().GetSystemCRTJammaNeogeoLayoutP1(), "neodefault",
                     _(MENUMESSAGE_ADVANCED_CRT_JAMMA_NEOGEO_LAYOUT));
 
     AddList<String>(_("NEOGEO/PGM LAYOUT P2"), (int)Components::JammaNeogeoLayoutP2, this,
                     SelectorEntry<String>::List(
-                    {
-                      { "Default", "neodefault" },
-                      { "Line", "line" },
-                      { "Square", "square" }
-                    }), CrtConf::Instance().GetSystemCRTJammaNeogeoLayoutP2(), "neodefault",
+                      {
+                        { "Default", "neodefault" },
+                        { "Line", "line" },
+                        { "Square", "square" }
+                      }), CrtConf::Instance().GetSystemCRTJammaNeogeoLayoutP2(), "neodefault",
                     _(MENUMESSAGE_ADVANCED_CRT_JAMMA_NEOGEO_LAYOUT));
     AddSwitch(_("4 PLAYERS MODE"), CrtConf::Instance().GetSystemCRTJamma4Players(),
               (int)Components::Jamma4Players, this,_(MENUMESSAGE_ADVANCED_CRT_JAMMA_4PLAYERS));

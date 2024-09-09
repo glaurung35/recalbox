@@ -16,6 +16,9 @@ class MenuThemeConfiguration : public Menu
      */
     MenuThemeConfiguration(WindowManager& window, const String& theme);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
   private:
     //! Apply change timer when using quick change
     static constexpr int sApplyChangeTimer = 750;

@@ -1,7 +1,6 @@
 #include <guis/menus/MenuMain.h>
 #include <guis/MenuMessages.h>
 #include <recalbox/RecalboxSystem.h>
-#include <animations/LambdaAnimation.h>
 
 #include <guis/menus/MenuSystem.h>
 #include <guis/menus/MenuUpdates.h>
@@ -24,9 +23,13 @@
 #include <guis/GuiScraperRun.h>
 
 MenuMain::MenuMain(WindowManager& window, SystemManager& systemManager, const IGlobalVariableResolver& resolver)
-  : Menu(window, _("MAIN MENU"))
+  : Menu(window, _("MAIN MENU"), String::Empty, true)
   , mResolver(resolver)
   , mSystemManager(systemManager)
+{
+}
+
+void MenuMain::BuildMenuItems()
 {
   // Bartop mode?
   bool bartop = RecalboxConf::Instance().GetMenuType() == RecalboxConf::Menu::Bartop;
@@ -104,17 +107,6 @@ MenuMain::MenuMain(WindowManager& window, SystemManager& systemManager, const IG
 
   // Quit
   AddSubMenu(_("QUIT"), MenuThemeData::MenuIcons::Type::Quit, (int)Components::Quit, this, _(MENUMESSAGE_QUIT_HELP_MSG));
-
-  // Animation
-  auto fadeFunc = [this](float t)
-  {
-    setOpacity((int)lerp<float>(0, 255, t));
-    setPosition(getPosition().x(),
-                lerp<float>(Renderer::Instance().DisplayHeightAsFloat(), (Renderer::Instance().DisplayHeightAsFloat() - mSize.y()) / 2, t));
-  };
-
-  setOpacity(0);
-  setAnimation(new LambdaAnimation(fadeFunc, 200), 0);
 }
 
 void MenuMain::SubMenuSelected(int id)

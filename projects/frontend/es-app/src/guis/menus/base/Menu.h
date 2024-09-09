@@ -34,17 +34,15 @@ class Menu : public Gui
      * @param title Title (mandatory)
      * @param footer Title (mandatory)
      */
-    Menu(WindowManager& window, const String& title, const String& footer);
-
-    /*!
-     * @brief Constructor
-     * @param window Window manager
-     * @param title Title (mandatory)
-     */
-    Menu(WindowManager& window, const String& title) : Menu(window, title, String::Empty) {}
+    Menu(WindowManager& window, const String& title, const String& footer = String::Empty, bool animated = false);
 
     //! Destructor
     ~Menu();
+
+    /*!
+     * @brief Inherited classes must add items in here
+     */
+    virtual void BuildMenuItems() = 0;
 
   protected:
     //! Menu theme
@@ -129,6 +127,11 @@ class Menu : public Gui
     /*
      * Helpers
      */
+
+    /*!
+     * @brief Rebuild the menu, for exemple if some option have changed and the menu needs to show the changes
+     */
+    void RebuildMenu() { mMenuInitialized = false; }
 
     /*!
      * @brief Add simpple header
@@ -570,7 +573,7 @@ class Menu : public Gui
     }
 
   private:
-    /// Menu cache
+    //! Menu cache
     MenuThemeDataCache& mCache;
     //! Background
     NinePatchComponent mBackground;
@@ -593,6 +596,8 @@ class Menu : public Gui
     int mIconMargin;
     //! Menu initialized flag
     bool mMenuInitialized;
+    //! Animated menu
+    bool mAnimated;
 
     /*!
      * @brief Fill help list
@@ -683,8 +688,8 @@ class Menu : public Gui
 
     void HeaderFoldStateChanged() override
     {
-      int index = mList->getCursorIndex();
-      BuildMenu();
-      mList->setCursorIndex(index);
+      /*int index = mList->getCursorIndex();
+      BuildMenuItems();
+      mList->setCursorIndex(index);*/
     }
 };

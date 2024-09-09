@@ -14,8 +14,12 @@ MenuSystemList::MenuSystemList(WindowManager& window, SystemManager& systemManag
   : Menu(window, _("ADVANCED EMULATOR CONFIGURATION"))
   , mSystemManager(systemManager)
 {
-  // For each activated system
-  const SystemManager::List& systems = systemManager.AllSystems();
+}
+
+void MenuSystemList::BuildMenuItems()
+{
+  // For each activated systemmSystemManager
+  const SystemManager::List& systems = mSystemManager.AllSystems();
   for(int i = 0; i < (int)systems.Count(); ++i)
     if (!systems[i]->IsVirtual())
       mMenus[systems[i]] = AddSubMenu("", i, this);

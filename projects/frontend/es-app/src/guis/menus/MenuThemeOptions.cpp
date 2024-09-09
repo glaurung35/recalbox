@@ -12,6 +12,10 @@ MenuThemeOptions::MenuThemeOptions(WindowManager& window, const IGlobalVariableR
   : Menu(window, _("THEME"))
   , mResolver(resolver)
 {
+}
+
+void MenuThemeOptions::BuildMenuItems()
+{
   // theme set
   AddList<ThemeSpec>(_("THEME SET"), (int)Components::Theme, this, GetThemeEntries(), GetCurrentTheme(), GetDefaultTheme(), _(MENUMESSAGE_UI_THEME_HELP_MSG));
 
@@ -198,4 +202,3 @@ String MenuThemeOptions::GetResolutionList(ThemeData::Resolutions resolutions)
   if ((resolutions & ThemeData::Resolutions::FHD ) != 0) { if (!result.empty()) result.Append(','); result.Append("FHD (1080p)"); };
   return result;
 }
-

@@ -12,6 +12,10 @@
 MenuRetroAchievements::MenuRetroAchievements(WindowManager& window)
   : Menu(window, _("RETROACHIEVEMENTS SETTINGS"))
 {
+}
+
+void MenuRetroAchievements::BuildMenuItems()
+{
   // Retroachievement on/off
   AddSwitch(_("RETROACHIEVEMENTS"), RecalboxConf::Instance().GetRetroAchievementOnOff(), (int)Components::Enabled, this, _(MENUMESSAGE_RA_ONOFF_HELP_MSG));
 

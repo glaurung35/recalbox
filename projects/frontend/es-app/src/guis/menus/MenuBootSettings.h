@@ -22,6 +22,9 @@ class MenuBootSettings : public Menu
      */
     explicit MenuBootSettings(WindowManager& window, SystemManager& systemManager);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
   private:
     enum class Components
     {

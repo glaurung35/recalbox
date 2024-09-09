@@ -20,8 +20,10 @@ class MenuScreenScraperOptions : public Menu
                                , private ISwitchChanged
 {
   public:
-
     explicit MenuScreenScraperOptions(WindowManager& window, SystemManager& systemManager, ScraperType scraperType);
+
+    //! Build menu items
+    void BuildMenuItems() final;
 
   private:
     enum class Components

@@ -14,6 +14,10 @@ MenuPadsPair::MenuPadsPair(WindowManager& window, const String::List& deviceList
   : Menu(window, _("PAIR BLUETOOTH CONTROLLERS"))
   , mDevices(deviceList)
 {
+}
+
+void MenuPadsPair::BuildMenuItems()
+{
   int index = -1;
   for (const auto & controllerString : mDevices)
     AddAction(controllerString, _("PAIR"), ++index, true, this);
@@ -37,4 +41,3 @@ void MenuPadsPair::MenuActionTriggered(int id)
   String text = _("PAIRING %s ...").Replace("%s", device);
   mWindow.pushGui((new GuiWaitLongExecution<String, bool>(mWindow, *this))->Execute(device, text));
 }
-

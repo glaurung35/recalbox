@@ -10,25 +10,29 @@ MenuThemeConfiguration::MenuThemeConfiguration(WindowManager& window, const Stri
   : Menu(window, _("THEME CONFIGURATION"))
   , mThemeName(themeName)
 {
+}
+
+void MenuThemeConfiguration::BuildMenuItems()
+{
   IniFile::PurgeKey(mThemeName);
   const ThemeData& theme = ThemeManager::Instance().Main();
   ItemSelector<String>* colorSet     = BuildSelector(_("THEME COLORSET"    ), _(MENUMESSAGE_UI_THEME_COLORSET_MSG),
-                                                     RecalboxConf::Instance().GetThemeColorSet(themeName),
+                                                     RecalboxConf::Instance().GetThemeColorSet(mThemeName),
                                                      theme.GetSubSetValues("colorset")    , Components::ColorSet);
   ItemSelector<String>* iconSet      = BuildSelector(_("THEME ICONSET"     ), _(MENUMESSAGE_UI_THEME_ICONSET_MSG),
-                                                     RecalboxConf::Instance().GetThemeIconSet(themeName),
+                                                     RecalboxConf::Instance().GetThemeIconSet(mThemeName),
                                                      theme.GetSubSetValues("iconset")     , Components::IconSet);
   ItemSelector<String>* menuSet      = BuildSelector(_("THEME MENU"        ), _(MENUMESSAGE_UI_THEME_MENU_MSG),
-                                                     RecalboxConf::Instance().GetThemeMenuSet(themeName),
+                                                     RecalboxConf::Instance().GetThemeMenuSet(mThemeName),
                                                      theme.GetSubSetValues("menu")        , Components::MenuSet);
   ItemSelector<String>* systemView   = BuildSelector(_("THEME SYSTEMVIEW"  ), _(MENUMESSAGE_UI_THEME_SYSTEMVIEW_MSG),
-                                                     RecalboxConf::Instance().GetThemeSystemView(themeName),
+                                                     RecalboxConf::Instance().GetThemeSystemView(mThemeName),
                                                      theme.GetSubSetValues("systemview")  , Components::SystemView);
   ItemSelector<String>* gameListView = BuildSelector(_("THEME GAMELISTVIEW"), _(MENUMESSAGE_UI_THEME_GAMELISTVIEW_MSG),
-                                                     RecalboxConf::Instance().GetThemeGamelistView(themeName),
+                                                     RecalboxConf::Instance().GetThemeGamelistView(mThemeName),
                                                      theme.GetSubSetValues("gamelistview"), Components::GamelistView);
   ItemSelector<String>* gameClipView = BuildSelector(_("THEME GAMECLIPVIEW"), _(MENUMESSAGE_UI_THEME_GAMECLIPVIEW_MSG),
-                                                     RecalboxConf::Instance().GetThemeGameClipView(themeName),
+                                                     RecalboxConf::Instance().GetThemeGameClipView(mThemeName),
                                                      theme.GetSubSetValues("gameclipview"), Components::GameClipView);
 
   // Empty?

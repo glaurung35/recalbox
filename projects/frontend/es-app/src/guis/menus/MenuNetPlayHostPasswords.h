@@ -18,6 +18,9 @@ class MenuNetPlayHostPasswords : public Menu
     //! Constructor
     MenuNetPlayHostPasswords(WindowManager& window, FileData& game);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
   private:
     // Component indexes
     enum class Components

@@ -13,6 +13,9 @@ class MenuQuit : public Menu
 
     static void PushQuitGui(WindowManager& window);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
   private:
     enum class Components
     {

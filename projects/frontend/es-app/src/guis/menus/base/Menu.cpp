@@ -19,11 +19,12 @@
 #include "guis/GuiMsgBox.h"
 #include "guis/GuiInfoPopup.h"
 #include "ItemSelector.h"
+#include "animations/LambdaAnimation.h"
 
 #include <patreon/PatronInfo.h>
 #include <guis/menus/base/MenuColors.h>
 
-Menu::Menu(WindowManager& window, const String& title, const String& footer)
+Menu::Menu(WindowManager& window, const String& title, const String& footer, bool animated)
   : Gui(window)
   , mTheme(ThemeManager::Instance().Menu())
   , mConfiguration(RecalboxConf::Instance())
@@ -36,6 +37,7 @@ Menu::Menu(WindowManager& window, const String& title, const String& footer)
   , mTextMargin(2 + Renderer::Instance().DisplayWidthAsInt() / 320)
   , mIconMargin(2 + Renderer::Instance().DisplayWidthAsInt() / 320)
   , mMenuInitialized(false)
+  ,mAnimated(animated)
 {
   addChild(&mBackground);
   addChild(&mGrid);
@@ -185,8 +187,15 @@ bool Menu::IsDisplayable(int index) const
 
 void Menu::BuildMenu()
 {
+  // Clear all
+  for(ItemBase* item : mItems)
+    delete item;
+  mItems.Clear();
   mList->clear();
+
+  // Rebuild
   bool opened = true;
+  BuildMenuItems();
   for(int i = 0; i < mItems.Count(); ++i)
     if (IsDisplayable(i))
     {
@@ -240,7 +249,22 @@ void Menu::SetMenuSize()
 {
   setSize(MenuWidth(), MenuHeight());
   setPosition((Renderer::Instance().DisplayWidthAsFloat() - getWidth()) / 2.f,
-              (Renderer::Instance().DisplayHeightAsFloat() - getHeight()) / 2.f);
+              mAnimated ? Renderer::Instance().DisplayHeightAsFloat()
+                        : (Renderer::Instance().DisplayHeightAsFloat() - getHeight()) / 2.f);
+
+  if (mAnimated)
+  {
+    // Animation
+    auto fadeFunc = [this](float t)
+    {
+      setOpacity((int) lerp<float>(0, 255, t));
+      setPosition(getPosition().x(), lerp<float>(Renderer::Instance().DisplayHeightAsFloat(), (Renderer::Instance().DisplayHeightAsFloat() - mSize.y()) / 2, t));
+    };
+
+    setOpacity(0);
+    setAnimation(new LambdaAnimation(fadeFunc, 200), 0);
+  }
+
   mWindow.UpdateHelpSystem();
 }
 

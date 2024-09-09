@@ -15,6 +15,11 @@ MenuSoftpatchingLauncher::MenuSoftpatchingLauncher(WindowManager& window,
   , mNotifier(notifier)
   , mGame(game)
   , mPatches(patches)
+  , mPreviousChoice(lastChoice)
+{
+}
+
+void MenuSoftpatchingLauncher::BuildMenuItems()
 {
   // Original button
   AddAction(_("original"), _("RUN"), (int)Components::Original, true, this, _("Run the original, unpatched game"));
@@ -24,7 +29,7 @@ MenuSoftpatchingLauncher::MenuSoftpatchingLauncher(WindowManager& window,
   // Patch list
   mPatchList = AddList<Path>(_("select a patch"), (int) Components::Patch, this,GetPatchesEntries(), mGame.Metadata().LastPatch(), Path::Empty);
 
-  SetSelectedItem(lastChoice);
+  SetSelectedItem(mPreviousChoice);
 }
 
 String MenuSoftpatchingLauncher::GetFooter(FileData& game)
@@ -75,9 +80,6 @@ void MenuSoftpatchingLauncher::MenuActionTriggered(int id)
     default: break;
   }
 }
-
-
-
 
 
 

@@ -30,6 +30,9 @@ class MenuNetplay : public Menu
      */
     explicit MenuNetplay(WindowManager& window, SystemManager& systemManager);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
   private:
     enum class Components
     {

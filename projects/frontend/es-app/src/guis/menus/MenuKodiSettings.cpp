@@ -14,6 +14,10 @@
 MenuKodiSettings::MenuKodiSettings(WindowManager& window)
   : Menu(window, _("KODI SETTINGS"))
 {
+}
+
+void MenuKodiSettings::BuildMenuItems()
+{
   // Enable Kodi
   AddSwitch(_("ENABLE KODI"), RecalboxConf::Instance().GetKodiEnabled(), (int)Components::Enabled, this, _(MENUMESSAGE_ADVANCED_KODI_ENABLE_HELP_MSG));
 

@@ -21,12 +21,16 @@ MenuUserInterface::MenuUserInterface(WindowManager& window, SystemManager& syste
   , mBrightness(nullptr)
   , mOriginalSort(RecalboxConf::Instance().GetSystemSorting())
 {
+}
+
+void MenuUserInterface::BuildMenuItems()
+{
   // Screensavers
   AddSubMenu(_("SCREENSAVER"), (int)Components::ScreenSaver, this, _(MENUMESSAGE_UI_SCREENSAVER_HELP_MSG));
 
   // Brightness
   if (Board::Instance().HasBrightnessSupport())
-      mBrightness = AddSlider(_("BRIGHTNESS"), 0.f, 8.f, 1.f, 6.f, (float)RecalboxConf::Instance().GetBrightness(), "", (int)Components::Brightness, this);
+    mBrightness = AddSlider(_("BRIGHTNESS"), 0.f, 8.f, 1.f, 6.f, (float)RecalboxConf::Instance().GetBrightness(), "", (int)Components::Brightness, this);
 
   // Theme
   AddSubMenu(_("THEME"), (int)Components::Theme, this, _(MENUMESSAGE_UI_THEME_HELP_MSG));
@@ -177,4 +181,3 @@ std::vector<SelectorEntry<SystemSorting>> MenuUserInterface::GetSortingEntries()
     { _("TYPE, THEN MANUFACTURER, THEN RELEASE DATE") , SystemSorting::SystemTypeThenManufacturerThenReleasdeDate },
   });
 }
-

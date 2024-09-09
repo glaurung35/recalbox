@@ -26,6 +26,9 @@ class MenuSound : public Menu
      */
     explicit MenuSound(WindowManager& window);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
     ~MenuSound();
 
     /*!

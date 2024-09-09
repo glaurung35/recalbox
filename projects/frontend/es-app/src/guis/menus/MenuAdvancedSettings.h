@@ -47,6 +47,9 @@ class MenuAdvancedSettings : public Menu
     //! Destructor
     ~MenuAdvancedSettings() override;
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
   private:
     enum class Components
     {

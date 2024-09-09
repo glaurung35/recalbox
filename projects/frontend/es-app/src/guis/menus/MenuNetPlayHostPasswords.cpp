@@ -6,6 +6,10 @@ MenuNetPlayHostPasswords::MenuNetPlayHostPasswords(WindowManager& window, FileDa
   : Menu(window, _("GAME PROTECTION"))
   , mGame(game)
 {
+}
+
+void MenuNetPlayHostPasswords::BuildMenuItems()
+{
   // Use password for players
   AddSwitch(_("USE PLAYER PASSWORD"), RecalboxConf::Instance().GetNetplayPasswordUseForPlayer(), (int)Components::UseForPlayers, this);
   // Use password for viewers
@@ -85,5 +89,4 @@ void MenuNetPlayHostPasswords::MenuActionTriggered(int id)
     default: break;
   }
 }
-
 

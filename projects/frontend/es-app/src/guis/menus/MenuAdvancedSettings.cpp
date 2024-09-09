@@ -27,6 +27,10 @@ MenuAdvancedSettings::MenuAdvancedSettings(WindowManager& window, SystemManager&
   , mLastHazardous(false)
   , mValidOverclock(false)
 {
+}
+
+void MenuAdvancedSettings::BuildMenuItems()
+{
   #if defined(BETA) || defined(DEBUG)
   AddSwitch(_("DEBUG LOGS"), RecalboxConf::Instance().GetDebugLogs(), (int)Components::DebugLogs, this, _(MENUMESSAGE_ADVANCED_DEBUGLOGS_HELP_MSG));
   #endif

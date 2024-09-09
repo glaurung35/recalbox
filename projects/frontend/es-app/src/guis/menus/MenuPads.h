@@ -31,6 +31,9 @@ class MenuPads : public Menu
      */
     explicit MenuPads(WindowManager& window);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
     // Destructor
     ~MenuPads();
 

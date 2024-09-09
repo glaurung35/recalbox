@@ -22,6 +22,9 @@ class MenuGamelistOptions : public Menu
      */
     MenuGamelistOptions(WindowManager&window, SystemData& system, SystemManager& systemManager, IArcadeGamelistInterface* arcadeInterface, const IGlobalVariableResolver& resolver);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
     //! Destructor
     ~MenuGamelistOptions() override;
 

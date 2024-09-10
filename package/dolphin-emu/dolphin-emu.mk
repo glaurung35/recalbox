@@ -4,9 +4,9 @@
 #
 ################################################################################
 
-# Commit of Oct, 11 2023
+# Commit of 2024/09/15
 DOLPHIN_EMU_SITE = https://github.com/dolphin-emu/dolphin.git
-DOLPHIN_EMU_VERSION = 1c0605d1c41d5e99b6e13a90dca7bb7a126d355b
+DOLPHIN_EMU_VERSION = af921685f77954713fa138b1faa1879965d2a7db
 DOLPHIN_EMU_LICENSE = GPL-2.0+
 DOLPHIN_EMU_LICENSE_FILES = license.txt
 DOLPHIN_EMU_DEPENDENCIES = libevdev ffmpeg zlib libpng lzo libusb libcurl bluez5_utils hidapi xz host-xz

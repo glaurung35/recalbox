@@ -11,6 +11,8 @@ PYTHON_LGPIO_LICENSE = unlicense.org
 PYTHON_LGPIO_LICENSE_FILES = LICENCE
 PYTHON_LGPIO_SETUP_TYPE = setuptools
 
-PYTHON_LGPIO_DEPENDENCIES += host-swig
+PYTHON_LGPIO_DEPENDENCIES += host-swig lgpio
+
+PYTHON_LGPIO_ENV += PYPI=1 
 
 $(eval $(python-package))

@@ -5,7 +5,7 @@
 ################################################################################
 
 # Commit of 2023/09/16
-LIBRETRO_FCEUMM_VERSION = 7fad08e5522e5396a1196055fc106be9b5d5de77
+LIBRETRO_FCEUMM_VERSION = 744f5d9c8b976a431dcb5417a520c0c709b17fbe
 LIBRETRO_FCEUMM_SITE = $(call github,libretro,libretro-fceumm,$(LIBRETRO_FCEUMM_VERSION))
 LIBRETRO_FCEUMM_LICENSE = GPL-2.0
 LIBRETRO_FCEUMM_LICENSE_FILES = Copying

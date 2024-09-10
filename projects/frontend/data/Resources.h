@@ -45,6 +45,9 @@ extern const uint8_t busy_2_png_data[];
 extern const uint16_t busy_3_png_size;
 extern const uint8_t busy_3_png_data[];
 
+extern const uint16_t button_small_filled_png_size;
+extern const uint8_t button_small_filled_png_data[];
+
 extern const uint16_t button_png_size;
 extern const uint8_t button_png_data[];
 
@@ -63,8 +66,11 @@ extern const uint8_t crt__i640x480_png_data[];
 extern const uint16_t crt__i768x576_png_size;
 extern const uint8_t crt__i768x576_png_data[];
 
-extern const uint32_t crt__logo_png_size;
-extern const uint8_t crt__logo_png_data[];
+extern const uint16_t button_small_png_size;
+extern const uint8_t button_small_png_data[];
+
+extern const uint16_t press_start_svg_size;
+extern const uint8_t press_start_svg_data[];
 
 extern const uint16_t crt__logojamma_svg_size;
 extern const uint8_t crt__logojamma_svg_data[];

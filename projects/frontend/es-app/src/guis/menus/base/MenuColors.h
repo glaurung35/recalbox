@@ -8,14 +8,16 @@ class MenuColors
   public:
     //! List's Color index: Selectable text
     static constexpr int sSelectableColor = 0;
+    //! List's Color index: Selected text
+    static constexpr int sSelectableSelectedColor = 1;
     //! List's Color index: Unselectable text
     static constexpr int sUnselectableColor = 2;
-    //! List's Color index: Background
-    static constexpr int sBackgroundColor = 1;
-    //! List's Color index: Header Background
-    static constexpr int sHeaderBackgroundColor = 3;
+    //! List's Color index: Unselectable selected text
+    static constexpr int sUnselectableSelectedColor = 3;
     //! List's Color index: Header Background
     static constexpr int sHeaderColor = 4;
+    //! List's Color index: Header Background
+    static constexpr int sHeaderSelectedColor = 5;
 
     /*
      * Color Helper
@@ -23,6 +25,9 @@ class MenuColors
 
     //! Change the alpha component of the given color to 25% of its original value
     static Colors::ColorRGBA Alpha25Percent(Colors::ColorRGBA color) { return (color & 0xFFFFFF00) | ((color & 0xFF) >> 2); }
+
+    //! Change the alpha component of the given color to 50% of its original value
+    static Colors::ColorRGBA Alpha50Percent(Colors::ColorRGBA color) { return (color & 0xFFFFFF00) | ((color & 0xFF) >> 1); }
 
     /*!
      * @brief Blend color a and color b, 50% each

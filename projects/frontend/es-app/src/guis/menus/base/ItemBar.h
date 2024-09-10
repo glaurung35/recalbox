@@ -80,7 +80,7 @@ class ItemBar : public ItemBase
       int ratio = (int)((float)mTextWidth * mRatio);
       Renderer::DrawRectangle(x + ratio, (int)(area.CenterY() - mDataProvider.IconHeight() / 2), mTextWidth - ratio, (int)mDataProvider.IconHeight(), 0xFFFFFF40);
       Renderer::DrawRectangle(x, (int)(area.CenterY() - mDataProvider.IconHeight() / 2), ratio, (int)mDataProvider.IconHeight(), 0x00000040);
-      mTheme.Text().font->RenderDirect(mShortenedText, x, area.Top(), mForcedColor != 0 ? mForcedColor : color, (float)mTextWidth, TextAlignment::Center);
+      mTheme.Text().font->RenderDirect(mShortenedText, x, area.Top(), mForcedColor != 0 ? mForcedColor : color, (float)mTextWidth, TextAlignment::Center, mDataProvider.Spacing());
     }
 
     /*!

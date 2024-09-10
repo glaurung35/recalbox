@@ -56,18 +56,7 @@ class MenuThemeData : private INoCopy
           abort();
         }
 
-        void Reset()
-        {
-          mButton = Path(":/button.png");
-          mButtonFilled = Path(":/button_filled.png");
-          mOn = Path(":/on.svg");
-          mOff = Path(":/off.svg");
-          mOptionArrow = Path(":/option_arrow.svg");
-          mArrow = Path(":/arrow.svg");
-          mKnob = Path(":/slider_knob.svg");
-          mCheckBox = Path(":/checkbox_unchecked.svg");
-          mCheckBoxFilled = Path(":/checkbox_checked.svg");
-        }
+        void Reset();
 
       private:
         Path mButton;

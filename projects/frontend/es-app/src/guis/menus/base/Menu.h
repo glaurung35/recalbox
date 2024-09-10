@@ -104,25 +104,31 @@ class Menu : public Gui
      */
 
     //! Total item height
-    float ItemHeight() const override { return mList->EntryHeight(); }
+    float ItemHeight() const final { return mList->EntryHeight(); }
 
     //! Total item height
-    float ItemWidth() const override { return mList->getWidth(); }
+    float ItemWidth() const final { return mList->getWidth(); }
 
     //! Front Icon height
-    float IconHeight() const override { return mList->EntryHeight() * 0.7f; }
+    float IconHeight() const final { return mList->EntryHeight() * 0.7f; }
 
     //! Font height
-    float FontHeight() const override { return mList->FontHeight() * 0.8f; }
+    float FontHeight() const final { return mList->FontHeight(); }
 
     //! Margin
-    float Margin() const override { return mTextMargin; }
+    float Margin() const final { return mTextMargin; }
 
     //! Texture cache
-    MenuThemeDataCache& Cache() const override { return mCache; };
+    MenuThemeDataCache& Cache() const final { return mCache; };
 
     //! Get maximum menu area
-    Rectangle GetMenuMaximumArea() const override;
+    Rectangle GetMenuMaximumArea() const final;
+
+    //! Get font spacing for drawing
+    [[nodiscard]] float Spacing() const final { return mList->Spacing(); };
+
+    //! Is 240p ?
+    [[nodiscard]] bool Is240p() const final { return m240p; };
 
     /*
      * Helpers
@@ -598,6 +604,8 @@ class Menu : public Gui
     bool mMenuInitialized;
     //! Animated menu
     bool mAnimated;
+    //! Is 240p ?
+    bool m240p;
 
     /*!
      * @brief Fill help list

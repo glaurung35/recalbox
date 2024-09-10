@@ -115,3 +115,17 @@ void MenuThemeData::Reset()
   mIconElement.Reset();
   mSize        = { .height =  0.85f };
 }
+
+void MenuThemeData::IconElement::Reset()
+{
+  bool is240p = Renderer::Instance().Is240p();
+  mButton = Path(is240p ? ":/button_small.png" : ":/button.png");
+  mButtonFilled = Path(is240p ? ":/button_small_filled.png" : ":/button_filled.png");
+  mOn = Path(":/on.svg");
+  mOff = Path(":/off.svg");
+  mOptionArrow = Path(":/option_arrow.svg");
+  mArrow = Path(":/arrow.svg");
+  mKnob = Path(":/slider_knob.svg");
+  mCheckBox = Path(":/checkbox_unchecked.svg");
+  mCheckBoxFilled = Path(":/checkbox_checked.svg");
+}

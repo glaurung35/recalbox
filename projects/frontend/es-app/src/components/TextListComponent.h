@@ -89,8 +89,9 @@ public:
 	inline void setLineSpacing(float lineSpacing) { mLineSpacing = lineSpacing; }
   inline void setHorizontalMargin(float horizontalMargin) { mHorizontalMargin = horizontalMargin; }
 
-  [[nodiscard]] inline float EntryHeight() const { return mFont->getSize() * mLineSpacing; }
-  [[nodiscard]] inline float FontHeight() const { return mFont->getSize(); }
+  [[nodiscard]] inline float EntryHeight() const { return Math::round(mFont->getMaxHeight() * mLineSpacing); }
+  [[nodiscard]] inline float Spacing() const { return mLineSpacing; }
+  [[nodiscard]] inline float FontHeight() const { return mFont->getMaxHeight(); }
   [[nodiscard]] inline unsigned int Color(unsigned int id) const { return mColors[id]; }
 
   [[nodiscard]] inline float getHorizontalMargin() const { return mHorizontalMargin; }
@@ -201,7 +202,7 @@ TextListComponent<T>::TextListComponent(WindowManager& window)
   , mAlignment(HorizontalAlignment::Center)
   , mHorizontalMargin(0)
   , mLineSpacing(1.5f)
-  , mSelectorHeight(mFont->getSize() * 1.5f)
+  , mSelectorHeight(EntryHeight())
   , mSelectorOffsetY(0)
   , mSelectorColor(0x000000FF)
   , mSelectedColor(0)
@@ -223,7 +224,7 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
 
 	if(size() == 0) return;
 
-	const float entrySize = font->getSize() * mLineSpacing;
+	const float entrySize = EntryHeight();
 
 	int startEntry = 0;
 
@@ -280,8 +281,7 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
 		typename IList<TextListData, T>::Entry& entry = mEntries[i];
     if (entry.data.textWidth < 0) entry.data.textWidth = mFont->sizeText(mUppercase ? entry.name.ToUpperCaseUTF8() : entry.name).x();
 
-    unsigned int color = (mCursor == i && (mSelectedColor != 0)) ? mSelectedColor : mColors[entry.data.colorId];
-    color = mShiftSelectedTextColor && mCursor == i ? color + 1 : color;
+    unsigned int color = (mCursor == i && (mSelectedColor != 0)) ? mSelectedColor : mColors[mShiftSelectedTextColor && mCursor == i ? entry.data.colorId + 1 : entry.data.colorId];
 
     leftMargin = mHorizontalMargin;
     rightMargin = mHorizontalMargin;
@@ -321,12 +321,12 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
     // Draw text
     if(mCursor == i) offset[0] -= mMarqueeOffset;
 
-    font->RenderDirect(mUppercase ? entry.name.ToUpperCaseUTF8() : entry.name, offset.x(), y, color);
+    font->RenderDirect(mUppercase ? entry.name.ToUpperCaseUTF8() : entry.name, offset.x(), y, color, mLineSpacing);
 
     if (mCursor == i && mMarqueeOffset > 0)
     {
       offset[0] += entry.data.textWidth + mSize.x() / 4;
-      font->RenderDirect(mUppercase ? entry.name.ToUpperCaseUTF8() : entry.name, offset.x(), y, color);
+      font->RenderDirect(mUppercase ? entry.name.ToUpperCaseUTF8() : entry.name, offset.x(), y, color, mLineSpacing);
     }
 
     y += entrySize;
@@ -599,7 +599,7 @@ void TextListComponent<T>::OnApplyThemeElement(const ThemeElement& element, Them
 	{
 		if(element.HasProperty(ThemePropertyName::LineSpacing)) setLineSpacing(element.AsFloat(ThemePropertyName::LineSpacing));
 		if(element.HasProperty(ThemePropertyName::SelectorHeight)) setSelectorHeight(element.AsFloat(ThemePropertyName::SelectorHeight) * Renderer::Instance().DisplayHeightAsFloat());
-		else setSelectorHeight(mFont->getSize() * mLineSpacing);
+		else setSelectorHeight(EntryHeight());
     if(element.HasProperty(ThemePropertyName::SelectorOffsetY))
 		{
 			float scale = this->mParent ? this->mParent->getSize().y() : Renderer::Instance().DisplayHeightAsFloat();

@@ -5,6 +5,7 @@
 #include <resources/ResourceManager.h>
 #include <themes/ThemeElement.h>
 #include <utils/math/Misc.h>
+#include "utils/Files.h"
 
 FT_Library Font::sLibrary = nullptr;
 
@@ -15,10 +16,10 @@ Path Font::sUbuntuPath("/usr/share/fonts/truetype/ubuntu_condensed.ttf");
 
 Vertex Font::mVertexes[sVertexArraySize + Vertex::sVertexPerRectangle];
 
+std::map<std::pair<Path, int>, std::weak_ptr<Font> > Font::sFontMap;
+
 int Font::getSize() const
 { return mSize; }
-
-std::map<std::pair<Path, int>, std::weak_ptr<Font> > Font::sFontMap;
 
 
 // utf8 stuff
@@ -138,7 +139,7 @@ Font::FontFace::FontFace(ResourceData&& d, int size)
   : data(d), face(nullptr)
 {
   int err = FT_New_Memory_Face(sLibrary, (const unsigned char*) data.data(), (int)data.size(), 0, &face);
-  (void) err;
+  (void)err;
   assert(!err);
 
   FT_Set_Pixel_Sizes(face, 0, size);
@@ -202,13 +203,28 @@ Font::Font(int size, const Path& path)
   if (sLibrary == nullptr)
     initLibrary();
 
+  // Real font calculations
+  /*float readBearingMax = 0;
+  ResourceData content = ResourceManager::getFileData(path);
+  FT_Face face;
+  if (FT_New_Memory_Face(sLibrary, (const unsigned char*)content.data(), (int)content.size(), 0, &face) == 0)
+  {
+    FT_Set_Pixel_Sizes(face, 0, size);
+    if (FT_Load_Char(face, 'A', FT_LOAD_DEFAULT) == 0)
+    {
+      readBearingMax = face->bbox.yMax * size / face->units_per_EM;
+    }
+    FT_Done_Face(face);
+  }*/
+
   // always initialize ASCII characters
   mBearingMax = 0;
   mSizeMax = 0;
   for (UnicodeChar i = 32; i < 128; i++)
   {
     Glyph* g = getGlyph(i);
-    if (g->bearing.y() > mBearingMax) mBearingMax = g->bearing.y();
+    if ((i >= 'A' && i < 'Z') || (i >= 'a' && i < 'z'))
+      if (g->bearing.y() > mBearingMax) mBearingMax = g->bearing.y();
     float height = g->texSize.y() * (float) g->texture->textureSize.y();
     if (height > mSizeMax) mSizeMax = height;
   }
@@ -755,10 +771,7 @@ void Font::RenderDirect(const String& text, float offsetX, float offsetY, unsign
 
   float yTop = mBearingMax;
   float yBot = getHeight(lineSpacing);
-  float y = offsetY + (nospacing ? yTop : (yBot + yTop) / 2.0f);
-
-  GLubyte colors[6 * 4];
-  Renderer::BuildGLColorArray(colors, color, 6);
+  float y = offsetY + (nospacing ? yTop : Math::round((yBot - yTop) / 2.0f) + yTop);
 
   int vertexIndex = 0;
   GLuint previousTextureId = -1;

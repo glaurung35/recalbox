@@ -44,6 +44,9 @@ extern const uint8_t window_icon_256_png_data[];
 extern const uint16_t plaincircle30_png_size;
 extern const uint8_t plaincircle30_png_data[];
 
+extern const uint16_t button_small_filled_png_size;
+extern const uint8_t button_small_filled_png_data[];
+
 extern const uint16_t button_png_size;
 extern const uint8_t button_png_data[];
 
@@ -61,6 +64,9 @@ extern const uint8_t Recalbox_icons_ttf_data[];
 
 extern const uint16_t recalbox_qrcode_svg_size;
 extern const uint8_t recalbox_qrcode_svg_data[];
+
+extern const uint16_t button_small_png_size;
+extern const uint8_t button_small_png_data[];
 
 extern const uint16_t press_start_svg_size;
 extern const uint8_t press_start_svg_data[];

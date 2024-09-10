@@ -171,7 +171,7 @@ class ItemBase : public IOverlay
       , mType(type)
       , mIdentifier(identifier)
       , mIcon(icon)
-      , mHasIcon(true)
+      , mHasIcon(theme.Icons().FromType(icon).Exists())
       , mIsUnselectable(unselectable)
     {}
 
@@ -186,7 +186,7 @@ class ItemBase : public IOverlay
       , mType(type)
       , mIdentifier(identifier)
       , mIcon(MenuThemeData::MenuIcons::Type::Kodi)
-      , mHasIcon(true)
+      , mHasIcon(icon.Exists())
       , mIsUnselectable(unselectable)
     {}
 

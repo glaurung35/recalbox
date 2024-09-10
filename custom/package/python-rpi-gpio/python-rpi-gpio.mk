@@ -9,5 +9,6 @@ PYTHON_RPI_GPIO_SITE = $(call github,waveform80,rpi-lgpio,$(PYTHON_RPI_GPIO_VERS
 PYTHON_RPI_GPIO_LICENSE = MIT
 PYTHON_RPI_GPIO_LICENSE_FILES = LICENCE.txt
 PYTHON_RPI_GPIO_SETUP_TYPE = setuptools
+PYTHON_RPI_GPIO_DEPENDENCIES = python-lgpio
 
 $(eval $(python-package))

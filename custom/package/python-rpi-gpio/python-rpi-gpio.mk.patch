@@ -1,8 +1,8 @@
 diff --git a/package/python-rpi-gpio/python-rpi-gpio.mk b/package/python-rpi-gpio/python-rpi-gpio.mk
-index 4e62e07533..c087125fad 100644
+index 4e62e07533..89de42d71a 100644
 --- a/package/python-rpi-gpio/python-rpi-gpio.mk
 +++ b/package/python-rpi-gpio/python-rpi-gpio.mk
-@@ -4,9 +4,8 @@
+@@ -4,11 +4,11 @@
  #
  ################################################################################
  
@@ -14,3 +14,6 @@ index 4e62e07533..c087125fad 100644
  PYTHON_RPI_GPIO_LICENSE = MIT
  PYTHON_RPI_GPIO_LICENSE_FILES = LICENCE.txt
  PYTHON_RPI_GPIO_SETUP_TYPE = setuptools
++PYTHON_RPI_GPIO_DEPENDENCIES = python-lgpio
+ 
+ $(eval $(python-package))

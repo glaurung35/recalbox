@@ -51,7 +51,17 @@ class LibretroConfigCRTSwitchres:
                                          "video_allow_rotate": '"true"',
                                          "video_rotation": 0,
                                          "video_driver": '"gl"',
-                                         "video_scale_integer_overscale": ''
+                                         "video_scale_integer_overscale": '',
+                                         "menu_enable_widgets": '"false"',
+                                         "video_message_color": '"ffffff"',
+                                         "video_msg_bgcolor_enable": '"true"',
+                                         "video_msg_bgcolor_red": '"0"',
+                                         "video_msg_bgcolor_green": '"0"',
+                                         "video_msg_bgcolor_blue": '"0"',
+                                         "video_msg_bgcolor_opacity": '"0.8"',
+                                         "video_font_size": '"15"',
+                                         "video_message_pos_x": '"0.04"',
+                                         "video_message_pos_y": '"0.05"'
                                          }
 
         match system.CRTScreenType:
@@ -100,10 +110,8 @@ class LibretroConfigCRTSwitchres:
         coreConfig = LibretroCoreConfigCRTSwitchres().createConfigFor(system)
 
         if system.CRTSuperrez in ["1920", "2560", "3840"]:
-            config["menu_enable_widgets"] = '"true"'
             config["video_font_path"] = '"/usr/share/fonts/truetype/ubuntu_condensed-4x_wide.ttf"'
         else:
-            config["menu_enable_widgets"] = '"true"'
             config["video_font_path"] = '"/usr/share/fonts/truetype/ubuntu_condensed.ttf"'
 
         return config, coreConfig

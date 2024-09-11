@@ -90,7 +90,7 @@ for network_file in network_files:
 
             if os.path.isfile(cmdline_file):
                 import re
-                f = open("cmdline.txt", "r")
+                f = open(cmdline_file, "r")
                 text = f.read()
                 f.close()
                 matches = re.search("cfg80211.ieee80211_regdom=(..)", text)
@@ -107,7 +107,5 @@ for network_file in network_files:
             os.remove(network_file)
         except OSError as error:
             recallog(error)
-
-
 
 recallog("Not found postconfig data")

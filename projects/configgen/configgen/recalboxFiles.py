@@ -34,6 +34,7 @@ recalboxBins =\
     'frotz'       : '/usr/bin/sfrotz',
     'gsplus'      : '/usr/bin/GSplus',
     'hatari'      : '/usr/bin/hatari',
+    'ikemen'      : '/usr/bin/ikemen',
     'kodi'        : '/recalbox/scripts/kodilauncher.sh',
     'libretro'    : '/usr/bin/retroarch',
     'linapple'    : '/usr/bin/linapple',

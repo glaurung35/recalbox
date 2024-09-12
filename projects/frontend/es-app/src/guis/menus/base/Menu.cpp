@@ -83,11 +83,11 @@ Menu::Menu(WindowManager& window, const String& title, const String& footer)
   mList->setFont(mTheme.Text().font);
   mList->setSelectedColor(mTheme.Text().selectedColor);
   mList->setSelectorColor(mTheme.Text().selectorColor);
-  mList->setColor(MenuColors::sSelectableColor, mTheme.Text().color);                   // Text color
-  mList->setColor(MenuColors::sBackgroundColor, mTheme.Background().color);             // Unselected Background color
-  mList->setColor(MenuColors::sUnselectableColor, MenuColors::Alpha25Percent(mTheme.Text().color)); // Grayed item
-  mList->setColor(MenuColors::sHeaderBackgroundColor, 0x00000040);                      // Grayed item - TODO: make this color themable
-  mList->setColor(MenuColors::sHeaderColor, mTheme.Section().color);                    // Header color
+  mList->setColorAt(MenuColors::sSelectableColor, mTheme.Text().color);                   // Text color
+  mList->setColorAt(MenuColors::sBackgroundColor, mTheme.Background().color);             // Unselected Background color
+  mList->setColorAt(MenuColors::sUnselectableColor, MenuColors::Alpha25Percent(mTheme.Text().color)); // Grayed item
+  mList->setColorAt(MenuColors::sHeaderBackgroundColor, 0x00000040);                      // Grayed item - TODO: make this color themable
+  mList->setColorAt(MenuColors::sHeaderColor, mTheme.Section().color);                    // Header color
   mList->setSelectorHeight(mList->EntryHeight());
   mList->setShiftSelectedTextColor(true);
   mList->setAutoAlternate(true);

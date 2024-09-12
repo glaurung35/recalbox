@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <stdint.h>
 
+#define FAN_NOADDRESS 0
+
 typedef struct {
   uint8_t address;
   void * controller_info;
@@ -20,7 +22,8 @@ typedef struct {
   uint32_t (*status)(fan_handler *); // for FAN_CAP_STATUS
 } fan_interface ;
 
-void * fan_func_unimplemented(void);
+void fan_func_set_pwm_unimplemented(fan_handler*, uint8_t);
+uint32_t fan_func_status_unimplemented(fan_handler*);
 
 #define FAN_CAP_SIMPLE 0x00000001 // on/off, usually gpio controlled
 #define FAN_CAP_PWM    0x00000002 // variable fan speed

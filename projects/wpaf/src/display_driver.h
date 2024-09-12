@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdint.h>
 
+#define DISPLAY_NOADDRESS 0
+
 typedef struct {
   uint8_t address;
   uint8_t * buffer;

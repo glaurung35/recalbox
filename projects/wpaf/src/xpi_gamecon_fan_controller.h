@@ -6,7 +6,7 @@
 
 #define XPI_GAMECON_FAN_FILE "/sys/kernel/xpi_gamecon/fan"
 
-fan_handler * xpi_gamecon_fan_init();
+fan_handler * xpi_gamecon_fan_init(uint32_t);
 void xpi_gamecon_fan_on(fan_handler *);
 void xpi_gamecon_fan_off(fan_handler *);
 void xpi_gamecon_fan_close(fan_handler *);

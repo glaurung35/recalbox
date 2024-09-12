@@ -7,7 +7,7 @@
 #include "wpaf_i2c.h"
 
 
-display_handler * null_display_init();
+display_handler * null_display_init(uint8_t);
 void null_display_close(display_handler *);
 void null_display_null();
 

@@ -844,12 +844,16 @@ template<typename T> ItemSelector<T>::Selector::Selector(WindowManager& window, 
   mItemList->setFont(mTheme.SmallText().font);
   mItemList->setSelectedColor(0); // If defined, it's given priority on color shift
   mItemList->setSelectorColor(mTheme.Text().selectorColor);
-  mItemList->setColor(MenuColors::sSelectableColor, mTheme.Text().color);                                               // Text color
-  mItemList->setColor(MenuColors::sSelectableSelectedColor, mTheme.Text().selectedColor);                               // selected text coplor
-  mItemList->setColor(MenuColors::sUnselectableColor, MenuColors::Alpha25Percent(mTheme.Text().color));                 // Grayed color
-  mItemList->setColor(MenuColors::sUnselectableSelectedColor, MenuColors::Alpha25Percent(mTheme.Text().selectedColor)); // Grayed selected color
-  mItemList->setColor(MenuColors::sHeaderColor, mTheme.Section().color);                                                // Header color
-  mItemList->setColor(MenuColors::sHeaderSelectedColor, mTheme.Section().selectedColor);                                // Header selected color
+
+  mItemList->setColorAt(MenuColors::sHeaderColor, mTheme.Section().color);                                                // Header color
+  mItemList->setColorAt(MenuColors::sHeaderSelectedColor, mTheme.Section().selectedColor);                                // Header selected color
+  mItemList->setColorAt(MenuColors::sSelectableColor, mTheme.Text().color);                   // Text color
+  mItemList->setColorAt(MenuColors::sSelectableSelectedColor, mTheme.Text().selectedColor);                               // selected text coplor
+  mItemList->setColorAt(MenuColors::sBackgroundColor, mTheme.Background().color);             // Unselected Background color
+  mItemList->setColorAt(MenuColors::sUnselectableColor, MenuColors::Alpha25Percent(mTheme.Text().color)); // Grayed item
+  mItemList->setColorAt(MenuColors::sUnselectableSelectedColor, MenuColors::Alpha25Percent(mTheme.Text().selectedColor)); // Grayed selected color
+  mItemList->setColorAt(MenuColors::sHeaderBackgroundColor, 0x00000040);                      // Grayed item - TODO: make this color themable
+											      //
   mItemList->setSelectorHeight(mItemList->EntryHeight());
   mItemList->setShiftSelectedTextColor(true);
   mItemList->setAutoAlternate(true);

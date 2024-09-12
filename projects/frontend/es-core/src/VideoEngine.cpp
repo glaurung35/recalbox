@@ -229,8 +229,6 @@ bool VideoEngine::InitializeDecoder()
   static bool FFMpegInitialized = false;
   if (!FFMpegInitialized)
   {
-    av_register_all();
-    avcodec_register_all();
     avdevice_register_all();
     avformat_network_init();
 
@@ -271,7 +269,7 @@ bool VideoEngine::InitializeDecoder()
   // Initialize audio codec
   if (mContext.AudioStreamIndex >= 0)
   {
-    mContext.AudioCodec = avcodec_find_decoder(mContext.AudioVideoContext->streams[mContext.AudioStreamIndex]->codecpar->codec_id);
+    mContext.AudioCodec = (AVCodec*)avcodec_find_decoder(mContext.AudioVideoContext->streams[mContext.AudioStreamIndex]->codecpar->codec_id);
     if (mContext.AudioCodec == nullptr) RETURN_ERROR("Error finding audio codec " << FourCCToString(mContext.AudioVideoContext->streams[mContext.AudioStreamIndex]->codecpar->codec_tag), false);
     mContext.AudioCodecContext = avcodec_alloc_context3(mContext.AudioCodec);
     if (mContext.AudioCodecContext == nullptr) RETURN_ERROR("Error allocating audio codec context", false);
@@ -289,7 +287,7 @@ bool VideoEngine::InitializeDecoder()
   }
 
   // Initialize video codec
-  mContext.VideoCodec = avcodec_find_decoder(mContext.AudioVideoContext->streams[mContext.VideoStreamIndex]->codecpar->codec_id);
+  mContext.VideoCodec = (AVCodec*)avcodec_find_decoder(mContext.AudioVideoContext->streams[mContext.VideoStreamIndex]->codecpar->codec_id);
   if (mContext.VideoCodec == nullptr) RETURN_ERROR("Error finding video codec " << mContext.AudioVideoContext->streams[mContext.VideoStreamIndex]->codecpar->codec_id, false);
   mContext.VideoCodecContext = avcodec_alloc_context3(mContext.VideoCodec);
   if (mContext.VideoCodecContext == nullptr) RETURN_ERROR("Error allocating video codec context", false);

@@ -142,6 +142,10 @@ def getGenerator(emulator):
         module = __import__("configgen.generators.rb5000.rb5000Generator", fromlist=["RB5000Generator"])
         generatorClass = getattr(module, "RB5000Generator")
         return generatorClass()
+    elif emulator == "ikemen":
+        module = __import__("configgen.generators.ikemen.ikemenGenerator", fromlist=["IkemenGenerator"])
+        generatorClass = getattr(module, "IkemenGenerator")
+        return generatorClass()
     else:
         print("Missing generator for {}".format(emulator))
         raise ValueError

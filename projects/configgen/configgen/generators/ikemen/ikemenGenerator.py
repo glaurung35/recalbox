@@ -15,7 +15,7 @@ class IkemenGenerator(Generator):
 
         # Rom
         arguments = []
-        arguments.append(args.rom)
+        arguments.append(args.rom.split('.')[0])
 
         commandArray = [recalboxFiles.recalboxBins[system.Emulator]]
         commandArray.extend(arguments)

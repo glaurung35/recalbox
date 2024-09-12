@@ -19,7 +19,8 @@ endef
 
 define IKEMEN_INSTALL_TARGET_CMDS
 	mkdir -p $(TARGET_DIR)/usr/bin
-	$(INSTALL) -D $(@D)/bin/Ikemen_GO_Linux $(TARGET_DIR)/usr/bin/ikemen
+	$(INSTALL) -D -m 0755 $(@D)/bin/Ikemen_GO_Linux $(TARGET_DIR)/usr/bin/ikemen
+	$(INSTALL) -D -m 0755 $(IKEMEN_PKGDIR)/ikemen-rb $(TARGET_DIR)/usr/bin/ikemen-rb
 endef
 
 $(eval $(golang-package))

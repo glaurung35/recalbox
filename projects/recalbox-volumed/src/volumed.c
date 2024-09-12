@@ -82,13 +82,13 @@ static int constrain_volume(int volume) {
     return volume;
 }
 
-static void set_volume(pa_context *c, pa_sink_info *i, __attribute__((unused)) int eol, int * volume) {
+static void set_volume(pa_context *c, const pa_sink_info *i, __attribute__((unused)) int eol, void *userdata) {
     if (i == NULL) {
         return;
     }
-
+    int *volume = (int*)userdata;
     pa_cvolume *cvolume = &i->volume;
-    pa_cvolume *new_cvolume = pa_cvolume_set(cvolume, i->volume.channels, denormalize(constrain_volume(*volume)));
+    const pa_cvolume *new_cvolume = pa_cvolume_set(cvolume, i->volume.channels, denormalize(constrain_volume(*volume)));
     pa_context_set_sink_volume_by_index(c, i->index, new_cvolume, NULL, NULL);
 }
 

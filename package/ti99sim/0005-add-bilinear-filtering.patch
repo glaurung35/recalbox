@@ -1,3 +1,14 @@
+From 98c1e532fdb8ccbf53b0309f8325d1da70c1c0ab Mon Sep 17 00:00:00 2001
+From: Bkg2k <bkg2k9@gmail.com>
+Date: Sun, 22 Aug 2021 12:50:01 +0200
+Subject: [PATCH 5/9] add bilinear filtering
+
+---
+ include/tms9918a-sdl.hpp | 3 ++-
+ src/sdl/main.cpp         | 4 +++-
+ src/sdl/tms9918a-sdl.cpp | 9 +++++----
+ 3 files changed, 10 insertions(+), 6 deletions(-)
+
 diff --git a/include/tms9918a-sdl.hpp b/include/tms9918a-sdl.hpp
 index b77de1b..878d1bd 100644
 --- a/include/tms9918a-sdl.hpp
@@ -96,3 +107,6 @@ index 20e3361..e1bffac 100644
  
  		SDL_CreateWindowAndRenderer( 0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP, &m_sdlWindow, &m_sdlRenderer );
  
+-- 
+2.46.0
+

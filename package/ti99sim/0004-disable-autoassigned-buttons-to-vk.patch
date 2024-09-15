@@ -1,3 +1,12 @@
+From 6bffb85fee1abe0f39561207c056cb4c3cc36554 Mon Sep 17 00:00:00 2001
+From: Bkg2k <bkg2k9@gmail.com>
+Date: Sat, 21 Aug 2021 21:07:16 +0200
+Subject: [PATCH 4/9] disable autoassigned buttons to vk
+
+---
+ src/sdl/ti994a-sdl.cpp | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
 diff --git a/src/sdl/ti994a-sdl.cpp b/src/sdl/ti994a-sdl.cpp
 index 934f02b..924010c 100644
 --- a/src/sdl/ti994a-sdl.cpp
@@ -29,3 +38,6 @@ index 934f02b..924010c 100644
  				}
  				break;
  			case SDL_KEYDOWN :
+-- 
+2.46.0
+

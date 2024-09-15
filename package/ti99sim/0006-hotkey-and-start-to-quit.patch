@@ -1,3 +1,13 @@
+From f62c5b9b8f3fb3b3ddcf0d5b6e80c6f0d1dc7b39 Mon Sep 17 00:00:00 2001
+From: Bkg2k <bkg2k9@gmail.com>
+Date: Sun, 22 Aug 2021 13:50:51 +0200
+Subject: [PATCH 6/9] hotkey and start to quit
+
+---
+ src/sdl/main.cpp       | 14 ++++++++++++++
+ src/sdl/ti994a-sdl.cpp | 18 +++++++++---------
+ 2 files changed, 23 insertions(+), 9 deletions(-)
+
 diff --git a/src/sdl/main.cpp b/src/sdl/main.cpp
 index 354f417..cc7c8c9 100644
 --- a/src/sdl/main.cpp
@@ -87,3 +97,6 @@ index 924010c..4dd0322 100644
  				}
  				break;
  			case SDL_KEYDOWN :
+-- 
+2.46.0
+

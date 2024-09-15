@@ -1218,6 +1218,9 @@
       "tooltips": {
         "hasNetplay": {
           "label": "Afficher uniquement les systèmes compatibles Netplay"
+        },
+        "all": {
+          "label": "Afficher tous les systèmes"
         }
       }
     }

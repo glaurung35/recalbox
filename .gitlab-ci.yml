@@ -3,13 +3,12 @@
 # To run this locally (requires `gitlab-runner`):
 #   $ gitlab-runner exec docker <job_name>
 
-image: docker:latest
+default:
+  image: docker:latest
 
-.only-default: &only-default
-  only:
-    - master
-    - merge_requests
-    - tags
+.only-default:
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master" || $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_TAG'
 
 stages:
   - lint
@@ -21,27 +20,26 @@ variables:
 
 # Lint
 
-.lint_template: &lint_definition
+.lint_definition:
   stage: lint
   variables:
     GIT_SUBMODULE_STRATEGY: none
-  <<: *only-default
+  extends: .only-default
 
 lint package license:
-  <<: *lint_definition
-  image: "docker:latest"
+  extends: .lint_definition
   script:
     - apk update && apk add bash
     - bash test/lint/package-licenses.sh
 
 lint config-files:
-  <<: *lint_definition
+  extends: .lint_definition
   before_script:
     - apk add --update --no-cache libxml2-utils
   script: test/lint/config-files
 
 lint buildroot:
-  <<: *lint_definition
+  extends: .lint_definition
   variables:
     GIT_SUBMODULE_STRATEGY: recursive
   image: python:3-alpine
@@ -52,7 +50,7 @@ lint buildroot:
   script: test/lint/buildroot
 
 lint commits:
-  <<: *lint_definition
+  extends: .lint_definition
   image: node:18
   before_script:
     - npm install -g @commitlint/cli@17.0.0 @commitlint/config-conventional@17.0.0 @commitlint/types@17.0.0 @commitlint/read@17.0.0 @commitlint/load@17.0.0 @commitlint/lint@17.0.0 @commitlint/format@17.0.0
@@ -60,16 +58,13 @@ lint commits:
 
 # Test
 tests configgen:
-  <<: *lint_definition
+  extends: .lint_definition
   stage: lint
   image: python:3.11-slim
-  only:
-    refs:
-      - master
-      - merge_requests
-      - tags
-    changes:
-      - projects/configgen/**/*
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master" || $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_TAG'
+      changes:
+        - projects/configgen/**/*
   script:
     - apt update && apt -y install libevdev2
     - cd projects/configgen
@@ -81,20 +76,17 @@ tests configgen:
     - python setup.py install
 
 tests emulationstation:
-  <<: *lint_definition
+  extends: .lint_definition
   stage: lint
   image: docker:latest
   tags:
     - lintstage
   services:
     - docker:dind
-  only:
-    refs:
-      - master
-      - merge_requests
-      - tags
-    changes:
-      - projects/frontend/**/*
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master" || $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_TAG'
+      changes:
+        - projects/frontend/**/*
   script:
     - cd projects/frontend
     - docker build .
@@ -108,12 +100,11 @@ tests buildroot patches:
     GIT_SUBMODULE_STRATEGY: recursive
   tags:
     - lintstage
-  only:
-    refs:
-      - merge_requests
-    changes:
-      - package/*/*.patch
-      - board/recalbox/patches/*/*.patch
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      changes:
+        - package/*/*.patch
+        - board/recalbox/patches/*/*.patch
   before_script:
     - apk update && apk add git
   script:
@@ -144,16 +135,13 @@ tests buildroot patches:
       done
 
 tests nvidia:
-  <<: *lint_definition
+  extends: .lint_definition
   stage: lint
   image: python:3.9-slim
-  only:
-    refs:
-      - master
-      - merge_requests
-      - tags
-    changes:
-      - projects/recalbox-hardware/videocard/**/*
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master" || $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_TAG'
+      changes:
+        - projects/recalbox-hardware/videocard/**/*
   script:
     - cd projects/recalbox-hardware/videocard
     - echo "Installing dependencies"
@@ -177,13 +165,13 @@ appimage-amd64:
       paths:
         - 'projects/frontend/*.AppImage*'
       expire_in: 1 week
-    
 
-.build_template: &build_definition
+
+.build_definition:
   stage: build
   variables:
     ARCH: arch  # to build (no default)
-  <<: *only-default
+  extends: .only-default
   before_script:
     - apk update && apk add git bash
     - source scripts/release/functions.sh
@@ -252,63 +240,29 @@ appimage-amd64:
     - build
 
 
-build x86_64:
-  <<: *build_definition
+build:
+  extends: .build_definition
   when: manual
-  variables:
-    ARCH: 'x86_64'
-build rpi4_64:
-  <<: *build_definition
-  when: manual
-  variables:
-    ARCH: 'rpi4_64'
-build odroidgo2:
-  <<: *build_definition
-  when: manual
-  variables:
-    ARCH: 'odroidgo2'
-build odroidxu4:
-  <<: *build_definition
-  when: manual
-  variables:
-    ARCH: 'odroidxu4'
-build rpi1:
-  <<: *build_definition
-  when: manual
-  variables:
-    ARCH: 'rpi1'
-build rpi3:
-  <<: *build_definition
-  when: manual
-  variables:
-    ARCH: 'rpi3'
-build rpizero2legacy:
-  <<: *build_definition
-  when: manual
-  variables:
-    ARCH: 'rpizero2legacy'
-build rpizero2:
-  <<: *build_definition
-  when: manual
-  variables:
-    ARCH: 'rpizero2'
-build rg353x:
-  <<: *build_definition
-  when: manual
-  variables:
-    ARCH: 'rg353x'
-build rpi5_64:
-  <<: *build_definition
-  when: manual
-  variables:
-    ARCH: 'rpi5_64'
+  parallel:
+    matrix:
+      - ARCH: 
+          - 'x86_64'
+          - 'rpi4_64'
+          - 'odroidgo2'
+          - 'odroidxu4'
+          - 'rpi1'
+          - 'rpi3'
+          - 'rpizero2legacy'
+          - 'rpizero2'
+          - 'rg353x'
+          - 'rpi5_64'
 
 ### Release
 
-.release_template: &release_definition
+.release_definition:
   stage: release
-  tags:
-    - release
+  rules:
+    - if: '$CI_COMMIT_TAG'
   variables:
     DEPLOY_TYPE: type of the deployment (prod, review)
     BUCKET: Bucket to deploy to
@@ -340,13 +294,12 @@ build rpi5_64:
       fi
 
 release prod:
-  <<: *release_definition
-  only:
-    refs:
-      - tags
-    variables:
-      - $CI_COMMIT_TAG !~ /alpha/i && $CI_COMMIT_TAG !~ /recalboxrgbdual/i && $CI_COMMIT_TAG !~ /patron/i
-  when: manual
+  extends: .release_definition
+  rules:
+    - if: '$CI_COMMIT_TAG'
+      variables:
+        CI_COMMIT_TAG: '!/alpha|recalboxrgbdual|patron/i'
+      when: manual
   variables:
     DEPLOY_TYPE: prod
     BUCKET: recalbox-archive-stable
@@ -355,10 +308,10 @@ release prod:
     url: https://www.recalbox.com/download/
 
 release alpha:
-  <<: *release_definition
-  only:
-    - tags
-  when: manual
+  extends: .release_definition
+  rules:
+    - if: '$CI_COMMIT_TAG'
+      when: manual
   variables:
     DEPLOY_TYPE: review
     BUCKET: recalbox-archive-alpha
@@ -366,13 +319,12 @@ release alpha:
     name: alpha/${CI_COMMIT_REF_SLUG}
 
 release patron:
-  <<: *release_definition
-  only:
-    refs:
-      - tags
-    variables:
-      - $CI_COMMIT_TAG =~ /patron/i
-  when: manual
+  extends: .release_definition
+  rules:
+    - if: '$CI_COMMIT_TAG'
+      variables:
+        CI_COMMIT_TAG: '/patron/i'
+      when: manual
   variables:
     DEPLOY_TYPE: review
     BUCKET: recalbox-archive-patron
@@ -380,13 +332,12 @@ release patron:
     name: patron/${CI_COMMIT_REF_SLUG}
 
 release jamma:
-  <<: *release_definition
-  only:
-    refs:
-      - tags
-    variables:
-      - $CI_COMMIT_TAG =~ /jamma/i
-  when: manual
+  extends: .release_definition
+  rules:
+    - if: '$CI_COMMIT_TAG'
+      variables:
+        CI_COMMIT_TAG: '/jamma/i'
+      when: manual
   variables:
     DEPLOY_TYPE: review
     BUCKET: recalbox-archive-jamma
@@ -394,13 +345,12 @@ release jamma:
     name: jamma/${CI_COMMIT_REF_SLUG}
 
 release jamma-early:
-  <<: *release_definition
-  only:
-    refs:
-      - tags
-    variables:
-      - $CI_COMMIT_TAG =~ /jamma/i
-  when: manual
+  extends: .release_definition
+  rules:
+    - if: '$CI_COMMIT_TAG'
+      variables:
+        CI_COMMIT_TAG: '/jamma/i'
+      when: manual
   variables:
     DEPLOY_TYPE: review
     BUCKET: recalbox-archive-jamma-early
@@ -408,11 +358,10 @@ release jamma-early:
     name: jamma-early/${CI_COMMIT_REF_SLUG}
 
 release branch:
-  <<: *release_definition
-  <<: *only-default
-  when: manual
-  only:
-    - merge_requests
+  extends: .release_definition
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: manual
   variables:
     DEPLOY_TYPE: review
     BUCKET: recalbox-archive-branch

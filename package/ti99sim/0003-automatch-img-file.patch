@@ -1,3 +1,21 @@
+From ff60d07c96ce492d5a2710cc9a0d7ac3ee627d60 Mon Sep 17 00:00:00 2001
+From: Bkg2k <bkg2k9@gmail.com>
+Date: Sat, 21 Aug 2021 17:17:11 +0200
+Subject: [PATCH 3/9] automatch img file
+
+---
+ include/icomputer.hpp          |  2 +-
+ include/ti994a-console.hpp     |  2 +-
+ include/ti994a-sdl.hpp         |  2 +-
+ include/ti994a.hpp             |  2 +-
+ src/console/ti-main.cpp        | 12 +++---------
+ src/console/ti994a-console.cpp |  2 +-
+ src/core/ti994a-gk.cpp         |  2 +-
+ src/core/ti994a.cpp            |  8 +++-----
+ src/sdl/main.cpp               | 12 +++---------
+ src/sdl/ti994a-sdl.cpp         |  8 ++++----
+ 10 files changed, 19 insertions(+), 33 deletions(-)
+
 diff --git a/include/icomputer.hpp b/include/icomputer.hpp
 index 905afcb..5fd1903 100644
 --- a/include/icomputer.hpp
@@ -198,3 +216,6 @@ index 3c0da4a..934f02b 100644
  							break;
  						case SDLK_F10 :
  							Reset( );
+-- 
+2.46.0
+

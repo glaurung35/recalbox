@@ -1,3 +1,13 @@
+From 24d99b834e2d113f02e111442dce132e197ad9fd Mon Sep 17 00:00:00 2001
+From: Bkg2k <bkg2k9@gmail.com>
+Date: Tue, 24 Aug 2021 22:24:55 +0200
+Subject: [PATCH 8/9] remove include option changes
+
+---
+ src/sdl/Makefile  | 2 +-
+ src/util/Makefile | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
 diff --git a/src/sdl/Makefile b/src/sdl/Makefile
 index ba10b6e..aa0b4bd 100644
 --- a/src/sdl/Makefile
@@ -24,3 +34,6 @@ index a2c904d..fcc0367 100644
  XLIBS	+= `sdl2-config --libs`
  endif
  
+-- 
+2.46.0
+

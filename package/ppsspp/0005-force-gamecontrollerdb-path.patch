@@ -1,0 +1,25 @@
+From f9fbba7bdbf144792cf3e1f35de76874d464355e Mon Sep 17 00:00:00 2001
+From: Bkg2k <bkg2k9@gmail.com>
+Date: Tue, 9 Nov 2021 12:30:42 +0100
+Subject: [PATCH 5/6] force gamecontrollerdb path
+
+---
+ SDL/SDLJoystick.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/SDL/SDLJoystick.cpp b/SDL/SDLJoystick.cpp
+index a0d206ee21..40b22b9a18 100644
+--- a/SDL/SDLJoystick.cpp
++++ b/SDL/SDLJoystick.cpp
+@@ -25,7 +25,7 @@ SDLJoystick::SDLJoystick(bool init_SDL ) : registeredAsEventHandler(false) {
+ 		SDL_Init(SDL_INIT_JOYSTICK | SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER);
+ 	}
+ 
+-	const char *dbPath = "gamecontrollerdb.txt";
++	const char *dbPath = "/recalbox/share/system/configs/ppsspp/gamecontrollerdb.txt";
+ 	cout << "loading control pad mappings from " << dbPath << ": ";
+ 
+ 	size_t size;
+-- 
+2.46.0
+

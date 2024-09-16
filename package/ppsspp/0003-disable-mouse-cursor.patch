@@ -1,0 +1,26 @@
+From 37e632f26c23d053e9d6b3bf9126304f3ac0c9ba Mon Sep 17 00:00:00 2001
+From: Bkg2k <bkg2k9@gmail.com>
+Date: Fri, 6 Sep 2024 10:32:28 +0200
+Subject: [PATCH 3/6] disable mouse cursor
+
+---
+ SDL/SDLMain.cpp | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/SDL/SDLMain.cpp b/SDL/SDLMain.cpp
+index 559a3ff61b..8f6c3269b2 100644
+--- a/SDL/SDLMain.cpp
++++ b/SDL/SDLMain.cpp
+@@ -1398,9 +1398,7 @@ int main(int argc, char *argv[]) {
+ 		printf("Init from thread error: '%s'\n", error_message.c_str());
+ 	}
+ 
+-#ifdef MOBILE_DEVICE
+ 	SDL_ShowCursor(SDL_DISABLE);
+-#endif
+ 
+ 	// Ensure that the swap interval is set after context creation (needed for kmsdrm)
+ 	SDL_GL_SetSwapInterval(1);
+-- 
+2.46.0
+

@@ -1,0 +1,4 @@
+config BR2_PACKAGE_RECALBOX_3MOUNTS
+	bool "recalbox 3mounts"
+	help
+	  The 3mounts utility for recalbox

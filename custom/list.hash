@@ -8,7 +8,6 @@
 --------------------------------  package/llvm/0002-Add-missing-cstdint-header-to-Signals.h.patch
 --------------------------------  package/mesa3d/0004-Fix-uClibc-build.patch
 --------------------------------  package/mesa3d/0006-meson-ensure-i915-Gallium-driver-includes-Intel-sour.patch
---------------------------------  package/usbmount/0001-rules-fix.patch
 659a58bb047b48f06331465ca6128592  linux/Config.in
 f9276b91b0fe5ccfad41b70d0611bdb7  linux/linux.mk
 c17b2548c35cffbd487ade70e272015c  package/bcm2835/Config.in
@@ -48,7 +47,6 @@ f976cbc5a7299cfc48ec83f255ddf85b  package/sdl2_mixer/sdl2_mixer.mk
 76f5941c64fe63d71fdbafde3594ba78  package/sdl_sound/Config.in
 7255c6ecc9f8bd6a511a495b1c8c1d0a  package/sdl_sound/sdl_sound.mk
 503c8043fd40aa5486cd99bc9ccfdc75  package/skeleton-init-common/skeleton-init-common.mk
-837f387642582c0188c5f6e48d6d2f57  package/usbmount/usbmount.mk
 27dcf5bb34815943d76c903cb8d9b40f  package/vulkan-headers/vulkan-headers.hash
 ed4e31d4e0fce4196f11064ce5b77e5d  package/vulkan-headers/vulkan-headers.mk
 6e3ab6b232135fb951ccb3c161e481d8  package/x265/x265.mk

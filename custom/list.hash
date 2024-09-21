@@ -5,6 +5,7 @@
 #   * a line of plus signs ('+') indicates a file that we add to the Buildroot external tree
 
 ++++++++++++++++++++++++++++++++  package/heimdal/0002-cf-largefile.m4-Fix-build-with-autoconf-2.72.patch
+++++++++++++++++++++++++++++++++  package/snappy/0001-Fix-compilation-error-raised-by-vqtbl1q_u8-instructi.patch
 --------------------------------  package/mesa3d/0004-Fix-uClibc-build.patch
 --------------------------------  package/usbmount/0001-rules-fix.patch
 --------------------------------  package/wlroots/0001-Add-feature-macros-to-more-C-files-.patch

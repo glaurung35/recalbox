@@ -66,6 +66,10 @@ MenuGamelistOptions::MenuGamelistOptions(WindowManager& window, SystemData& syst
   if (DownloaderManager::HasDownloader(mSystem))
     AddSubMenu(_("DOWNLOAD GAMES"),  (int)Components::Download, this, _(MENUMESSAGE_GAMELISTOPTION_DOWNLOAD_GAMES_MSG));
 
+  // search others version of current game
+  if(!mGamelist.getCursor()->Metadata().Alias().empty())
+    AddSubMenu(_("SEARCH OTHER VERSIONS"), (int) Components::SearchSiblings, this,  _("MENUMESSAGE_GAMELISTOPTION_SEARCH_SIBLINGS_MSG"));
+
   // Jump to letter
 	AddList<unsigned int>(_("JUMP TO LETTER"), (int)Components::JumpToLetter, this, GetLetterEntries(), String::UpperUnicode(mGamelist.getCursor()->Name().ReadFirstUTF8()), 0, _(MENUMESSAGE_GAMELISTOPTION_JUMP_LETTER_MSG));
 
@@ -218,7 +222,8 @@ void MenuGamelistOptions::MenuSingleChanged(int id, int index, const unsigned in
     FileSorts::Sorts sortId = mListSort->SelectedValue();
 
     // if sort is not alpha, need to force an alpha
-    if (sortId != FileSorts::Sorts::FileNameAscending && sortId != FileSorts::Sorts::FileNameDescending)
+    if (sortId != FileSorts::Sorts::FileNameAscending && sortId != FileSorts::Sorts::FileNameDescending
+    && sortId != FileSorts::Sorts::AliasAscending && sortId != FileSorts::Sorts::AliasDescending)
     {
       sortId = FileSorts::Sorts::FileNameAscending;
       mListSort->SetSelectedItemValue(sortId, false);
@@ -314,6 +319,14 @@ void MenuGamelistOptions::SubMenuSelected(int id)
       mWindow.pushGui(new MenuArcade(mWindow, mSystemManager, mArcade));
       break;
     }
+    case Components::SearchSiblings:
+    {
+      std::string alias = mGamelist.getCursor()->Metadata().Alias();
+      SearchForcedOptions forcedOptions = SearchForcedOptions(alias, FolderData::FastSearchContext::Alias, true);
+      mWindow.pushGui(new GuiSearch(mWindow, mSystemManager, &forcedOptions));
+      break;
+    }
+
     case Components::JumpToLetter:
     case Components::Sorts:
     case Components::Regions:
@@ -377,6 +390,8 @@ void MenuGamelistOptions::MenuSwitchChanged(int id, bool& status)
     case Components::SaveStates:
     case Components::Quit:
     case Components::ArcadeOptions:
+    case Components::SearchSiblings:
+      break;
     case Components::Decorations:
     default: break;
   }
@@ -414,6 +429,7 @@ void MenuGamelistOptions::MenuMultiChanged(int id, int index, const std::vector<
     case Components::Search:
     case Components::ArcadeOptions:
     case Components::AutorunGame:
+    case Components::SearchSiblings:
     default: break;
   }
 }

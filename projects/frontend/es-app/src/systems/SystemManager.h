@@ -430,6 +430,8 @@ class SystemManager : private INoCopy // No copy allowed
     //! Remove all cache
     void DeleteFastSearchCache();
 
+    FileData::List SearchFullMatchInGames(FolderData::FastSearchContext context, const String& text, int maxglobal, const SystemData* targetSystem);
+
     /*!
      * @brief Called when a game has been deleted
      * This method update internal systems and provide the caller with a liste of added or removed systems
@@ -720,7 +722,7 @@ class SystemManager : private INoCopy // No copy allowed
      * @param maxglobal Maximum results
      * @return Sorted game found list
      */
-    FileData::List SearchTextInGames(FolderData::FastSearchContext context, const String& text, int maxglobal, const SystemData* targetSystem);
+    FileData::List SearchTextInGames(FolderData::FastSearchContext context, const String& text, int maxglobal, const SystemData* targetSystem, bool exactMatch = false);
 
     /*!
      * @brief Autoscrape system with game in png

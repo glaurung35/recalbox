@@ -14,6 +14,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add meaningfull headers when using sorts other than alphabetical order
 - Reintroduced Favorites on top of gamelist as an option
 - Add new menu to hide systems individually
+- Change libretro sameboy repo to the official repo
 
 ### Improvements
 - Add gamelist decoration on the right side: regions flags, genre & players
@@ -22,7 +23,8 @@ as release notes for end user on a Recalbox upgrade.
 ### Fixes
 - Fix hidden and/or empty being shown after some user operations
 
-
+### Bump
+- Bump libretro sameboy
 
 ## Version 9.2.3-Pulstar
 

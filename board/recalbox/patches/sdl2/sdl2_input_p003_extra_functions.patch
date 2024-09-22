@@ -1,23 +1,8 @@
-From e5bdef40d2b42b40e0d8f02f82b6f9731e3b2d18 Mon Sep 17 00:00:00 2001
-From: David Barbion <davidb@230ruedubac.fr>
-Date: Wed, 8 Mar 2023 23:02:52 +0100
-Subject: [PATCH] sdl2 input p003 extra functions
-
----
- include/SDL_joystick.h                 |  5 +++
- src/dynapi/SDL_dynapi_overrides.h      |  6 +++
- src/dynapi/SDL_dynapi_procs.h          |  6 +++
- src/joystick/SDL_joystick.c            | 21 +++++++++
- src/joystick/SDL_sysjoystick.h         |  5 +++
- src/joystick/linux/SDL_sysjoystick.c   | 60 ++++++++++++++++++++++++++
- src/joystick/linux/SDL_sysjoystick_c.h |  1 +
- 7 files changed, 104 insertions(+)
-
 diff --git a/include/SDL_joystick.h b/include/SDL_joystick.h
-index 07d6a2e0a..01aa9cbf5 100644
+index 7a3faf8..dbcb732 100644
 --- a/include/SDL_joystick.h
 +++ b/include/SDL_joystick.h
-@@ -421,6 +421,11 @@ extern DECLSPEC int SDLCALL SDL_JoystickDetachVirtual(int device_index);
+@@ -424,6 +424,11 @@ extern DECLSPEC int SDLCALL SDL_JoystickDetachVirtual(int device_index);
   */
  extern DECLSPEC SDL_bool SDLCALL SDL_JoystickIsVirtual(int device_index);
  
@@ -30,7 +15,7 @@ index 07d6a2e0a..01aa9cbf5 100644
   * Set values on an opened, virtual-joystick's axis.
   *
 diff --git a/src/dynapi/SDL_dynapi_overrides.h b/src/dynapi/SDL_dynapi_overrides.h
-index 52ddfafef..2103e4066 100644
+index f57c522..5131707 100644
 --- a/src/dynapi/SDL_dynapi_overrides.h
 +++ b/src/dynapi/SDL_dynapi_overrides.h
 @@ -209,6 +209,12 @@
@@ -47,7 +32,7 @@ index 52ddfafef..2103e4066 100644
  #define SDL_JoystickGetBall SDL_JoystickGetBall_REAL
  #define SDL_JoystickGetButton SDL_JoystickGetButton_REAL
 diff --git a/src/dynapi/SDL_dynapi_procs.h b/src/dynapi/SDL_dynapi_procs.h
-index 2180dbfb1..7dfb9fd85 100644
+index 7f5d325..d3d9399 100644
 --- a/src/dynapi/SDL_dynapi_procs.h
 +++ b/src/dynapi/SDL_dynapi_procs.h
 @@ -243,6 +243,12 @@ SDL_DYNAPI_PROC(int,SDL_JoystickNumButtons,(SDL_Joystick *a),(a),return)
@@ -64,10 +49,10 @@ index 2180dbfb1..7dfb9fd85 100644
  SDL_DYNAPI_PROC(int,SDL_JoystickGetBall,(SDL_Joystick *a, int b, int *c, int *d),(a,b,c,d),return)
  SDL_DYNAPI_PROC(Uint8,SDL_JoystickGetButton,(SDL_Joystick *a, int b),(a,b),return)
 diff --git a/src/joystick/SDL_joystick.c b/src/joystick/SDL_joystick.c
-index b4d6d2edc..95c09ebea 100644
+index dff447b..c90a0fc 100644
 --- a/src/joystick/SDL_joystick.c
 +++ b/src/joystick/SDL_joystick.c
-@@ -2898,6 +2898,27 @@ SDL_JoystickGUID SDL_JoystickGetGUIDFromString(const char *pchGUID)
+@@ -3241,6 +3241,27 @@ SDL_JoystickGUID SDL_JoystickGetGUIDFromString(const char *pchGUID)
      return SDL_GUIDFromString(pchGUID);
  }
  
@@ -96,10 +81,10 @@ index b4d6d2edc..95c09ebea 100644
  void SDL_PrivateJoystickBatteryLevel(SDL_Joystick *joystick, SDL_JoystickPowerLevel ePowerLevel)
  {
 diff --git a/src/joystick/SDL_sysjoystick.h b/src/joystick/SDL_sysjoystick.h
-index 20216bb49..5e40d5e42 100644
+index 173650e..a25a14c 100644
 --- a/src/joystick/SDL_sysjoystick.h
 +++ b/src/joystick/SDL_sysjoystick.h
-@@ -250,6 +250,11 @@ extern SDL_JoystickDriver SDL_N3DS_JoystickDriver;
+@@ -259,6 +259,11 @@ extern SDL_JoystickDriver SDL_N3DS_JoystickDriver;
  }
  #endif
  
@@ -112,12 +97,12 @@ index 20216bb49..5e40d5e42 100644
  
  /* vi: set ts=4 sw=4 expandtab: */
 diff --git a/src/joystick/linux/SDL_sysjoystick.c b/src/joystick/linux/SDL_sysjoystick.c
-index dc534ba6c..86a83d465 100644
+index bb7c31c..379a9b5 100644
 --- a/src/joystick/linux/SDL_sysjoystick.c
 +++ b/src/joystick/linux/SDL_sysjoystick.c
-@@ -957,6 +957,16 @@ ConfigJoystick(SDL_Joystick *joystick, int fd)
-     SDL_bool use_deadzones = SDL_GetHintBoolean(SDL_HINT_LINUX_JOYSTICK_DEADZONES, SDL_FALSE);
-     SDL_bool use_hat_deadzones = SDL_GetHintBoolean(SDL_HINT_LINUX_HAT_DEADZONES, SDL_TRUE);
+@@ -1270,6 +1270,16 @@ static void ConfigJoystick(SDL_Joystick *joystick, int fd, int fd_sensor)
+ 
+     SDL_AssertJoysticksLocked();
  
 +    for(i=0; i<KEY_MAX; i++) {
 +      joystick->hwdata->key_map[i] = -1;
@@ -132,7 +117,7 @@ index dc534ba6c..86a83d465 100644
      /* See if this device uses the new unified event API */
      if ((ioctl(fd, EVIOCGBIT(EV_KEY, sizeof(keybit)), keybit) >= 0) &&
          (ioctl(fd, EVIOCGBIT(EV_ABS, sizeof(absbit)), absbit) >= 0) &&
-@@ -2090,6 +2100,56 @@ SDL_JoystickDriver SDL_LINUX_JoystickDriver =
+@@ -2809,6 +2819,56 @@ SDL_JoystickDriver SDL_LINUX_JoystickDriver = {
      LINUX_JoystickGetGamepadMapping
  };
  
@@ -190,17 +175,14 @@ index dc534ba6c..86a83d465 100644
  
  /* vi: set ts=4 sw=4 expandtab: */
 diff --git a/src/joystick/linux/SDL_sysjoystick_c.h b/src/joystick/linux/SDL_sysjoystick_c.h
-index 79e7ab443..2d971ed60 100644
+index 6d6ee69..43f5e07 100644
 --- a/src/joystick/linux/SDL_sysjoystick_c.h
 +++ b/src/joystick/linux/SDL_sysjoystick_c.h
-@@ -53,6 +53,7 @@ struct joystick_hwdata
+@@ -57,6 +57,7 @@ struct joystick_hwdata
      /* Support for the Linux 2.4 unified input interface */
      Uint8 key_map[KEY_MAX];
      Uint8 abs_map[ABS_MAX];
 +    Uint8 hat_map[ABS_MAX];
      SDL_bool has_key[KEY_MAX];
      SDL_bool has_abs[ABS_MAX];
- 
--- 
-2.39.2
-
+     SDL_bool has_accelerometer;

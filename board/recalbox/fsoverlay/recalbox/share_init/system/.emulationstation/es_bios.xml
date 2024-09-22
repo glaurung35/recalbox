@@ -454,18 +454,20 @@
   </system>
   <system fullname="Nintendo Gameboy" platform="gb">
     <bios path="gb/gb_bios.bin" md5="32fbbd84168d3482956eb3c5051637f5" mandatory="false" core="libretro/mgba,libretro/gambatte,libretro/mesen_s" />
-    <bios path="gb/dmg_boot.bin" md5="57f6a79fb41d6b2c8987fa529c3a90f2,60f1d849a435e9053b8ac0fd5776804a" mandatory="false" core="libretro/sameboy,libretro/mesen_s" />
+    <bios path="gb/dmg_boot.bin" md5="57f6a79fb41d6b2c8987fa529c3a90f2,60f1d849a435e9053b8ac0fd5776804a,6344d08bbbcbedbbaef9ddbdf7632c74" mandatory="false" core="libretro/sameboy,libretro/mesen_s" />
+    <bios path="gb/mgb_boot.bin" md5="df79723ee8093b0580496f3df436e4c4" mandatory="false" core="libretro/sameboy" />
   </system>
   <system fullname="Nintendo Super Gameboy" platform="gb,gbc">
     <bios path="sgb/sgb_bios.bin" md5="d574d4f9c12f305074798f54c091a8b4" mandatory="false" core="libretro/mgba,libretro/mesen_s" />
-    <bios path="sgb/sgb_boot.bin" md5="be77bbd03f8675478f6e3d2176f3cb56" mandatory="false" core="libretro/mesen_s,libretro/sameboy" />
-    <bios path="sgb/sgb2_boot.bin" md5="b4331a9e612b4738867a30af9c96df52" mandatory="false" core="libretro/mesen_s,libretro/sameboy" />
+    <bios path="sgb/sgb_boot.bin" md5="be77bbd03f8675478f6e3d2176f3cb56,a43cbd0ab271990f434412fc5c500eff" mandatory="false" core="libretro/mesen_s,libretro/sameboy" />
+    <bios path="sgb/sgb2_boot.bin" md5="b4331a9e612b4738867a30af9c96df52,6d507dcf3b61ce45a5717421cdd0ae95" mandatory="false" core="libretro/mesen_s,libretro/sameboy" />
     <bios path="sgb/SGB1.sfc" md5="b15ddb15721c657d82c5bab6db982ee9" mandatory="true" core="libretro/bsnes,libretro/mesen_s" />
     <bios path="sgb/SGB2.sfc" md5="8ecd73eb4edf7ed7e81aef1be80031d5" mandatory="true" core="libretro/bsnes,libretro/mesen_s" />
   </system>
   <system fullname="Nintendo Gameboy Color" platform="gbc">
     <bios path="gbc/gbc_bios.bin" md5="dbfce9db9deaa2567f6a84fde55f9680" mandatory="false" core="libretro/mgba,libretro/gambatte,libretro/mesen_s" />
-    <bios path="gbc/cgb_boot.bin" md5="b560efd759d87634a03b243f22bba27a,6b68be48dab6a7298a8c07e00c136b4e" mandatory="false" core="libretro/sameboy,libretro/mesen_s" />
+    <bios path="gbc/cgb_boot.bin" md5="b560efd759d87634a03b243f22bba27a,6b68be48dab6a7298a8c07e00c136b4e,62cfda90d22405cdff59700c388a57f6" mandatory="false" core="libretro/sameboy,libretro/mesen_s" />
+    <bios path="gbc/agb_boot.bin" md5="8e29ae4f331830d54ae764f3e10cebae" mandatory="false" core="libretro/sameboy" />
   </system>
   <system fullname="Pentagon 128/512/1024 (ZX Spectrum clone)" platform="zxspectrum">
     <bios path="fuse/128p-0.rom" md5="a249565f03b98d004ee7f019570069cd" mandatory="false" core="libretro/fuse" note="Only required if you want to emulate Pentagon machines" />

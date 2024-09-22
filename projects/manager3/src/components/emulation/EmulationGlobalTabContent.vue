@@ -57,6 +57,7 @@
             <template v-slot:help>
               {{ $t('emulation.global.display.shaderset.help.availableShaders') }}
               <ul>
+                <li v-html="$t('emulation.global.display.shaderset.help.crtcurved')"></li>
                 <li v-html="$t('emulation.global.display.shaderset.help.custom')"></li>
                 <li v-html="$t('emulation.global.display.shaderset.help.none')"></li>
                 <li v-html="$t('emulation.global.display.shaderset.help.retro')"></li>

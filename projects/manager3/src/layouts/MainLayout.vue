@@ -145,6 +145,7 @@ header
 
 .menu
   background: $primary
+  border-right: 1px solid white
 
   .menu-logo
     position: absolute

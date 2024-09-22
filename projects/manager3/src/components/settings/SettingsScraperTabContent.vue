@@ -43,6 +43,16 @@
             >
               <template v-slot:help>
                 {{ $t('settings.scraper.screenscraper.medias.media.help') }}
+                <div class="help-image-type-container">
+                  <div v-for="type in imageTypes" class="help-image-type" :key="type.title">
+                    <div class="title-container">{{ type.title }}</div>
+                    <q-img
+                      contain
+                      :src="type.imgPath"
+                      :ratio="1"
+                    />
+                  </div>
+                </div>
               </template>
             </WrappedSelect>
             <WrappedSelect
@@ -205,7 +215,9 @@ import { storeToRefs } from 'pinia';
 import WrappedSelect from 'components/ui-kit/WrappedSelect.vue';
 import WrappedTextInput from 'components/ui-kit/WrappedTextInput.vue';
 import WrappedToggle from 'components/ui-kit/WrappedToggle.vue';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n({ useScope: 'global' });
 const scraperStore = useScraperStore();
 scraperStore.fetch();
 const {
@@ -218,4 +230,39 @@ const {
   videoOptions,
   regionPriorityOptions,
 } = storeToRefs(scraperStore);
+
+const imageTypes = [
+  { title: t('settings.scraper.screenscraper.medias.media.box3d'), imgPath: 'images/scraper/box-3d-min.png' },
+  { title: t('settings.scraper.screenscraper.medias.media.box2d'), imgPath: 'images/scraper/box-2d-min.png' },
+  { title: t('settings.scraper.screenscraper.medias.media.clearLogo'), imgPath: 'images/scraper/clear-logo-min.png' },
+  { title: t('settings.scraper.screenscraper.medias.media.titleScreenshot'), imgPath: 'images/scraper/title-screenshot-min.png' },
+  { title: t('settings.scraper.screenscraper.medias.media.inGameScreenshot'), imgPath: 'images/scraper/ingame-screenshot-min.png' },
+  { title: t('settings.scraper.screenscraper.medias.media.marquee'), imgPath: 'images/scraper/marquee-min.png' },
+  { title: t('settings.scraper.screenscraper.medias.media.mixv1'), imgPath: 'images/scraper/mix-v1-min.png' },
+  { title: t('settings.scraper.screenscraper.medias.media.mixv2'), imgPath: 'images/scraper/mix-v2-min.png' },
+];
 </script>
+
+<style lang="sass">
+.help-image-type-container
+  display: flex
+  flex-wrap: wrap
+  align-content: center
+  align-items: center
+  flex-direction: row
+  margin-top: 1em
+
+  .help-image-type
+    height: 150px
+    flex-grow: 1
+    width: 20%
+    border: 1px solid $secondary
+    border-radius: 5px
+    padding: .5em
+    margin: .2em
+
+    .title-container
+      font-weight: bold
+      color: $secondary
+
+</style>

@@ -289,6 +289,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump FBneo to aad581
 - Bump Hypseus-Singe to v2.10.4
 - Bump Netflix and Youtube plugins in Kodi
+- Bump mame2003plus to current version
 
 ### Improvements
 - Add wizard to disable smooth game when enabling shaders

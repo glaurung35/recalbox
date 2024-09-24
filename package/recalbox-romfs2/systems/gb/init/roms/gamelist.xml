@@ -50,8 +50,8 @@
     <genreid>257</genreid>
   </game>
   <game id="419463" source="ScreenScraper.fr">
-    <path>./Pongboy_recalbox_edition.gb</path>
-    <name>Pong Boy Recalbox Editon</name>
+    <path>./PongBoy.gb</path>
+    <name>Pong Boy</name>
     <desc>In the distant future...
 Times have changed and powerful space machines are battling it out in "Pong-Boy".
 With 2 players or against "Artificial Intelligence", will you be efficient enough to win!</desc>

@@ -48,31 +48,5 @@ index 80dd534..bb3b56b 100644
 -    install_symlink(libmali.so ${CMAKE_INSTALL_LIBDIR}/libgbm.so)
  endif()
 -- 
-2.32.0
-
-
-From f3933646e8de976403ed0b380e10bb40c81afdc9 Mon Sep 17 00:00:00 2001
-From: David Barbion <davidb@230ruedubac.fr>
-Date: Fri, 13 Aug 2021 11:56:23 +0200
-Subject: [PATCH 2/2] fix: fix compile use for missing drm.h
-
----
- src/gbm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/src/gbm.c b/src/gbm.c
-index b868772..aad3a2a 100644
---- a/src/gbm.c
-+++ b/src/gbm.c
-@@ -8,7 +8,7 @@
- #include <sys/stat.h>
- #include <fcntl.h>
- #include <sys/mman.h>
--#include <xf86drm.h>
-+#include <libdrm/drm.h>
- #include "gbm.h"
- 
- void *
--- 
-2.32.0
+2.46.1
 

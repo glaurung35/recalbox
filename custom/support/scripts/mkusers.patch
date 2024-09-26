@@ -1,5 +1,5 @@
 diff --git a/support/scripts/mkusers b/support/scripts/mkusers
-index ee09bbd1f2..7b7d1e78f9 100755
+index 08f3344518..b686ed11e0 100755
 --- a/support/scripts/mkusers
 +++ b/support/scripts/mkusers
 @@ -340,7 +340,9 @@ add_one_user() {

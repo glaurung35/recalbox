@@ -1,5 +1,5 @@
 diff --git a/package/mesa3d/Config.in b/package/mesa3d/Config.in
-index 459051b2db..ad58e045c3 100644
+index d8ea22ac91..756eaa9653 100644
 --- a/package/mesa3d/Config.in
 +++ b/package/mesa3d/Config.in
 @@ -306,6 +306,42 @@ comment "intel vulkan needs a glibc toolchain w/ headers >= 3.17"

@@ -1,5 +1,5 @@
 diff --git a/package/wlroots/Config.in b/package/wlroots/Config.in
-index 7622a3033b..e3b94fd247 100644
+index f0f53a82c9..26e60437a3 100644
 --- a/package/wlroots/Config.in
 +++ b/package/wlroots/Config.in
 @@ -25,6 +25,7 @@ config BR2_PACKAGE_WLROOTS

@@ -1,20 +1,19 @@
-From f000412a69506d69ef28427a90982aecab932c90 Mon Sep 17 00:00:00 2001
+From bfe674989eef04c27eb25b6f15dd7ab603b44fde Mon Sep 17 00:00:00 2001
 From: AreaScout <d.mehrwald@gmail.com>
 Date: Thu, 1 Sep 2022 13:11:00 +0200
-Subject: [PATCH 7/9] Add: abillity to disable hw decoder
+Subject: [PATCH 7/8] Add: abillity to disable hw decoder
 
 ---
  addons/resource.language.en_gb/resources/strings.po | 12 ++++++++++++
  system/settings/linux.xml                           |  6 ++++++
- xbmc/settings/Settings.cpp                          |  1 +
  xbmc/settings/Settings.h                            |  1 +
- 4 files changed, 20 insertions(+)
+ 3 files changed, 19 insertions(+)
 
 diff --git a/addons/resource.language.en_gb/resources/strings.po b/addons/resource.language.en_gb/resources/strings.po
-index 67cbbe0afb..6a6f6b0e44 100644
+index c99ae80f5d..a97e0d88e4 100644
 --- a/addons/resource.language.en_gb/resources/strings.po
 +++ b/addons/resource.language.en_gb/resources/strings.po
-@@ -732,6 +732,12 @@ msgctxt "#170"
+@@ -744,6 +744,12 @@ msgctxt "#170"
  msgid "Adjust display refresh rate"
  msgstr ""
  
@@ -27,7 +26,7 @@ index 67cbbe0afb..6a6f6b0e44 100644
  #: xbmc/playlists/SmartPlayList.cpp
  #: xbmc/utils/SortUtils.cpp
  msgctxt "#171"
-@@ -18756,6 +18762,12 @@ msgctxt "#36164"
+@@ -19537,6 +19543,12 @@ msgctxt "#36164"
  msgid "Allow the refresh rate of the display to be changed so that it best matches the video frame rate. This may yield smoother video playback."
  msgstr ""
  
@@ -41,10 +40,10 @@ index 67cbbe0afb..6a6f6b0e44 100644
  #: system/settings/settings.xml
  msgctxt "#36165"
 diff --git a/system/settings/linux.xml b/system/settings/linux.xml
-index 6d1fb9cd49..c0b5686523 100644
+index 531974f3f4..55aee300b8 100644
 --- a/system/settings/linux.xml
 +++ b/system/settings/linux.xml
-@@ -181,6 +181,12 @@
+@@ -193,6 +193,12 @@
            </constraints>
            <control type="spinner" format="string" />
          </setting>
@@ -57,23 +56,11 @@ index 6d1fb9cd49..c0b5686523 100644
        </group>
      </category>
    </section>
-diff --git a/xbmc/settings/Settings.cpp b/xbmc/settings/Settings.cpp
-index 2b487339d6..202a5f7bb1 100644
---- a/xbmc/settings/Settings.cpp
-+++ b/xbmc/settings/Settings.cpp
-@@ -148,6 +148,7 @@ constexpr const char* CSettings::SETTING_VIDEOPLAYER_USEVDPAUVC1;
- constexpr const char* CSettings::SETTING_VIDEOPLAYER_USEDXVA2;
- constexpr const char* CSettings::SETTING_VIDEOPLAYER_USEVTB;
- constexpr const char* CSettings::SETTING_VIDEOPLAYER_USEPRIMEDECODER;
-+constexpr const char* CSettings::SETTING_VIDEOPLAYER_USESOFTWAREDECODER;
- constexpr const char* CSettings::SETTING_VIDEOPLAYER_USESTAGEFRIGHT;
- constexpr const char* CSettings::SETTING_VIDEOPLAYER_LIMITGUIUPDATE;
- constexpr const char* CSettings::SETTING_VIDEOPLAYER_SUPPORTMVC;
 diff --git a/xbmc/settings/Settings.h b/xbmc/settings/Settings.h
-index 8276c8a5aa..8e96a1e9f3 100644
+index bfc5e6072c..83a4bde051 100644
 --- a/xbmc/settings/Settings.h
 +++ b/xbmc/settings/Settings.h
-@@ -126,6 +126,7 @@ public:
+@@ -131,6 +131,7 @@ public:
    static constexpr auto SETTING_VIDEOPLAYER_USEDXVA2 = "videoplayer.usedxva2";
    static constexpr auto SETTING_VIDEOPLAYER_USEVTB = "videoplayer.usevtb";
    static constexpr auto SETTING_VIDEOPLAYER_USEPRIMEDECODER = "videoplayer.useprimedecoder";
@@ -82,5 +69,5 @@ index 8276c8a5aa..8e96a1e9f3 100644
    static constexpr auto SETTING_VIDEOPLAYER_LIMITGUIUPDATE = "videoplayer.limitguiupdate";
    static constexpr auto SETTING_VIDEOPLAYER_SUPPORTMVC = "videoplayer.supportmvc";
 -- 
-2.38.1
+2.46.1
 

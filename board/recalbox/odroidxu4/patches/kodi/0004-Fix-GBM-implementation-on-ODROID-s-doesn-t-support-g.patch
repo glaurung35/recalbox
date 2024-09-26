@@ -1,7 +1,7 @@
-From 17760a1573b4d095c789c099275ce677f261b26a Mon Sep 17 00:00:00 2001
+From 9b5ac3d5fbf78fed5bccfa280a37364f0a88b937 Mon Sep 17 00:00:00 2001
 From: AreaScout <d.mehrwald@gmail.com>
 Date: Thu, 1 Sep 2022 12:58:52 +0200
-Subject: [PATCH 4/9] Fix: GBM implementation on ODROID's doesn't support
+Subject: [PATCH 4/8] Fix: GBM implementation on ODROID's doesn't support
  gbm_surface_has_free_buffers, we must add a hack for it here
 
 ---
@@ -9,7 +9,7 @@ Subject: [PATCH 4/9] Fix: GBM implementation on ODROID's doesn't support
  1 file changed, 16 insertions(+), 12 deletions(-)
 
 diff --git a/xbmc/windowing/gbm/GBMUtils.cpp b/xbmc/windowing/gbm/GBMUtils.cpp
-index cf6ee7df4a..bc0a9b1c96 100644
+index 0ac2b854ba..21a97190eb 100644
 --- a/xbmc/windowing/gbm/GBMUtils.cpp
 +++ b/xbmc/windowing/gbm/GBMUtils.cpp
 @@ -74,24 +74,28 @@ CGBMUtils::CGBMDevice::CGBMSurface::CGBMSurface(gbm_surface* surface) : m_surfac
@@ -17,7 +17,7 @@ index cf6ee7df4a..bc0a9b1c96 100644
  }
  
 +#define MAX_SURFACE_BUFFERS 3
- CGBMUtils::CGBMDevice::CGBMSurface::CGBMSurfaceBuffer* CGBMUtils::CGBMDevice::CGBMSurface::
+ CGBMUtils::CGBMDevice::CGBMSurface::CGBMSurfaceBuffer& CGBMUtils::CGBMDevice::CGBMSurface::
      LockFrontBuffer()
  {
 -  m_buffers.emplace(std::make_unique<CGBMSurfaceBuffer>(m_surface));
@@ -35,7 +35,7 @@ index cf6ee7df4a..bc0a9b1c96 100644
 -    /*
 -     * We want to use call_once here because we want it to be logged the first time that
 -     * we have to release buffers. This means that the maximum amount of buffers had been reached.
--     * For mesa this should be 4 buffers but it may vary accross other implementations.
+-     * For mesa this should be 4 buffers but it may vary across other implementations.
 -     */
 -    std::call_once(
 -        flag, [this]() { CLog::Log(LOGDEBUG, "CGBMUtils - using {} buffers", m_buffers.size()); });
@@ -50,9 +50,9 @@ index cf6ee7df4a..bc0a9b1c96 100644
  
 +  m_buffers.emplace(std::make_unique<CGBMSurfaceBuffer>(m_surface));
 +
-   return m_buffers.back().get();
+   return *m_buffers.back();
  }
  
 -- 
-2.38.1
+2.46.1
 

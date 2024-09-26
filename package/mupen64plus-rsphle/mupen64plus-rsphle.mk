@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# commit of 11/02/2021
-MUPEN64PLUS_RSPHLE_VERSION = 88766c6e2d30492e64d78999825068aa598c1080
+# commit of 2024/07/15
+MUPEN64PLUS_RSPHLE_VERSION = 2798e65d6fc89d89aace0b0d779af6406809b940
 MUPEN64PLUS_RSPHLE_SITE = $(call github,mupen64plus,mupen64plus-rsp-hle,$(MUPEN64PLUS_RSPHLE_VERSION))
 MUPEN64PLUS_RSPHLE_LICENSE = MIT
 MUPEN64PLUS_RSPHLE_DEPENDENCIES = sdl2 alsa-lib mupen64plus-core

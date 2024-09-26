@@ -60,13 +60,40 @@
         <q-icon name="mdi-ghost-off-outline"/>
       </template>
     </OverlayMessage>
-    <div class="screen">
-      <q-img
-        v-if="currentState.currentRom"
-        :src="currentState.currentRom?.imagePath"
-        spinner-color="white"
-        fit="contain"
-      />
+    <div v-if="currentState.currentRom !== null" class="screen">
+      <transition
+        appear
+        enter-active-class="animated slideInUp"
+      >
+        <q-img
+          v-if="currentState.currentRom?.metaData?.availableMedia.hasImage"
+          :src="currentState.currentRom?.imagePath"
+          spinner-color="white"
+          fit="contain"
+        />
+      </transition>
+      <div
+        class="image-placeholder"
+        v-if="!currentState.currentRom?.metaData?.availableMedia.hasImage"
+      >
+        <transition
+          appear
+          enter-active-class="animated slideInUp"
+        >
+          <q-img
+            v-if="currentState.currentSystem"
+            class="console"
+            :src="currentState.currentSystem?.consolePath"
+            spinner-color="white"
+          />
+        </transition>
+        <transition
+          appear
+          enter-active-class="animated slideInRight"
+        >
+          <div class="title">{{ currentState.currentRom?.metaData?.name }}</div>
+        </transition>
+      </div>
     </div>
   </div>
   <q-dialog
@@ -80,7 +107,7 @@
         <div class="text-uppercase text-bold">{{ currentState.currentRom?.metaData?.name }}</div>
         <hr />
         <div>{{ currentState.currentRom?.metaData?.synopsys }}</div>
-        <hr />
+        <hr v-if="currentState.currentRom?.metaData?.synopsys"/>
         <table>
           <tr
             v-if="currentState.currentRom?.metaData?.publisher"
@@ -115,14 +142,18 @@
               />
             </td>
           </tr>
-          <tr>
+          <tr
+            v-if="currentState.currentRom?.metaData?.players.min && currentState.currentRom?.metaData?.players.max"
+          >
             <td>{{ $t('home.game.metaData.modal.players') }}</td>
             <td class="value">
               {{ currentState.currentRom?.metaData?.players.min }}
               - {{ currentState.currentRom?.metaData?.players.max }}
             </td>
           </tr>
-          <tr>
+          <tr
+            v-if="currentState.currentRom?.metaData?.genres.free"
+          >
             <td>{{ $t('home.game.metaData.modal.genres') }}</td>
             <td class="value">{{ currentState.currentRom?.metaData?.genres.free }}</td>
           </tr>
@@ -182,6 +213,20 @@ const infoOpen = ref<boolean>(false);
     position: relative
     width: 50%
     filter: drop-shadow(0 0 0.75rem rgba(0, 0, 0, 0.29))
+
+    .image-placeholder
+      text-align: center
+
+      .title
+        position: absolute
+        top: calc(50% - 1em)
+        left: 0
+        right: 0
+        background: rgba(white, 0.7)
+        padding: 1em
+        font-weight: bold
+        font-size: large
+        color: $secondary
 
 .info-dialog-card
   border-left: 6px solid $accent

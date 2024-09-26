@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# Commit of 30/11/2021
-MUPEN64PLUS_CORE_VERSION = 6860d134afd16f40262fe335cfee04967265fbac
+# Commit of 2024/09/10
+MUPEN64PLUS_CORE_VERSION = 312a5befde1b44db8beee7868b929c23d896991f
 MUPEN64PLUS_CORE_SITE = $(call github,mupen64plus,mupen64plus-core,$(MUPEN64PLUS_CORE_VERSION))
 MUPEN64PLUS_CORE_LICENSE = GPLv2+
 MUPEN64PLUS_CORE_DEPENDENCIES = sdl2 alsa-lib libpng freetype host-nasm host-binutils
@@ -31,6 +31,14 @@ endif
 ifeq ($(BR2_PACKAGE_HAS_LIBEGL),y)
 MUPEN64PLUS_CORE_DEPENDENCIES += libegl
 MUPEN64PLUS_CORE_GL_LDLIBS += -lEGL
+endif
+
+ifeq ($(BR2_PACKAGE_HAS_VULKAN),y)
+MUPEN64PLUS_CORE_DEPENDENCIES += vulkan-headers
+MUPEN64PLUS_CORE_GL_LDLIBS += -lvulkan
+MUPEN64PLUS_CORE_PARAMS += VULKAN=1
+else
+MUPEN64PLUS_CORE_PARAMS += VULKAN=0
 endif
 
 ifeq ($(BR2_PACKAGE_RPI_USERLAND),y)

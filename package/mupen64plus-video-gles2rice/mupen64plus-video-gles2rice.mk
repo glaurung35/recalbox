@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-MUPEN64PLUS_VIDEO_GLES2RICE_VERSION = 03189cb54a5b8f19d0680715f05e1bd76e9149ab
+# Commit of 2023/10/23 - pandora backport for RPi
+MUPEN64PLUS_VIDEO_GLES2RICE_VERSION = 1dcd6ddb6c60750c9fe4dd6dab6a2d04c304221e
 MUPEN64PLUS_VIDEO_GLES2RICE_SITE = $(call github,ricrpi,mupen64plus-video-gles2rice,$(MUPEN64PLUS_VIDEO_GLES2RICE_VERSION))
 MUPEN64PLUS_VIDEO_GLES2RICE_LICENSE = MIT
 MUPEN64PLUS_VIDEO_GLES2RICE_DEPENDENCIES = sdl2 alsa-lib mupen64plus-core libgles

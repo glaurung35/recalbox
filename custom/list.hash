@@ -5,7 +5,6 @@
 #   * a line of plus signs ('+') indicates a file that we add to the Buildroot external tree
 
 ++++++++++++++++++++++++++++++++  package/heimdal/0002-cf-largefile.m4-Fix-build-with-autoconf-2.72.patch
-++++++++++++++++++++++++++++++++  package/snappy/0001-Fix-compilation-error-raised-by-vqtbl1q_u8-instructi.patch
 --------------------------------  package/mesa3d/0004-Fix-uClibc-build.patch
 --------------------------------  package/usbmount/0001-rules-fix.patch
 --------------------------------  package/wlroots/0001-Add-feature-macros-to-more-C-files-.patch
@@ -16,7 +15,7 @@ c17b2548c35cffbd487ade70e272015c  package/bcm2835/Config.in
 da90ab5754ec8fcf94fb0dc8048ef344  package/bluez5_utils/bluez5_utils.mk
 139c28fb0a041898208f176f918bf135  package/dhcpcd/dhcpcd.mk
 c445390118f5d058dd372a8b2beb25a8  package/dropbear/S50dropbear
-38d81646d1a5d03cd582132606a18936  package/ffmpeg/ffmpeg.mk
+f8f1d83caf51791602eeefd554506bdf  package/ffmpeg/ffmpeg.mk
 6b31f620c36bb2d6c54cfaf71cc5a086  package/initscripts/init.d/rcK
 76f02a748149f1aa945aa418ea65b2bc  package/initscripts/init.d/rcS
 be7091dd90cc6633f644562fd3416acb  package/libcec/libcec.mk
@@ -28,7 +27,7 @@ d3e12326dfc6c9b0039637e298084771  package/llvm-project/llvm-project.mk
 be6ac651da6356e2ce471d6c3d4dc2d8  package/llvm-project/llvm/Config.in
 38a00ce9a91212eeb814cb4f7b38173e  package/llvm-project/llvm/llvm.hash
 64b2fa393cafff6958f4bfd2b9e30f24  package/luajit/Config.in
-4c58912fd65cbd23c274da482250ba08  package/mesa3d/Config.in
+ed6723404b629755642d93306effccf3  package/mesa3d/Config.in
 ff9e11eba41f7142fb7f3baad789cb16  package/mesa3d/mesa3d.mk
 1cbf73d63240389b6dce649f2711a610  package/mosquitto/mosquitto.mk
 91f24d342b8b163b77030e8211f1ee79  package/mpv/mpv.mk
@@ -42,10 +41,10 @@ cc46bc8b0b7a7c0100e6c43579c02b52  package/sdl2/sdl2.hash
 f976cbc5a7299cfc48ec83f255ddf85b  package/sdl2_mixer/sdl2_mixer.mk
 503c8043fd40aa5486cd99bc9ccfdc75  package/skeleton-init-common/skeleton-init-common.mk
 837f387642582c0188c5f6e48d6d2f57  package/usbmount/usbmount.mk
-5f85a69a6c5abcd68b9b6bea955d9e62  package/wlroots/Config.in
+7d75ef4bb83efa9de526c3d1ba09884e  package/wlroots/Config.in
 2cf0c56bbf21a27a146c534f0c4b5fbb  package/wlroots/wlroots.hash
 7deca18b80b621e96934bb187cdc54fe  package/wlroots/wlroots.mk
-6e3ab6b232135fb951ccb3c161e481d8  package/x265/x265.mk
-1a93fc46e3acf002a8d2b544abd494cd  support/scripts/mkusers
+15cd7fae49deb785a581627fbbdd1898  package/x265/x265.mk
+07886171f88dd0b1228062fcab520e60  support/scripts/mkusers
 2673dc3e7fbc4920c43ad91ad9214d3e  system/device_table.txt
 7c04e662b37e09a98c46141cf08fb247  system/skeleton/etc/passwd

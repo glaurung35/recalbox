@@ -212,15 +212,6 @@ class LibretroControllers:
         for player in self.controllers:
             self.buildController(self.controllers[player], player, system)
 
-        # Specific case for rgb jamma, where the host must set the controller types of the joining players
-        # Makes it impossible to play cross rgbjamma and other platforms
-        if system.CRTAdapter == CRTAdapter.RECALBOXRGBJAMMA and system.Netplay:
-            # p2 is player 3 and so on
-            self.settings.setString("input_libretro_device_p2", system.JammaLayoutP1.toRetroarchDeviceType(system.Name))
-            self.settings.setString("input_libretro_device_p3", system.JammaLayoutP1.toRetroarchDeviceType(system.Name))
-            self.settings.setString("input_libretro_device_p4", system.JammaLayoutP1.toRetroarchDeviceType(system.Name))
-            self.settings.setString("input_libretro_device_p5", system.JammaLayoutP1.toRetroarchDeviceType(system.Name))
-
         # Set Hotkey
         self.setHotKey()
 
@@ -305,7 +296,7 @@ class LibretroControllers:
 
         is_jamma = controller.DeviceName.startswith("JammaController")
         if is_jamma:
-            settings.setString("input_libretro_device_p{}".format(controller.PlayerIndex-1), system.JammaLayoutP2.toRetroarchDeviceType(system.Name) if playerIndex == 2 else system.JammaLayoutP1.toRetroarchDeviceType(system.Name) )
+            settings.setString("input_libretro_device_p{}".format(controller.PlayerIndex), system.JammaLayoutP2.toRetroarchDeviceType(system.Name) if playerIndex == 2 else system.JammaLayoutP1.toRetroarchDeviceType(system.Name) )
 
         if self.getInputDriver == "sdl2":
             inputIndex = controller.SdlIndex

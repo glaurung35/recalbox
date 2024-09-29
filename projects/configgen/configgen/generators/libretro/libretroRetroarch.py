@@ -319,7 +319,7 @@ class LibretroRetroarch:
                 .setString("savefile_directory", recalboxFiles.savesDir + self.system.Name)
 
         # Extend Controller configurations
-        for i in range(1, 12):
+        for i in range(1, 13):
             settings.setInt("input_libretro_device_p{}".format(i), 1)
         core = self.system.Core
         # Generic

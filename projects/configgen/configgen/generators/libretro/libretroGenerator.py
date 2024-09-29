@@ -384,18 +384,17 @@ class LibretroGenerator(Generator):
         remapConfig = keyValueSettings(recalboxFiles.retroarchRemapCommon, True)
         remapConfig.loadFile(True)
         remapConfig.clear()
-        remapConfigDevice = config.getOptionByRegex('input_libretro_device_p[1-8]$')
+        remapConfigDevice = config.getOptionByRegex('input_libretro_device_p\d+$')
 
         for option in remapConfigDevice.items():
             remapConfig.setString(option[0], '"' + option[1] + '"')
 
-        for i in range(1, 9):
+        for i in range(1, len(remapConfigDevice) + 1):
             value = config.getInt("input_player{}_analog_dpad_mode".format(i), 0)
             remapConfig.setString("input_player{}_analog_dpad_mode".format(i), '"' + str(value) + '"')
             remapConfig.setString("input_remap_port_p{}".format(i), '"' + str(i - 1) + '"' )
 
         remapConfig.saveFile()
-
 
     # recalbox-crt-options.cfg options
     # Create configuration file
@@ -474,6 +473,12 @@ class LibretroGenerator(Generator):
             retroarchConfig.setString("audio_volume", "-2.0")
         else:
             retroarchConfig.setString("audio_volume", "0.0")
+
+        # Force 10 players for Saturn
+        retroarchConfig.setString("input_max_users", '"8"')
+        if system.Name == "saturn":
+            retroarchConfig.setString("input_max_users", '"12"')
+
         retroarchConfig.saveFile()
 
         # Create remap file

@@ -29,4 +29,4 @@ add_executable(
         ${ALL_TESTED_SOURCES}
 )
 
-target_link_libraries(emulationstation_test pthread ${SDL2_LIBRARY} curl zip procps resolv ${UDEV_LIBRARIES} ${LIBLZMA_LIBRARIES})
+target_link_libraries(emulationstation_test pthread ${SDL2_LIBRARY} curl zip resolv ${UDEV_LIBRARIES} ${LIBLZMA_LIBRARIES})

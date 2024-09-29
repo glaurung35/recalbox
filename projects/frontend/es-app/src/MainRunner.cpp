@@ -13,7 +13,7 @@
 #include <guis/GuiMsgBox.h>
 #include <scraping/ScraperFactory.h>
 #include <audio/AudioController.h>
-#include <utils/os/system/ProcessTree.h>
+//#include <utils/os/system/ProcessTree.h>
 #include <recalbox/RecalboxSystem.h>
 #include <guis/wizards/WizardAgo2.h>
 #include <guis/wizards/WizardAgo3.h>
@@ -770,7 +770,7 @@ void MainRunner::ResetButtonPressed(BoardType board)
     // Something is running (game, demo, kodi)
     Files::SaveFile(Path(sStopDemo), String());
     { LOG(LogDebug) << "[MainRunner] Reset Button Pressed in game : exiting subprocesses"; }
-    ProcessTree::TerminateAll(1000);
+    //ProcessTree::TerminateAll(1000);
   }
 }
 
@@ -861,7 +861,7 @@ void MainRunner::PowerButtonPressed(BoardType board, int milliseconds)
     Files::SaveFile(Path(sQuitNow), String());
     Files::SaveFile(Path(sStopDemo), String());
     // Gracefuly qui emulators and all the call chain
-    ProcessTree::TerminateAll(1000);
+    //ProcessTree::TerminateAll(1000);
     // Quit
     RequestQuit(ExitState::Shutdown);
   }

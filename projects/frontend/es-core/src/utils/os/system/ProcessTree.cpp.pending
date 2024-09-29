@@ -4,7 +4,7 @@
 
 #include "ProcessTree.h"
 #include <unistd.h>
-#include <proc/readproc.h>
+#include <libproc2/readproc.h>
 #include <cstring>
 #include <wait.h>
 #include <utils/datetime/DateTime.h>

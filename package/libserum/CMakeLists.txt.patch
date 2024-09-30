@@ -1,8 +1,0 @@
---- libserum-b69d2b436bc93570a2e7e78d0946cd3c43f7aed5/CMakeLists.txt	2023-12-27 06:36:59.000000000 +0100
-+++ libserum-b69d2b436bc93570a2e7e78d0946cd3c43f7aed5/CMakeLists.new	2024-04-08 21:16:31.362722953 +0200
-@@ -1,4 +1,4 @@
--cmake_minimum_required(VERSION 3.25)
-+cmake_minimum_required(VERSION 3.22)
- 
- set(PLATFORM "win" CACHE STRING "Platform")
- set(ARCH "x64" CACHE STRING "Arch")

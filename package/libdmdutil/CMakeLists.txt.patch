@@ -1,8 +1,0 @@
---- libdmdutil-769764610897d962f4dce0c0618197738108ac97/CMakeLists.txt	2024-04-04 00:24:15.000000000 +0200
-+++ libdmdutil-769764610897d962f4dce0c0618197738108ac97/CMakeLists.new	2024-04-08 20:50:49.406198760 +0200
-@@ -1,4 +1,4 @@
--cmake_minimum_required(VERSION 3.25)
-+cmake_minimum_required(VERSION 3.22)
- 
- set(PLATFORM "win" CACHE STRING "Platform")
- set(ARCH "x64" CACHE STRING "Arch")

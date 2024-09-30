@@ -573,23 +573,13 @@ class MetadataDescriptor
       mLastPatchFile = sFileHolder.AddString16(patch.Filename());
       mDirty = true;
     }
-<<<<<<< HEAD
-    void SetEmulator(const String& emulator)       { mEmulator     = sEmulatorHolder.AddString16(emulator);       mDirty = true; }
-    void SetCore(const String& core)               { mCore         = sCoreHolder.AddString16(core);               mDirty = true; }
-    void SetRatio(const String& ratio)             { mRatio        = sRatioHolder.AddString8(ratio);              mDirty = true; }
-    void SetGenre(const String& genre)             { mGenre        = sGenreHolder.AddString32(genre);             mDirty = true; }
-    void SetName(const String& name)               { mName         = sNameHolder.AddString32(name);               mDirty = true; }
-    void SetAlias(const String& alias)             { mAlias        = sNameHolder.AddString32(alias);             mDirty = true; }
-
-    void SetDescription(const String& description) { mDescription  = sDescriptionHolder.AddString32(description); mDirty = true; }
-=======
     void SetEmulator(const String& emulator)            { mEmulator     = sEmulatorHolder.AddString16(emulator);       mDirty = true; }
     void SetCore(const String& core)                    { mCore         = sCoreHolder.AddString16(core);               mDirty = true; }
     void SetRatio(const String& ratio)                  { if (ratio=="auto") mRatio = sRatioHolder.AddString8(String::Empty); mRatio = sRatioHolder.AddString8(ratio); mDirty = true; }
     void SetGenre(const String& genre)                  { mGenre        = sGenreHolder.AddString32(genre);             mDirty = true; }
     void SetName(const String& name)                    { mName         = sNameHolder.AddString32(name);               mDirty = true; }
     void SetDescription(const String& description)      { mDescription  = sDescriptionHolder.AddString32(description); mDirty = true; }
->>>>>>> a311cf63d8 (feat(frontend): move user metadata to gamelist-userdata.xml)
+    void SetAlias(const String& alias)                  { mAlias        = sNameHolder.AddString32(alias);             mDirty = true; }
     void SetReleaseDate(const DateTime& releasedate)    { mReleaseDate  = (int)releasedate.ToEpochTime();              mDirty = true; }
     void SetDeveloper(const String& developer)          { mDeveloper    = sDeveloperHolder.AddString32(developer);     mDirty = true; }
     void SetPublisher(const String& publisher)          { mPublisher    = sPublisherHolder.AddString32(publisher);     mDirty = true; }

@@ -849,10 +849,8 @@ template<typename T> ItemSelector<T>::Selector::Selector(WindowManager& window, 
   mItemList->setColorAt(MenuColors::sHeaderSelectedColor, mTheme.Section().selectedColor);                                // Header selected color
   mItemList->setColorAt(MenuColors::sSelectableColor, mTheme.Text().color);                   // Text color
   mItemList->setColorAt(MenuColors::sSelectableSelectedColor, mTheme.Text().selectedColor);                               // selected text coplor
-  mItemList->setColorAt(MenuColors::sBackgroundColor, mTheme.Background().color);             // Unselected Background color
   mItemList->setColorAt(MenuColors::sUnselectableColor, MenuColors::Alpha25Percent(mTheme.Text().color)); // Grayed item
   mItemList->setColorAt(MenuColors::sUnselectableSelectedColor, MenuColors::Alpha25Percent(mTheme.Text().selectedColor)); // Grayed selected color
-  mItemList->setColorAt(MenuColors::sHeaderBackgroundColor, 0x00000040);                      // Grayed item - TODO: make this color themable
 											      //
   mItemList->setSelectorHeight(mItemList->EntryHeight());
   mItemList->setShiftSelectedTextColor(true);

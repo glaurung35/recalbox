@@ -11,7 +11,7 @@
 4c323a0fc6461ab2af66e1282fe4585a  linux/Config.in
 cb5b6a8c509a930d8e9815f97855613b  linux/linux.mk
 5f30589736a71c2887e7b61aaa21ed40  package/alsa-plugins/Config.in
-626f63d35b36a6cefdb6522714e5f456  package/alsa-plugins/alsa-plugins.mk
+6e5035da8b70ae310585a1d61a412bd6  package/alsa-plugins/alsa-plugins.mk
 c17b2548c35cffbd487ade70e272015c  package/bcm2835/Config.in
 5a9deb88e7e597a746ee333e858caaca  package/binutils/binutils.mk
 da90ab5754ec8fcf94fb0dc8048ef344  package/bluez5_utils/bluez5_utils.mk

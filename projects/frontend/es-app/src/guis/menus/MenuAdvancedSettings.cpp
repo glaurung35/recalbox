@@ -273,7 +273,7 @@ void MenuAdvancedSettings::SubMenuSelected(int id)
     case Components::AdvancedSubMenu: mWindow.pushGui(new MenuSystemList(mWindow, mSystemManager)); break;
     case Components::KodiSubMenu: mWindow.pushGui(new MenuKodiSettings(mWindow)); break;
     case Components::ResolutionSubMenu: mWindow.pushGui(new MenuResolutionSettings(mWindow, mSystemManager)); break;
-    case Components::PinballSubMenu: mWindow.pushGui(new GuiMenuPinballSettings(mWindow)); break;
+    case Components::PinballSubMenu: mWindow.pushGui(new MenuPinballSettings(mWindow)); break;
     case Components::UserScripts: mWindow.pushGui(new GuiMenuUserScripts(mWindow)); break;
     case Components::FactoryReset: ResetFactory(); break;
     case Components::EepromUpdate: EepromUpdate(); break;

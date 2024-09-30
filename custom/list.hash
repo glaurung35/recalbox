@@ -27,7 +27,9 @@ d3e12326dfc6c9b0039637e298084771  package/llvm-project/llvm-project.mk
 be6ac651da6356e2ce471d6c3d4dc2d8  package/llvm-project/llvm/Config.in
 38a00ce9a91212eeb814cb4f7b38173e  package/llvm-project/llvm/llvm.hash
 64b2fa393cafff6958f4bfd2b9e30f24  package/luajit/Config.in
+e135d51d57e1d2a13110ad411fb88dfc  package/mesa3d-headers/mesa3d-headers.mk
 ed6723404b629755642d93306effccf3  package/mesa3d/Config.in
+56c99af2aaeed83c243e7455722db56f  package/mesa3d/mesa3d.hash
 ff9e11eba41f7142fb7f3baad789cb16  package/mesa3d/mesa3d.mk
 1cbf73d63240389b6dce649f2711a610  package/mosquitto/mosquitto.mk
 91f24d342b8b163b77030e8211f1ee79  package/mpv/mpv.mk

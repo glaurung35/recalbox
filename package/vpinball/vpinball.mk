@@ -4,11 +4,11 @@
 #
 ################################################################################
 
-VPINBALL_VERSION = 454d9306f5fb7d30236b2d6ba4036c04daebec39
+VPINBALL_VERSION = bee8834ea050b347f7dc91aeb1f2a0d43ad04d10
 VPINBALL_SITE = $(call github,vpinball,vpinball,$(VPINBALL_VERSION))
 VPINBALL_LICENSE = GPLv3+
 VPINBALL_LICENSE_FILES = LICENSE
-VPINBALL_DEPENDENCIES = libfreeimage libpinmame libaltsound libdmdutil libdof sdl2 sdl2_image sdl2_ttf
+VPINBALL_DEPENDENCIES = libfreeimage libpinmame libaltsound libdmdutil libdof sdl2 sdl2_image sdl2_ttf ffmpeg
 VPINBALL_SUPPORTS_IN_SOURCE_BUILD = NO
 VPINBALL_EXTRA_DOWNLOADS = https://www.un4seen.com/files/bass24-linux.zip
 
@@ -49,7 +49,7 @@ define VPINBALL_INSTALL_TARGET_CMDS
 	cp -R $(@D)/buildroot-build/flexdmd $(TARGET_DIR)/usr/bin/vpinball/
 	cp -R $(@D)/buildroot-build/assets $(TARGET_DIR)/usr/bin/vpinball/
 	cp -R $(@D)/buildroot-build/scripts $(TARGET_DIR)/usr/bin/vpinball/
-	cp -R $(@D)/buildroot-build/shaders-10.8.1 $(TARGET_DIR)/usr/bin/vpinball/
+	cp -R $(@D)/buildroot-build/shader10.8.0 $(TARGET_DIR)/usr/bin/vpinball/
 endef
 
 VPINBALL_PRE_CONFIGURE_HOOKS += VPINBALL_CMAKE_HACKS

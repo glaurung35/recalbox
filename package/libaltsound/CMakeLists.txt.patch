@@ -1,8 +1,0 @@
---- libaltsound-9ac08a76e2aabc1fba57d3e5a3b87e7f63c09e07/CMakeLists.txt	2024-04-08 20:39:38.385329469 +0200
-+++ libaltsound-9ac08a76e2aabc1fba57d3e5a3b87e7f63c09e07/CMakeLists.new	2024-04-08 20:39:25.865462514 +0200
-@@ -1,4 +1,4 @@
--cmake_minimum_required(VERSION 3.25)
-+cmake_minimum_required(VERSION 3.22)
- 
- set(PLATFORM "win" CACHE STRING "Platform")
- set(ARCH "x64" CACHE STRING "Arch")

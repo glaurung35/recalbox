@@ -45,6 +45,7 @@ class MenuPads : public Menu
       PadOSD,
       PadOSDType,
       AutoPairOnBoot,
+      Rumble,
     };
 
     //! Pad lists

@@ -368,9 +368,9 @@ mountNetwork > /tmp/mountNetwork.log 2> /tmp/mountNetwork.err
 touch /var/run/recalbox.share.mounted
 
 # Now, let's mount delayed usbmount devices
-for DEV in /var/run/usbmount.delay/*; do
+for DEV in /var/run/3mounts.delay/*; do
   (
      source "$DEV"
-     /recalbox/scripts/recalbox-usbmount.sh "${ACTION}"
+     /recalbox/scripts/recalbox-3mounts.sh "${ACTION}"
   )
 done

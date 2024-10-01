@@ -53,7 +53,7 @@ namespace Pistache::Rest::Route
     {
         details::static_checks<Args...>();
 
-        return [this](const Rest::Request& request, Http::ResponseWriter response) {
+        return [=](const Rest::Request& request, Http::ResponseWriter response) {
             (obj->*func)(request, std::move(response));
         };
     }
@@ -63,7 +63,7 @@ namespace Pistache::Rest::Route
     {
         details::static_checks<Args...>();
 
-        return [this](const Rest::Request& request, Http::ResponseWriter response) {
+        return [=](const Rest::Request& request, Http::ResponseWriter response) {
             (objPtr.get()->*func)(request, std::move(response));
         };
     }
@@ -73,7 +73,7 @@ namespace Pistache::Rest::Route
     {
         details::static_checks<Args...>();
 
-        return [this](const Rest::Request& request, Http::ResponseWriter response) {
+        return [=](const Rest::Request& request, Http::ResponseWriter response) {
             func(request, std::move(response));
         };
     }

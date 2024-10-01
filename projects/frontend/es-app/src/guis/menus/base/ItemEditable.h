@@ -118,7 +118,7 @@ class ItemEditable : public ItemBase
       String displayable = mMasked ?
                            mTheme.Text().font->ShortenText(String('*', mEditedText.Count()), mTextWidth) :
                            mTheme.Text().font->ShortenText(mEditedText, mTextWidth);
-      mTheme.Text().font->RenderDirect(displayable, xText, area.Top(), color);
+      mTheme.Text().font->RenderDirect(displayable, xText, area.Top(), color, mDataProvider.Spacing());
     }
 
     /*!

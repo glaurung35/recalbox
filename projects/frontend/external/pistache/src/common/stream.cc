@@ -84,7 +84,7 @@ namespace Pistache
         size_ = sb.st_size;
     }
 
-    Fd FileBuffer::fd() const { return fd_; }
+    int FileBuffer::fd() const { return fd_; }
 
     size_t FileBuffer::size() const { return size_; }
 
@@ -180,7 +180,7 @@ namespace Pistache
 
     int StreamCursor::next() const
     {
-        if (buf->in_avail() < 1)
+        if (buf->in_avail() <= 1)
             return Eof;
 
         return buf->snext();

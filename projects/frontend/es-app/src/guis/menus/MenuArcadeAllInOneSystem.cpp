@@ -8,6 +8,10 @@ MenuArcadeAllInOneSystem::MenuArcadeAllInOneSystem(WindowManager& window, System
   : Menu(window, _("ARCADE VIRTUAL SYSTEM"))
   , mSystemManager(systemManager)
 {
+}
+
+void MenuArcadeAllInOneSystem::BuildMenuItems()
+{
   // Enable arcade
   AddSwitch(_("ENABLE ARCADE VIRTUAL SYSTEM"), RecalboxConf::Instance().GetCollectionArcade(), (int)Components::ArcadeOnOff, this, _(MENUMESSAGE_UI_ARCADE_AIO_VIRTUALSYSTEM_MSG));
 

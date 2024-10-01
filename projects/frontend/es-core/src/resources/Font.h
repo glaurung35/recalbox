@@ -93,6 +93,12 @@ class Font : public IReloadable
     };
 
   private:
+    //! Cached vertex array size
+    static constexpr int sVertexArraySize = Vertex::sVertexPerRectangle * 1024;
+    //! Direct drawing vertex cache
+    static Vertex mVertexes[sVertexArraySize + Vertex::sVertexPerRectangle];
+
+    //! Graphic char map
     std::map<UnicodeChar, Glyph> mGlyphMap;
 
     Glyph* getGlyph(UnicodeChar id);
@@ -123,8 +129,10 @@ class Font : public IReloadable
 
     Vector2f sizeText(const String& text, float lineSpacing = 1.5f); // Returns the expected size of a string when rendered.  Extra spacing is applied to the Y axis.
     float TextWidth(const String& text);
-    void RenderDirect(const String& text, float offsetX, float offsetY, unsigned int color, bool nospacing = false) { RenderDirect(text, offsetX, offsetY, color, 0.0f, TextAlignment::Left, 1.5f, nospacing); }
-    void RenderDirect(const String& text, float offsetX, float offsetY, unsigned int color, float xLen, bool nospacing = false) { RenderDirect(text, offsetX, offsetY, color, xLen, TextAlignment::Left, 1.5f, nospacing); }
+    void RenderDirect(const String& text, float offsetX, float offsetY, unsigned int color) { RenderDirect(text, offsetX, offsetY, color, 0.0f, TextAlignment::Left, 1.5f, false); }
+    void RenderDirect(const String& text, float offsetX, float offsetY, unsigned int color, bool nospacing) { RenderDirect(text, offsetX, offsetY, color, 0.0f, TextAlignment::Left, 1.5f, nospacing); }
+    void RenderDirect(const String& text, float offsetX, float offsetY, unsigned int color, float lineSpacing) { RenderDirect(text, offsetX, offsetY, color, 0.0f, TextAlignment::Left, lineSpacing, false); }
+    void RenderDirect(const String& text, float offsetX, float offsetY, unsigned int color, float xLen, bool nospacing) { RenderDirect(text, offsetX, offsetY, color, xLen, TextAlignment::Left, 1.5f, nospacing); }
     void RenderDirect(const String& text, float offsetX, float offsetY, unsigned int color, float xLen, TextAlignment alignment, bool nospacing = false) { RenderDirect(text, offsetX, offsetY, color, xLen, alignment, 1.5f, nospacing); }
     void RenderDirect(const String& text, float offsetX, float offsetY, unsigned int color, float xLen, TextAlignment alignment, float lineSpacing, bool nospacing = false);
     void renderCharacter(unsigned int unicode, float x, float y, float wr, float hr, unsigned int color);

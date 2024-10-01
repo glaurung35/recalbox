@@ -21,6 +21,9 @@ class MenuSwitchKodiNetplay : public Menu
      */
     explicit MenuSwitchKodiNetplay(WindowManager& window, SystemManager& systemManager);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
   private:
     enum class Components
     {

@@ -12,6 +12,10 @@ MenuDownloadGamePacks::MenuDownloadGamePacks(WindowManager& window, SystemManage
   : Menu(window, _("DOWNLOAD CONTENTS"))
   , mSystemManager(systemManager)
 {
+}
+
+void MenuDownloadGamePacks::BuildMenuItems()
+{
   SystemDeserializer deserializer;
   bool loaded = deserializer.LoadSystems();
 

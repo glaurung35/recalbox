@@ -69,6 +69,17 @@ class MenuTools
      */
     static ShaderList ListShaders();
 
+    /*!
+     * @brief Adjust resolution text used in menu:
+     * - Empty resolution returns "UNSET"
+     * - "default" returns the native resolution
+     * - old RPi resolutions are returned as XxY
+     * - Any other string is return "as is"
+     * @param resolution
+     * @return
+     */
+    static String GetResolutionText(const String& resolution);
+
   private:
     static const Path sShadersPath;
 

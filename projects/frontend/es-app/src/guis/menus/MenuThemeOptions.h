@@ -28,6 +28,9 @@ class MenuThemeOptions : public Menu
      */
     explicit MenuThemeOptions(WindowManager& window, const IGlobalVariableResolver& resolver);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
   private:
     static constexpr int sRecalboxMinimumCompatibilityVersion = 0x902; // (Major << 8) + Minor
 
@@ -89,7 +92,7 @@ class MenuThemeOptions : public Menu
     void MenuSingleChanged(int id, int index, const ThemeSpec& value) override;
 
     /*
-     * ISwitchComponent implementation
+     * ISwitchChanged implementation
      */
 
     void MenuSwitchChanged(int id, bool& status) override;

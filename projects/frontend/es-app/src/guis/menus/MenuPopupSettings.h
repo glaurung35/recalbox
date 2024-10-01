@@ -15,6 +15,9 @@ class MenuPopupSettings : public Menu
      */
     explicit MenuPopupSettings(WindowManager& window);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
   private:
     enum class Components
     {

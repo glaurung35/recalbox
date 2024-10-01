@@ -168,9 +168,9 @@ void DetailedGameListView::SwitchToTheme(const ThemeData& theme, bool refreshOnl
 
   mList.DoApplyThemeElement(theme, getName(), "gamelist", ThemePropertyCategory::All);
   // Set color 2/3 50% transparent of color 0/1
-  mList.setColor(GameHighlightColor, (mList.Color(GameColor) & 0xFFFFFF00) | ((mList.Color(GameColor) & 0xFF) >> 1));
-  mList.setColor(FolderHighlightColor, (mList.Color(FolderColor) & 0xFFFFFF00) | ((mList.Color(FolderColor) & 0xFF) >> 1));
-  mList.setColor(HeaderColor, /*(mList.Color(GameColor) & 0xFFFFFF00) |*/ 0x40);
+  mList.setColorAt(GameHighlightColor, (mList.Color(GameColor) & 0xFFFFFF00) | ((mList.Color(GameColor) & 0xFF) >> 1));
+  mList.setColorAt(FolderHighlightColor, (mList.Color(FolderColor) & 0xFFFFFF00) | ((mList.Color(FolderColor) & 0xFF) >> 1));
+  mList.setColorAt(HeaderColor, /*(mList.Color(GameColor) & 0xFFFFFF00) |*/ 0x40);
   sortChildren();
 
   // Compute flag width

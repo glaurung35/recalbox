@@ -11,6 +11,7 @@
 */
 
 #include <pistache/config.h>
+#include <pistache/eventmeth.h>
 #include <pistache/http.h>
 #include <pistache/net.h>
 #include <pistache/peer.h>
@@ -22,6 +23,7 @@
 #include <iostream>
 #include <memory>
 #include <stdexcept>
+#include <string>
 #include <unordered_map>
 
 #include <fcntl.h>
@@ -649,6 +651,28 @@ namespace Pistache::Http
 
     std::chrono::milliseconds Request::timeout() const { return timeout_; }
 
+    Header::Encoding Request::getBestAcceptEncoding() const
+    {
+        const auto& maybe_header = headers().tryGet<Header::AcceptEncoding>();
+        if (maybe_header == nullptr)
+        {
+            return Header::Encoding::Identity;
+        }
+
+        const auto& header = *maybe_header;
+
+        for (const auto& encoding : header.encodings())
+        {
+            // If the qvalue is 0, the encoding is not supported by the client
+            if (encodingSupported(encoding.first) && encoding.second != 0)
+            {
+                return encoding.first;
+            }
+        }
+
+        return Header::Encoding::Identity;
+    }
+
     Response::Response(Version version)
         : Message(version)
     { }
@@ -852,7 +876,101 @@ namespace Pistache::Http
             }
         }
 
-        return putOnWire(data, size);
+        // Compress data, if necessary, before sending over wire to user...
+        switch (contentEncoding_)
+        {
+
+#ifdef PISTACHE_USE_CONTENT_ENCODING_BROTLI
+        // User requested Brotli compression...
+        case Http::Header::Encoding::Br: {
+
+            // Location for size of compressed buffer, initially set to upper
+            //  bound on the data after its been compressed...
+            size_t compressedSize = ::BrotliEncoderMaxCompressedSize(size);
+
+            // Failed...
+            if (compressedSize == 0)
+                throw std::runtime_error("BrotliEncoderMaxCompressedSize() failed");
+
+            // Allocate a smart buffer to contain compressed data...
+            std::unique_ptr compressedData = std::make_unique<std::byte[]>(compressedSize);
+
+            // Compress data. The encoder expects compressedSize to initially be
+            //  the size of the output buffer. After it completes writing it
+            //  will update its value to reflect actual size used...
+            const auto compressionStatus = ::BrotliEncoderCompress(
+                contentEncodingBrotliLevel_,
+                BROTLI_DEFAULT_WINDOW,
+                BROTLI_DEFAULT_MODE,
+                size,
+                reinterpret_cast<const uint8_t*>(data),
+                &compressedSize,
+                reinterpret_cast<uint8_t*>(compressedData.get()));
+
+            // Failed...
+            if (compressionStatus != BROTLI_TRUE)
+                throw std::runtime_error("BrotliEncoderCompress() failed");
+
+            // Notify client to expect Brotli compressed response...
+            headers().add<Http::Header::ContentEncoding>(
+                Http::Header::Encoding::Br);
+
+            // Send compressed data back to client...
+            return putOnWire(
+                reinterpret_cast<const char*>(compressedData.get()),
+                compressedSize);
+        }
+#endif
+
+#ifdef PISTACHE_USE_CONTENT_ENCODING_DEFLATE
+        // User requested deflate compression...
+        case Http::Header::Encoding::Deflate: {
+
+            // Compute upper bound on size of expected compressed data. This
+            //  will be updated by compress2()...
+            uLongf compressedSize = ::compressBound(size);
+
+            // Allocate a smart buffer to contain compressed data...
+            std::unique_ptr compressedData = std::make_unique<std::byte[]>(compressedSize);
+
+            // Compress user data at requested level...
+            const auto compressionStatus = ::compress2(
+                reinterpret_cast<unsigned char*>(compressedData.get()),
+                &compressedSize,
+                reinterpret_cast<const unsigned char*>(data),
+                size,
+                contentEncodingDeflateLevel_);
+
+            // Failed...
+            if (compressionStatus != Z_OK)
+                throw std::runtime_error(
+                    std::string("compress2() failed, returning: ") + std::to_string(compressionStatus));
+
+            // Notify client to expect deflate compressed response...
+            headers().add<Http::Header::ContentEncoding>(
+                Http::Header::Encoding::Deflate);
+
+            // Send compressed data back to client...
+            return putOnWire(
+                reinterpret_cast<const char*>(compressedData.get()),
+                compressedSize);
+        }
+#endif
+        // No compression requested. Send uncompressed data to client...
+        case Http::Header::Encoding::Identity:
+            return putOnWire(data, size);
+
+        // Unknown...
+        case Http::Header::Encoding::Compress:
+        case Http::Header::Encoding::Chunked:
+        case Http::Header::Encoding::Unknown:
+        case Http::Header::Encoding::Gzip:
+        #ifndef PISTACHE_USE_CONTENT_ENCODING_BROTLI
+        case Http::Header::Encoding::Br:
+        #endif
+        default:
+            throw std::runtime_error("User requested unknown content encoding.");
+        }
     }
 
     ResponseStream ResponseWriter::stream(Code code, size_t streamSize)
@@ -944,17 +1062,57 @@ namespace Pistache::Http
             return transport_->asyncWrite(fd, buffer)
                 .then<std::function<Async::Promise<ssize_t>(ssize_t)>,
                       std::function<void(std::exception_ptr&)>>(
-                    [this](ssize_t data) {
+                    [=](ssize_t data) {
                         return Async::Promise<ssize_t>::resolved(data);
                     },
 
-                    [this](std::exception_ptr& eptr) {
+                    [=](std::exception_ptr& eptr) {
                         return Async::Promise<ssize_t>::rejected(eptr);
                     });
         }
         catch (const std::runtime_error& e)
         {
             return Async::Promise<ssize_t>::rejected(e);
+        }
+    }
+
+    // Compress using the requested content encoding, if supported, before
+    //  sending bits to client. User responsible for setting Content-Encoding
+    //  header...
+    void ResponseWriter::setCompression(const Pistache::Http::Header::Encoding _contentEncoding)
+    {
+        switch (_contentEncoding)
+        {
+
+#ifdef PISTACHE_USE_CONTENT_ENCODING_BROTLI
+        // Application requested Brotli compression...
+        case Http::Header::Encoding::Br:
+            contentEncoding_ = Http::Header::Encoding::Br;
+            break;
+#endif
+
+#ifdef PISTACHE_USE_CONTENT_ENCODING_DEFLATE
+        // Application requested deflate compression...
+        case Http::Header::Encoding::Deflate:
+            contentEncoding_ = Http::Header::Encoding::Deflate;
+            break;
+#endif
+
+        // Application requested identity encoding which means no compression...
+        case Http::Header::Encoding::Identity:
+            contentEncoding_ = Http::Header::Encoding::Identity;
+            break;
+
+        // Any other type is not supported...
+        case Http::Header::Encoding::Gzip:
+        case Http::Header::Encoding::Compress:
+        case Http::Header::Encoding::Chunked:
+        case Http::Header::Encoding::Unknown:
+        #ifndef PISTACHE_USE_CONTENT_ENCODING_BROTLI
+          case Http::Header::Encoding::Br:
+        #endif
+        default:
+            throw std::runtime_error("Unsupported content encoding compression requested.");
         }
     }
 
@@ -983,6 +1141,7 @@ namespace Pistache::Http
         }
 
         int res = ::fstat(fd, &sb);
+
         close(fd); // Done with fd, close before error can be thrown
         if (res == -1)
         {
@@ -1038,9 +1197,18 @@ namespace Pistache::Http
         auto sockFd     = peer->fd();
 
         auto buffer = buf->buffer();
-        return transport->asyncWrite(sockFd, buffer, MSG_MORE)
+        return transport->asyncWrite(sockFd, buffer,
+#ifdef _USE_LIBEVENT_LIKE_APPLE
+                                     0, // MSG_MORE unsupported in macos sendmsg
+                                        // Instead, we set TCP_NOPUSH via
+                                        // setsockopt (see "man tcp").
+                                     true // use msg_more_style
+#else
+                                     MSG_MORE
+#endif
+                                     )
             .then(
-                [fileName, transport, sockFd](ssize_t) {
+                [=](ssize_t) {
                     return transport->asyncWrite(sockFd, FileBuffer(fileName));
                 },
                 Async::Throw);
@@ -1078,12 +1246,16 @@ namespace Pistache::Http
     void Handler::onInput(const char* buffer, size_t len,
                           const std::shared_ptr<Tcp::Peer>& peer)
     {
+        PS_TIMEDBG_START_ARGS("input len %u", len);
+
         auto parser   = getParser(peer);
         auto& request = parser->request;
         try
         {
             if (!parser->feed(buffer, len))
             {
+                PS_LOG_DEBUG("parser returned false");
+
                 parser->reset();
                 throw HttpError(Code::Request_Entity_Too_Large,
                                 "Request exceeded maximum buffer size");
@@ -1093,6 +1265,8 @@ namespace Pistache::Http
 
             if (state == Private::State::Done)
             {
+                PS_LOG_DEBUG("Creating response");
+
                 ResponseWriter response(request.version(), transport(), this, peer);
 
 #ifdef LIBSTDCPP_SMARTPTR_LOCK_FIXME
@@ -1105,20 +1279,31 @@ namespace Pistache::Http
 
                 if (connection)
                 {
+                    PS_LOG_DEBUG("Response connection control");
+
                     response.headers().add<Header::Connection>(connection->control());
                 }
                 else
                 {
+                    PS_LOG_DEBUG("Response connection close");
+
                     response.headers().add<Header::Connection>(ConnectionControl::Close);
                 }
 
+                PS_LOG_DEBUG("Calling peer->setIdle");
                 peer->setIdle(false); // change peer state to not idle
+
+                PS_LOG_DEBUG("Calling onRequest");
                 onRequest(request, std::move(response));
+
+                PS_LOG_DEBUG("Calling parser->reset");
                 parser->reset();
             }
         }
         catch (const HttpError& err)
         {
+            PS_LOG_DEBUG("HTTP Error");
+
             ResponseWriter response(request.version(), transport(), this, peer);
             response.send(static_cast<Code>(err.code()), err.reason());
             parser->reset();
@@ -1126,6 +1311,8 @@ namespace Pistache::Http
 
         catch (const std::exception& e)
         {
+            PS_LOG_DEBUG("HTTP exception");
+
             ResponseWriter response(request.version(), transport(), this, peer);
             response.send(Code::Internal_Server_Error, e.what());
             parser->reset();
@@ -1161,7 +1348,7 @@ namespace Pistache::Http
         , version(version)
         , transport(transport_)
         , armed(false)
-        , timerFd(-1)
+        , timerFd(PS_FD_EMPTY)
         , peer(peer_)
     { }
 

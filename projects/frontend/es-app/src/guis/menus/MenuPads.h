@@ -31,6 +31,9 @@ class MenuPads : public Menu
      */
     explicit MenuPads(WindowManager& window);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
     // Destructor
     ~MenuPads();
 
@@ -134,7 +137,7 @@ class MenuPads : public Menu
     void MenuSingleChanged(int id, int index, const RecalboxConf::PadOSDType& value) override;
 
     /*
-     * ISwitchComponent
+     * ISwitchChanged implementation
      */
     void MenuSwitchChanged(int id, bool& status) override;
 };

@@ -6,7 +6,6 @@
 //
 
 #include <guis/menus/MenuVirtualSystems.h>
-#include <components/SwitchComponent.h>
 #include <utils/locale/LocaleHelper.h>
 #include <MainRunner.h>
 #include <guis/MenuMessages.h>
@@ -16,6 +15,10 @@
 MenuVirtualSystems::MenuVirtualSystems(WindowManager& window, SystemManager& systemManager)
   : Menu(window, _("VIRTUAL SYSTEMS"))
   , mSystemManager(systemManager)
+{
+}
+
+void MenuVirtualSystems::BuildMenuItems()
 {
   // All games
   AddSwitch(_("SHOW ALL-GAMES SYSTEM"), RecalboxConf::Instance().GetCollectionAllGames(), (int)Components::AllGames, this, _(MENUMESSAGE_ADVANCED_ALLGAMES_HELP_MSG));

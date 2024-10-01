@@ -10,18 +10,19 @@ MenuGamelistGameDeleteSelectionOptions::MenuGamelistGameDeleteSelectionOptions(W
   , mView(view)
   , mGame(game)
 {
-  if (mGame.IsGame())
-  {
-    // Delete
-    mGameFiles = AddMultiList<Path>(_("GAME FILES (ROM | DISK IMAGE)"), (int) Components::Path, nullptr, GetGameFileEntries());
-    mMedias = AddMultiList<Path>(_("MEDIA FILES"), (int) Components::Path, nullptr, GetMediaEntries());
-    mExtras = AddMultiList<Path>(_("CONFIGURATION AND PATCH FILES"), (int) Components::Path, nullptr, GetExtraEntries());
-    mSaves = AddMultiList<Path>(_("SAVE FILES"), (int) Components::Path, nullptr, GetSaveEntries());
+  if (!mGame.IsGame()) Close();
+}
 
-    AddAction(_("DELETE SELECTED FILES"), _("DELETE"), (int)Components::Delete, true, this);
-    AddAction(_("DON'T DELETE ANYTHING!"), _("BACK"), (int)Components::Cancel, false, this);
-  }
-  else Close();
+void MenuGamelistGameDeleteSelectionOptions::BuildMenuItems()
+{
+  // Delete
+  mGameFiles = AddMultiList<Path>(_("GAME FILES (ROM | DISK IMAGE)"), (int) Components::Path, nullptr, GetGameFileEntries());
+  mMedias = AddMultiList<Path>(_("MEDIA FILES"), (int) Components::Path, nullptr, GetMediaEntries());
+  mExtras = AddMultiList<Path>(_("CONFIGURATION AND PATCH FILES"), (int) Components::Path, nullptr, GetExtraEntries());
+  mSaves = AddMultiList<Path>(_("SAVE FILES"), (int) Components::Path, nullptr, GetSaveEntries());
+
+  AddAction(_("DELETE SELECTED FILES"), _("DELETE"), (int)Components::Delete, true, this);
+  AddAction(_("DON'T DELETE ANYTHING!"), _("BACK"), (int)Components::Cancel, false, this);
 }
 
 String MenuGamelistGameDeleteSelectionOptions::GetFooter(FileData& game)
@@ -162,4 +163,5 @@ void MenuGamelistGameDeleteSelectionOptions::MenuActionTriggered(int id)
     default: break;
   }
 }
+
 

@@ -37,25 +37,36 @@ class FastMenuList : public Menu
                  const String& title, const String& footer, int menuIndex,
                  const EntryParamList& params, int defaultIndex)
        : Menu(window, title, footer)
+       , mEntries(params)
        , mMenuIndex(menuIndex)
+       , mDefaultIndex(defaultIndex)
        , mInterface(callbackInterface)
+    {
+    }
+
+    //! Build menu items
+    void BuildMenuItems() final
     {
       // Add lines
       int entryIndex = 0;
-      for(const EntryParam& param : params)
+      for(const EntryParam& param : mEntries)
         AddAction(param.Name, _("SELECT"), entryIndex++, true, this, param.Help);
 
       // Add cancel button
       ItemAction* cancel = AddAction(_("CANCEL SELECTION"), _("BACK"), -1, false, this);
 
       // Set default line or button
-      if (defaultIndex>= 0) SetSelectedItem(defaultIndex);
+      if (mDefaultIndex>= 0) SetSelectedItem(mDefaultIndex);
       else SetSelectedItem(cancel);
     }
 
   private:
+    //! Entries
+    EntryParamList mEntries;
     //! Menu index
     int mMenuIndex;
+    //! Default index
+    int mDefaultIndex;
     //! Interface
     IFastMenuListCallback* mInterface;
 

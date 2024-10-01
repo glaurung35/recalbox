@@ -6,6 +6,7 @@
 #include <utils/Log.h>
 #include <utils/Files.h>
 #include <utils/datetime/DateTime.h>
+#include <algorithm>
 #include "BiosManager.h"
 
 BiosManager::BiosManager()

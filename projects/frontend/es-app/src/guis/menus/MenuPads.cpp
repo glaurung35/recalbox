@@ -18,6 +18,15 @@ MenuPads::MenuPads(WindowManager& window)
   , mMapper(InputManager::Instance().Mapper())
   , mRefreshing(false)
 {
+  // Subscribe refresh event
+  InputManager::Instance().AddNotificationInterface(this);
+
+  // Force OSD when thius menu is on
+  mWindow.OSD().GetPadOSD().ForcedPadOSDActivation(true);
+}
+
+void MenuPads::BuildMenuItems()
+{
   // Configure a pad
   if(InputManager::Instance().ConfigurableDeviceCount() > 0)
     AddSubMenu(_("CONFIGURE A CONTROLLER"), (int)Components::Configure, this, _(MENUMESSAGE_CONTROLLER_CONF_HELP_MSG));
@@ -48,12 +57,6 @@ MenuPads::MenuPads(WindowManager& window)
     name.Append(' ').Append(_("INPUT P%i")).Replace("%i", String(i + 1));
     mDevices[i] = AddList<int>(name, (int)Components::Pads + i, this, GetDeviceList(), i, -1);
   }
-
-  // Subscribe refresh event
-  InputManager::Instance().AddNotificationInterface(this);
-
-  // Force OSD when thius menu is on
-  mWindow.OSD().GetPadOSD().ForcedPadOSDActivation(true);
 }
 
 MenuPads::~MenuPads()

@@ -15,7 +15,6 @@
 #include "hardware/RPiEepromUpdater.h"
 #include "views/MenuFilter.h"
 #include <guis/MenuMessages.h>
-#include <components/SwitchComponent.h>
 #include <utils/Files.h>
 #include <guis/GuiMsgBox.h>
 #include <MainRunner.h>
@@ -26,6 +25,10 @@ MenuAdvancedSettings::MenuAdvancedSettings(WindowManager& window, SystemManager&
   , mDefaultOverclock({ "none", _("NONE"), false, 0})
   , mLastHazardous(false)
   , mValidOverclock(false)
+{
+}
+
+void MenuAdvancedSettings::BuildMenuItems()
 {
   #if defined(BETA) || defined(DEBUG)
   AddSwitch(_("DEBUG LOGS"), RecalboxConf::Instance().GetDebugLogs(), (int)Components::DebugLogs, this, _(MENUMESSAGE_ADVANCED_DEBUGLOGS_HELP_MSG));
@@ -47,9 +50,8 @@ MenuAdvancedSettings::MenuAdvancedSettings(WindowManager& window, SystemManager&
     AddSubMenu(_("RECALBOX CRT"), (int)Components::CrtSubMenu, this, _(MENUMESSAGE_ADVANCED_CRT_HELP_MSG));
 
   // RESOLUTION
-  if (mResolutionAdapter.Resolutions(true).size() > 1 &&
-      !isCrt &&
-      Board::Instance().GetBoardType() != BoardType::PCx64)
+  if (!isCrt /*&&
+      Board::Instance().GetBoardType() != BoardType::PCx64*/)
     AddSubMenu(_("RESOLUTIONS"), (int)Components::ResolutionSubMenu, this, _(MENUMESSAGE_ADVANCED_RESOLUTION_HELP_MSG));
 
   // Custom config for systems

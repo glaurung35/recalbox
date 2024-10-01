@@ -8,7 +8,7 @@
 #include "components/TextComponent.h"
 #include "components/ButtonComponent.h"
 #include "components/MenuComponent.h"
-#include "GuiNetPlayClientPasswords.h"
+#include <guis/menus/MenuNetPlayClientPasswords.h>
 #include "RootFolders.h"
 #include <netplay/NetPlayThread.h>
 #include <systems/SystemManager.h>
@@ -19,6 +19,7 @@
 #include <utils/locale/LocaleHelper.h>
 #include <liboping/src/oping.h>
 #include <netdb.h>
+#include <algorithm>
 
 #define BUTTON_GRID_VERT_PADDING Renderer::Instance().DisplayHeightAsFloat() * 0.025f
 #define BUTTON_GRID_HORIZ_PADDING 10
@@ -280,7 +281,7 @@ void GuiNetPlay::launch()
   LobbyGame game = mLobbyList[index];
 
   if (!game.mCoreLongName.empty() && game.mGame != nullptr)
-    mWindow.pushGui(new GuiNetPlayClientPasswords(mWindow, game));
+    mWindow.pushGui(new MenuNetPlayClientPasswords(mWindow, game));
 }
 
 void GuiNetPlay::LoadCoreMap()

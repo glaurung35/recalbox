@@ -14,6 +14,9 @@ class MenuMain : public Menu
     //! Constructor
     MenuMain(WindowManager& window, SystemManager& systemManager, const IGlobalVariableResolver& resolver);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
   private:
     enum class Components
     {

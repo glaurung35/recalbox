@@ -4,11 +4,10 @@
 
 #include <recalbox/RecalboxSystem.h>
 #include <utils/locale/LocaleHelper.h>
-#include <components/SwitchComponent.h>
-#include <components/EditableComponent.h>
 #include "MenuNetwork.h"
 #include "guis/MenuMessages.h"
 #include "utils/Files.h"
+#include "liboping/src/oping.h"
 #include <guis/GuiArcadeVirtualKeyboard.h>
 #include <guis/menus/base/ItemSwitch.h>
 #include <guis/menus/base/ItemText.h>
@@ -16,8 +15,16 @@
 
 MenuNetwork::MenuNetwork(WindowManager& window)
   : Menu(window, _("NETWORK SETTINGS"))
+  , mSender(*this)
   , mFillingList(false)
   , mNeedBackup(false)
+  , mLastPing(false)
+{
+  //! Start thread
+  Thread::Start("Pinger");
+}
+
+void MenuNetwork::BuildMenuItems()
 {
   // Network status
   mStatus = AddText(_("STATUS"), String::Empty, _(MENUMESSAGE_NETWORK_STATUS_HELP_MSG));
@@ -52,6 +59,7 @@ void MenuNetwork::MenuActionTriggered(int id)
 
 MenuNetwork::~MenuNetwork()
 {
+  Thread::Stop();
   if (mNeedBackup)
   {
     RecalboxSystem::MakeBootReadWrite();
@@ -218,7 +226,7 @@ void MenuNetwork::Completed(const NetworkOperation& parameter, const bool& resul
   }
 
   // Update status & IP
-  mStatus->SetText(RecalboxSystem::ping() ? _( "CONNECTED") : _("NOT CONNECTED"));
+  mStatus->SetText(mLastPing ? _( "CONNECTED") : _("NOT CONNECTED"));
   mIP->SetText(RecalboxSystem::getIpAddress());
 }
 
@@ -268,3 +276,28 @@ void MenuNetwork::ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKeyboard& vk, c
     mWindow.pushGui((new GuiWaitLongExecution<NetworkOperation, bool>(mWindow, *this))->Execute(NetworkOperation::NewConnection,_("Connecting to WIFI...")));
 }
 
+void MenuNetwork::Run()
+{
+  double timeout = 0.250; // 250 ms timeout
+  while(Thread::IsRunning())
+  {
+    for(int i = mLastPing ? 100 : 25; --i >= 0; )
+      if (Thread::IsRunning()) Thread::Sleep(20);
+      else return;
+    pingobj_t* pinger = ping_construct();
+    ping_host_add(pinger, "recalbox.com");
+    ping_host_add(pinger, "google.com");
+    ping_host_add(pinger, "8.8.8.8");
+    ping_setopt(pinger, PING_OPT_TIMEOUT, &timeout);
+    bool pingOk = ping_send(pinger) > 0;
+    mSender.Send(pingOk);
+    ping_destroy(pinger);
+  }
+}
+
+void MenuNetwork::ReceiveSyncMessage(bool connected)
+{
+  mLastPing = connected;
+  mStatus->SetText(mLastPing ? _( "CONNECTED") : _("NOT CONNECTED"));
+  mIP->SetText(RecalboxSystem::getIpAddress());
+}

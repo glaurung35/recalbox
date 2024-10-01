@@ -7,11 +7,16 @@
 #include <date/date.h>
 #include <pistache/http.h>
 
+#include <gmock/gmock-matchers.h>
 #include <gtest/gtest.h>
 
 #include <algorithm>
 #include <chrono>
 #include <iostream>
+
+using testing::ElementsAre;
+using testing::SizeIs;
+using testing::UnorderedElementsAre;
 
 TEST(headers_test, accept)
 {
@@ -73,6 +78,89 @@ TEST(headers_test, accept)
     ASSERT_THROW(a5.parse("text/*;q=0.4, text/html;q=0.3, "), std::runtime_error);
     /* Shameless dummy comment to work around syntax highlighting bug in nano...
      */
+}
+
+TEST(headers_test, accept_encoding)
+{
+    using Pistache::Http::Header::AcceptEncoding;
+    using Pistache::Http::Header::Encoding;
+
+    AcceptEncoding a1;
+    a1.parse("compress, gzip");
+    EXPECT_THAT(
+        a1.encodings(),
+        UnorderedElementsAre(
+            std::make_pair(Encoding::Compress, 1.0F),
+            std::make_pair(Encoding::Gzip, 1.0F)));
+
+    AcceptEncoding a2;
+    a2.parse("");
+    EXPECT_THAT(
+        a2.encodings(),
+        ElementsAre());
+
+    AcceptEncoding a3;
+    a3.parse("compress;q=0.5, gzip ; q=1.0");
+    EXPECT_THAT(
+        a3.encodings(),
+        ElementsAre(
+            std::make_pair(Encoding::Gzip, 1.0F),
+            std::make_pair(Encoding::Compress, 0.5F)));
+
+    AcceptEncoding a4;
+    a4.parse("gzip;q=1.0, identity; q=0.5, *;q=0");
+    EXPECT_THAT(
+        a4.encodings(),
+        ElementsAre(
+            std::make_pair(Encoding::Gzip, 1.0F),
+            std::make_pair(Encoding::Identity, 0.5F),
+            std::make_pair(Encoding::Unknown, 0.0F)));
+
+    AcceptEncoding a5;
+    a5.parse("gzip;q=1.0, identity; q=0.5, br;q=0.7, *;q=0");
+    EXPECT_THAT(
+        a5.encodings(),
+        ElementsAre(
+            std::make_pair(Encoding::Gzip, 1.0F),
+            std::make_pair(Encoding::Br, 0.7F),
+            std::make_pair(Encoding::Identity, 0.5F),
+            std::make_pair(Encoding::Unknown, 0.0F)));
+
+    AcceptEncoding a6;
+    a6.parse("br;");
+    EXPECT_THAT(
+        a6.encodings(),
+        SizeIs(0));
+
+    AcceptEncoding a7;
+    a7.parse("br;q=");
+    EXPECT_THAT(
+        a7.encodings(),
+        SizeIs(0));
+
+    AcceptEncoding a8;
+    a8.parse("deflate;");
+    EXPECT_THAT(
+        a8.encodings(),
+        SizeIs(0));
+
+    AcceptEncoding a9;
+    a9.parse("deflate;q=");
+    EXPECT_THAT(
+        a9.encodings(),
+        SizeIs(0));
+
+    AcceptEncoding a10;
+    a10.parse(",");
+    EXPECT_THAT(
+        a10.encodings(),
+        SizeIs(0));
+
+    AcceptEncoding a11;
+    a11.parse("deflate;a=1");
+    EXPECT_THAT(
+        a11.encodings(),
+        SizeIs(0));
 }
 
 TEST(headers_test, allow)
@@ -454,7 +542,15 @@ TEST(headers_test, date_test_ostream)
     Pistache::Http::Header::Date d4;
     d4.parse("Fri, 25 Jan 2019 21:04:45.000000000 UTC");
     d4.write(os);
-    ASSERT_EQ("Fri, 25 Jan 2019 21:04:45.000000000 UTC", os.str());
+    const char* cstr_to_compare = "Fri, 25 Jan 2019 21:04:45."
+#if defined __clang__ && !defined __linux__
+                                  "000000"
+#else
+                                  "000000000"
+#endif
+                                  " UTC";
+
+    ASSERT_EQ(cstr_to_compare, os.str());
 }
 
 TEST(headers_test, host)
@@ -532,6 +628,13 @@ TEST(headers_test, content_encoding)
 {
     Pistache::Http::Header::ContentEncoding ce;
     std::ostringstream oss;
+
+    ce.parse("br");
+    ce.write(oss);
+    ASSERT_EQ("br", oss.str());
+    ASSERT_EQ(ce.encoding(), Pistache::Http::Header::Encoding::Br);
+    oss.str("");
+
     ce.parse("gzip");
     ce.write(oss);
     ASSERT_EQ("gzip", oss.str());
@@ -632,6 +735,23 @@ TEST(headers_test, access_control_allow_methods_test)
 
     ASSERT_EQ(allowMethods.val(), "GET, POST, DELETE");
     ASSERT_STREQ(os.str().c_str(), "GET, POST, DELETE");
+}
+
+TEST(headers_test, last_modified_test)
+{
+    const std::string ref = "Sun, 06 Nov 1994 08:49:37 GMT";
+    using namespace std::chrono;
+    Pistache::Http::FullDate::time_point expected_time_point = date::sys_days(date::year { 1994 } / 11 / 6) + hours(8) + minutes(49) + seconds(37);
+    Pistache::Http::FullDate fd(expected_time_point);
+    Pistache::Http::Header::LastModified l0(fd);
+    std::ostringstream oss;
+    l0.write(oss);
+    ASSERT_EQ(ref, oss.str());
+    Pistache::Http::Header::LastModified l1;
+    l1.parse(ref);
+    oss.str("");
+    l1.write(oss);
+    ASSERT_EQ(ref, oss.str());
 }
 
 TEST(headers_test, location_test)

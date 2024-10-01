@@ -36,6 +36,9 @@ class MenuSystemConfiguration : public Menu
      */
     explicit MenuSystemConfiguration(WindowManager& window, SystemData& system, SystemManager& systemManager, AdvancedMenuOptions options = AdvancedMenuOptions::All);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
   private:
     enum class Components
     {
@@ -65,6 +68,9 @@ class MenuSystemConfiguration : public Menu
     SelectorEntry<String>::List GetShadersEntries();
     //! Get ShaderSet List
     SelectorEntry<String>::List GetShaderSetEntries();
+
+    //! Menu options
+    AdvancedMenuOptions mMenuOptions;
 
     /*
      * ISingleSelectorChanged<String> implementation

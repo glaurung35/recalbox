@@ -8,6 +8,7 @@
 #include "MenuResolutionSettings.h"
 #include "MenuResolutionByEmulator.h"
 #include "ResolutionAdapter.h"
+#include "MenuTools.h"
 #include <guis/MenuMessages.h>
 #include <systems/SystemManager.h>
 
@@ -15,8 +16,12 @@ MenuResolutionSettings::MenuResolutionSettings(WindowManager& window, SystemMana
   : Menu(window, _("RESOLUTIONS"))
   , mSystemManager(systemManager)
 {
+}
+
+void MenuResolutionSettings::BuildMenuItems()
+{
   // Add global video mode
-  AddList<String>(_("GLOBAL RESOLUTION"), (int)Components::GlobalResolution, this, GetGlobalResolutionEntries(), RecalboxConf::Instance().GetGlobalVideoMode(), "default", _(MENUMESSAGE_ADVANCED_RESOLUTION_GLOBAL_HELP_MSG));
+  AddList<String>(_("GLOBAL RESOLUTION"), (int)Components::GlobalResolution, this, GetGlobalResolutionEntries(), RecalboxConf::Instance().GetGlobalVideoMode(), ResolutionAdapter().DefaultResolution().ToString(), _(MENUMESSAGE_ADVANCED_RESOLUTION_GLOBAL_HELP_MSG));
 
   // Add frontend video mode
   AddList<String>(_("EMULATIONSTATION RESOLUTION"), (int)Components::FrontendResolution, this, GetFrontEndResolutionEntries(), RecalboxConf::Instance().GetEmulationstationVideoMode(), String::Empty, _(MENUMESSAGE_ADVANCED_RESOLUTION_FRONTEND_HELP_MSG));
@@ -39,8 +44,8 @@ SelectorEntry<String>::List MenuResolutionSettings::GetGlobalResolutionEntries()
 SelectorEntry<String>::List MenuResolutionSettings::GetFrontEndResolutionEntries()
 {
   SelectorEntry<String>::List result;
-  result.push_back({ _("USE GLOBAL"), "" });
-  result.push_back({ _("NATIVE"), "default" });
+  result.push_back({ _("USE GLOBAL").Append(" (").Append(MenuTools::GetResolutionText(RecalboxConf::Instance().GetGlobalVideoMode())).Append(')'), "" });
+  result.push_back({ _("NATIVE").Append(" (").Append(MenuTools::GetResolutionText("default")).Append(')'), "default" });
   for(const ResolutionAdapter::Resolution& resolution : mResolutionAdapter.Resolutions(true))
   {
     String reso = resolution.ToRawString();
@@ -57,6 +62,7 @@ void MenuResolutionSettings::MenuSingleChanged(int id, int index, const String& 
     case Components::GlobalResolution:
     {
       RecalboxConf::Instance().SetGlobalVideoMode(value).Save();
+      RebuildMenu(); // Global resolution has changed, reflect the change in other menu texts
       break;
     }
     case Components::FrontendResolution:

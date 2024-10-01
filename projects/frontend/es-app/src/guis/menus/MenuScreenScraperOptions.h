@@ -9,7 +9,6 @@
 #include <scraping/scrapers/IScraperEngine.h>
 #include <scraping/scrapers/screenscraper/ScreenScraperApis.h>
 #include "guis/menus/base/IEditableChanged.h"
-#include "components/ISwitchComponent.h"
 
 class MenuScreenScraperOptions : public Menu
                                , private IEditableChanged
@@ -21,8 +20,10 @@ class MenuScreenScraperOptions : public Menu
                                , private ISwitchChanged
 {
   public:
-
     explicit MenuScreenScraperOptions(WindowManager& window, SystemManager& systemManager, ScraperType scraperType);
+
+    //! Build menu items
+    void BuildMenuItems() final;
 
   private:
     enum class Components

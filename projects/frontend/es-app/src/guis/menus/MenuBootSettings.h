@@ -22,6 +22,9 @@ class MenuBootSettings : public Menu
      */
     explicit MenuBootSettings(WindowManager& window, SystemManager& systemManager);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
   private:
     enum class Components
     {
@@ -47,7 +50,7 @@ class MenuBootSettings : public Menu
     void MenuSingleChanged(int id, int index, const String& value) override;
 
     /*
-     * ISwitchComponent implementation
+     * ISwitchChanged implementation
      */
 
     void MenuSwitchChanged(int id, bool& status) override;

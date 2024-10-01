@@ -12,6 +12,10 @@
 MenuQuit::MenuQuit(WindowManager& window)
   : Menu(window, _("QUIT"))
 {
+}
+
+void MenuQuit::BuildMenuItems()
+{
   if (Case::CurrentCase().CanShutdownFromMenu())
   {
     // Shutdown

@@ -33,4 +33,10 @@ class IItemDataProvider
 
     //! Get menu maximum area
     [[nodiscard]] virtual Rectangle GetMenuMaximumArea() const = 0;
+
+    //! Get font spacing for drawing
+    [[nodiscard]] virtual float Spacing() const = 0;
+
+    //! Is 240p ?
+    [[nodiscard]] virtual bool Is240p() const = 0;
 };

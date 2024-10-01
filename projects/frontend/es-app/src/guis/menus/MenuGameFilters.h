@@ -17,6 +17,9 @@ class MenuGameFilters : public Menu
      */
     MenuGameFilters(WindowManager&window, SystemManager& systemManager);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+    
   private:
     enum class Components
     {
@@ -37,7 +40,7 @@ class MenuGameFilters : public Menu
     SystemManager& mSystemManager;
 
     /*
-     * ISwitchComponent implementation
+     * ISwitchChanged implementation
      */
 
     void MenuSwitchChanged(int id, bool& status) override;

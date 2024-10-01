@@ -1,19 +1,21 @@
-#include <utils/math/Misc.h>
 #include "Renderer.h"
-#include "platform_gl.h"
-#include "utils/Log.h"
 #include "ImageIO.h"
 #include "../data/Resources.h"
 #include "ResolutionAdapter.h"
-#include "resources/ResourceManager.h"
-#include <RecalboxConf.h>
-#include <hardware/Board.h>
 
 #ifdef USE_OPENGL_ES
   #define glOrtho glOrthof
 #endif
 
-#ifdef DEBUG
+#ifdef USE_OPENGL_ES
+typedef GLshort GLType;
+#elif defined(USE_OPENGL_DESKTOP)
+typedef GLint GLType;
+#else
+#error "No GL type defined"
+#endif
+
+#if defined(DEBUG) && !defined(USE_OPENGL_ES)
 
 static void APIENTRY GLDebugCallback(GLenum source,
                                      GLenum type,
@@ -51,18 +53,23 @@ static void APIENTRY GLDebugCallback(GLenum source,
   { LOG(LogError) << "[Renderer] GL Error [Type:" << typeString << " - Severity:" << severityString << "] {id:" << id << "} " << message; }
 }
 
-#endif
-
 void Renderer::ActivateGLDebug()
 {
-  #ifdef DEBUG
   { LOG(LogInfo) << "[Renderer] GL Debug activated."; }
   glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
   glDebugMessageCallback(GLDebugCallback, nullptr);
   GLuint unusedIds = 0;
   glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, &unusedIds, 1);
-  #endif
 }
+
+#else
+
+void Renderer::ActivateGLDebug()
+{
+  { LOG(LogInfo) << "[Renderer] GL Debug not activated in GLES."; }
+}
+
+#endif
 
 Renderer::Renderer(int width, int height, bool windowed, RotationType rotation)
   : StaticLifeCycleControler<Renderer>("Renderer")
@@ -115,10 +122,10 @@ void Renderer::InformationLogs()
   LOG(LogInfo) << "[Renderer] Available audio drivers: " << drivers;
   LOG(LogInfo) << (_F("[Renderer] Using audio driver: {0}") / SDL_GetCurrentAudioDriver()).ToString();
 
-  LOG(LogInfo) << "[Renderer] GL Vendor: " << (glGetString(GL_VENDOR) ? (const char*)glGetString(GL_VENDOR) : "Unknown");
-  LOG(LogInfo) << "[Renderer] GL Renderer: " << (glGetString(GL_RENDERER) ? (const char*)glGetString(GL_RENDERER) : "Unknown");
-  LOG(LogInfo) << "[Renderer] GL Version: " << (glGetString(GL_VERSION) ? (const char*)glGetString(GL_VERSION) : "Unknown");
-  LOG(LogInfo) << "[Renderer] GL Extensions: " << (glGetString(GL_EXTENSIONS) ? (const char*)glGetString(GL_EXTENSIONS) : "Unknown");
+  LOG(LogInfo) << "[Renderer] GL Vendor: " << (glGetString(GL_VENDOR) != nullptr ? (const char*)glGetString(GL_VENDOR) : "Unknown");
+  LOG(LogInfo) << "[Renderer] GL Renderer: " << (glGetString(GL_RENDERER) != nullptr ? (const char*)glGetString(GL_RENDERER) : "Unknown");
+  LOG(LogInfo) << "[Renderer] GL Version: " << (glGetString(GL_VERSION) != nullptr ? (const char*)glGetString(GL_VERSION) : "Unknown");
+  LOG(LogInfo) << "[Renderer] GL Extensions: " << (glGetString(GL_EXTENSIONS) != nullptr ? (const char*)glGetString(GL_EXTENSIONS) : "Unknown");
 }
 
 bool Renderer::CreateSdlSurface(int width, int height)
@@ -411,20 +418,16 @@ void Renderer::PushClippingRect(Vector2i pos, Vector2i dim)
   if (!mClippingStack.empty())
   {
     Vector4i& top = mClippingStack.top();
-    if (top[0] > box[0])
-      box[0] = top[0];
-    if (top[1] > box[1])
-      box[1] = top[1];
+    if (top[0] > box[0]) box[0] = top[0];
+    if (top[1] > box[1]) box[1] = top[1];
     if (top[0] + top[2] < box[0] + box[2])
       box[2] = (top[0] + top[2]) - box[0];
     if (top[1] + top[3] < box[1] + box[3])
       box[3] = (top[1] + top[3]) - box[1];
   }
 
-  if (box[2] < 0)
-    box[2] = 0;
-  if (box[3] < 0)
-    box[3] = 0;
+  if (box[2] < 0) box[2] = 0;
+  if (box[3] < 0) box[3] = 0;
 
   mClippingStack.push(box);
   glScissor(box[0], box[1], box[2], box[3]);
@@ -494,18 +497,14 @@ Renderer::DrawRectangle(float x, float y, float w, float h, Colors::ColorARGB co
 
 void Renderer::DrawRectangle(int x, int y, int w, int h, Colors::ColorARGB color, GLenum blend_sfactor, GLenum blend_dfactor)
 {
-  #ifdef USE_OPENGL_ES
-  GLshort points[12]
-  #else
-  GLint points[12]
-  #endif
+  GLType points[12]
   {
-    x    , y    ,
-    x    , y + h,
-    x + w, y    ,
-    x + w, y    ,
-    x    , y + h,
-    x + w, y + h,
+    (GLType)x      , (GLType)y      ,
+    (GLType)x      , (GLType)(y + h),
+    (GLType)(x + w), (GLType)y      ,
+    (GLType)(x + w), (GLType)y      ,
+    (GLType)x      , (GLType)(y + h),
+    (GLType)(x + w), (GLType)(y + h),
   };
 
   GLubyte colors[6 * 4];
@@ -605,19 +604,15 @@ void Renderer::DrawRectangle(int x, int y, int w, int h,
                              Colors::ColorARGB bottomrightcolor,
                              Colors::ColorARGB bottomleftcolor)
 {
-  #ifdef USE_OPENGL_ES
-  GLshort points[12]
-  #else
-  GLint points[12]
-    #endif
-    {
-      x    , y    ,
-      x    , y + h,
-      x + w, y    ,
-      x + w, y    ,
-      x    , y + h,
-      x + w, y + h,
-    };
+  GLType points[12]
+  {
+    (GLType)x      , (GLType)y      ,
+    (GLType)x      , (GLType)(y + h),
+    (GLType)(x + w), (GLType)y      ,
+    (GLType)(x + w), (GLType)y      ,
+    (GLType)x      , (GLType)(y + h),
+    (GLType)(x + w), (GLType)(y + h),
+  };
 
   GLuint colors[6]
     {
@@ -634,11 +629,11 @@ void Renderer::DrawRectangle(int x, int y, int w, int h,
   glEnableClientState(GL_VERTEX_ARRAY);
   glEnableClientState(GL_COLOR_ARRAY);
 
-    #ifdef USE_OPENGL_ES
+  #ifdef USE_OPENGL_ES
   glVertexPointer(2, GL_SHORT, 0, points);
-    #else
+  #else
   glVertexPointer(2, GL_INT, 0, points);
-    #endif
+  #endif
   glColorPointer(4, GL_UNSIGNED_BYTE, 0, colors);
 
   glDrawArrays(GL_TRIANGLES, 0, 6);
@@ -735,8 +730,8 @@ void Renderer::DrawTexture(TextureResource& texture, int x, int y, int w, int h,
   if (texture.bind())
   {
     bool tiled = texture.isTiled();
-    float tx = tiled ? (float)w / (float)texture.realWidth() : 1.f;
-    float ty = tiled ? (float)h / (float)texture.realHeight() : 1.f;
+    float tx = tiled ? (float)w / texture.realWidth() : 1.f;
+    float ty = tiled ? (float)h / texture.realHeight() : 1.f;
     Vertex vertices[Vertex::sVertexPerRectangle]
     {
       { { x    , y     }, { 0.f,  ty } },
@@ -793,8 +788,8 @@ void Renderer::DrawTexture(TextureResource& texture, int x, int y, int w, int h,
   if (texture.bind())
   {
     bool tiled = texture.isTiled();
-    float tx = tiled ? (float)w / (float)texture.realWidth() : 1.f;
-    float ty = tiled ? (float)h / (float)texture.realHeight() : 1.f;
+    float tx = tiled ? (float)w / texture.realWidth() : 1.f;
+    float ty = tiled ? (float)h / texture.realHeight() : 1.f;
     Vertex vertices[Vertex::sVertexPerRectangle]
     {
       { { x    , y     }, { 0.f,  ty } },
@@ -856,8 +851,8 @@ void Renderer::DrawTexture(TextureResource& texture, int x, int y, int w, int h,
   if (texture.bind())
   {
     bool tiled = texture.isTiled();
-    float tx = tiled ? (float)w / (float)texture.realWidth() : 1.f;
-    float ty = tiled ? (float)h / (float)texture.realHeight() : 1.f;
+    float tx = tiled ? (float)w / texture.realWidth() : 1.f;
+    float ty = tiled ? (float)h / texture.realHeight() : 1.f;
     Vertex vertices[Vertex::sVertexPerRectangle]
     {
       { { x    , y     }, { 0.f,  ty } },
@@ -928,8 +923,8 @@ void Renderer::DrawTexture(TextureResource& texture, int x, int y, int w, int h,
     int y2 = y;
     if (flipY) y1 += h; else y2 += h;
     bool tiled = texture.isTiled();
-    float tx = tiled ? (float)w / (float)texture.realWidth() : 1.f;
-    float ty = tiled ? (float)h / (float)texture.realHeight() : 1.f;
+    float tx = tiled ? (float)w / texture.realWidth() : 1.f;
+    float ty = tiled ? (float)h / texture.realHeight() : 1.f;
     Vertex vertices[Vertex::sVertexPerRectangle]
       {
         { { x1, y1 }, { 0.f,  ty } },
@@ -996,8 +991,8 @@ void Renderer::DrawTexture(TextureResource& texture, int x, int y, int w, int h,
   if (texture.bind())
   {
     bool tiled = texture.isTiled();
-    float tx = tiled ? (float)w / (float)texture.realWidth() : 1.f;
-    float ty = tiled ? (float)h / (float)texture.realHeight() : 1.f;
+    float tx = tiled ? (float)w / texture.realWidth() : 1.f;
+    float ty = tiled ? (float)h / texture.realHeight() : 1.f;
     Vertex vertices[Vertex::sVertexPerRectangle]
     {
       { { x    , y     }, { 0.f,  ty } },
@@ -1078,8 +1073,8 @@ void Renderer::DrawTexture(TextureResource& texture, int x, int y, int w, int h,
     int y2 = y;
     if (flipOnY) y1 += h; else y2 += h;
     bool tiled = texture.isTiled();
-    float tx = tiled ? (float)w / (float)texture.realWidth() : 1.f;
-    float ty = tiled ? (float)h / (float)texture.realHeight() : 1.f;
+    float tx = tiled ? (float)w / texture.realWidth() : 1.f;
+    float ty = tiled ? (float)h / texture.realHeight() : 1.f;
     Vertex vertices[Vertex::sVertexPerRectangle]
     {
       { { x1, y1 }, { 0.f,  ty } },

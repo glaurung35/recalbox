@@ -26,6 +26,9 @@ class MenuSound : public Menu
      */
     explicit MenuSound(WindowManager& window);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
     ~MenuSound();
 
     /*!
@@ -96,7 +99,7 @@ class MenuSound : public Menu
     void MenuSingleChanged(int id, int index, const AudioMode& value) override;
 
     /*
-     * ISliderComponent implementation
+     * ISliderChanged implementation
      */
 
     void MenuSliderMoved(int id, float value) override;

@@ -15,6 +15,9 @@ class MenuSoftpatchingLauncher : public Menu
                              int lastChoice,
                              ISoftPatchingNotifier* notifier);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
   private:
     enum class Components
     {
@@ -31,6 +34,8 @@ class MenuSoftpatchingLauncher : public Menu
     std::vector<Path> mPatches;
     //! Path item
     ItemSelector<Path>* mPatchList;
+    //! Previous choice
+    int mPreviousChoice;
 
     SelectorEntry<Path>::List GetPatchesEntries();
 

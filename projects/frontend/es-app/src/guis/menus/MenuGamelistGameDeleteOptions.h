@@ -14,6 +14,9 @@ class MenuGamelistGameDeleteOptions : public Menu
   public:
     explicit MenuGamelistGameDeleteOptions(WindowManager& window, ISimpleGameListView& view, FileData& game);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
   private:
     enum class Components
     {

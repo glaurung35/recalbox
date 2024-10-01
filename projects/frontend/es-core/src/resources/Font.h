@@ -3,6 +3,7 @@
 #include <memory>
 #include <map>
 #include <Renderer.h>
+#include <ft2build.h>
 #include <freetype/freetype.h>
 #include "themes/PropertyCategories.h"
 

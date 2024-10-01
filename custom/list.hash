@@ -8,6 +8,7 @@
 --------------------------------  package/llvm/0002-Add-missing-cstdint-header-to-Signals.h.patch
 --------------------------------  package/mesa3d/0004-Fix-uClibc-build.patch
 --------------------------------  package/mesa3d/0006-meson-ensure-i915-Gallium-driver-includes-Intel-sour.patch
+--------------------------------  package/python-rpi-gpio/python-rpi-gpio.hash
 --------------------------------  package/usbmount/0001-rules-fix.patch
 659a58bb047b48f06331465ca6128592  linux/Config.in
 f9276b91b0fe5ccfad41b70d0611bdb7  linux/linux.mk
@@ -37,6 +38,8 @@ f0dfbbe844feaf583ba0cd9432704f09  package/mosquitto/mosquitto.mk
 2cd9a8d1ff6aa58b1ae2709179929998  package/mpv/mpv.mk
 eccca9996f67a8e3091c986d75a6b85e  package/python-pygame/python-pygame.hash
 481ff92234bdf273c5ed16867caa501f  package/python-pygame/python-pygame.mk
+04e4749c6ee29bfdab21ca7b741751d9  package/python-rpi-gpio/Config.in
+b537a6903c1a5b14a043e7d65e4978cd  package/python-rpi-gpio/python-rpi-gpio.mk
 0f2a1376ed896b443e62fbf9434a99b5  package/rpi-firmware/Config.in
 bb6386cc54355917f1dad1fd576d9298  package/rpi-firmware/rpi-firmware.hash
 dd767d51e6ab8fa62a8cf94e23d44980  package/rpi-firmware/rpi-firmware.mk

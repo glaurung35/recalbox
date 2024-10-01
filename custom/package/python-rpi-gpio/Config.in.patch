@@ -1,0 +1,14 @@
+diff --git a/package/python-rpi-gpio/Config.in b/package/python-rpi-gpio/Config.in
+index f3c0928c62..55f8ddeb29 100644
+--- a/package/python-rpi-gpio/Config.in
++++ b/package/python-rpi-gpio/Config.in
+@@ -1,7 +1,8 @@
+ config BR2_PACKAGE_PYTHON_RPI_GPIO
+ 	bool "python-rpi-gpio"
+ 	depends on BR2_arm || BR2_aarch64
++	select BR2_PACKAGE_PYTHON_LGPIO
+ 	help
+ 	  A Python module to control the GPIO on a Raspberry Pi.
+ 
+-	  http://sourceforge.net/p/raspberry-gpio-python
++	  https://github.com/waveform80/rpi-lgpio

@@ -14,6 +14,7 @@
 #include <utils/os/fs/StringMapFile.h>
 #include <utils/Files.h>
 #include <dirent.h>
+#include <algorithm>
 
 SystemManager::RomSources SystemManager::GetRomSource(const SystemDescriptor& systemDescriptor, PortTypes port)
 {

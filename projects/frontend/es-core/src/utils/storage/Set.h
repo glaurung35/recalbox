@@ -9,6 +9,7 @@
 #include <cstdlib> // malloc
 #include <iterator>
 #include <utility>
+#include <stdint.h>
 
 //#include <loguru.hpp>
 #define DCHECK_F(a)

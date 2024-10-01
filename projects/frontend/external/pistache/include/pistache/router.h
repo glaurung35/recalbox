@@ -409,7 +409,7 @@ namespace Pistache::Rest
         {
             details::static_checks<details::BindChecks, Args...>();
 
-            return [obj, func](const Rest::Request& request, Http::ResponseWriter response) {
+            return [=](const Rest::Request& request, Http::ResponseWriter response) {
                 (obj->*func)(request, std::move(response));
 
                 return Route::Result::Ok;
@@ -421,7 +421,7 @@ namespace Pistache::Rest
         {
             details::static_checks<details::BindChecks, Args...>();
 
-            return [obj, func](const Rest::Request& request, Http::ResponseWriter response) {
+            return [=](const Rest::Request& request, Http::ResponseWriter response) {
                 (obj->*func)(request, std::move(response));
 
                 return Route::Result::Ok;
@@ -433,7 +433,7 @@ namespace Pistache::Rest
         {
             details::static_checks<details::BindChecks, Args...>();
 
-            return [objPtr, func](const Rest::Request& request, Http::ResponseWriter response) {
+            return [=](const Rest::Request& request, Http::ResponseWriter response) {
                 (objPtr.get()->*func)(request, std::move(response));
 
                 return Route::Result::Ok;
@@ -445,7 +445,7 @@ namespace Pistache::Rest
         {
             details::static_checks<details::BindChecks, Args...>();
 
-            return [objPtr, func](const Rest::Request& request, Http::ResponseWriter response) {
+            return [=](const Rest::Request& request, Http::ResponseWriter response) {
                 (objPtr.get()->*func)(request, std::move(response));
 
                 return Route::Result::Ok;
@@ -457,7 +457,7 @@ namespace Pistache::Rest
         {
             details::static_checks<details::BindChecks, Args...>();
 
-            return [func](const Rest::Request& request, Http::ResponseWriter response) {
+            return [=](const Rest::Request& request, Http::ResponseWriter response) {
                 func(request, std::move(response));
 
                 return Route::Result::Ok;
@@ -469,7 +469,7 @@ namespace Pistache::Rest
         {
             details::static_checks<details::MiddlewareChecks, Args...>();
 
-            return [obj, func](Http::Request& request, Http::ResponseWriter& response) {
+            return [=](Http::Request& request, Http::ResponseWriter& response) {
                 return (obj->*func)(request, response);
             };
         }
@@ -480,7 +480,7 @@ namespace Pistache::Rest
         {
             details::static_checks<details::MiddlewareChecks, Args...>();
 
-            return [objPtr, func](Http::Request& request, Http::ResponseWriter& response) {
+            return [=](Http::Request& request, Http::ResponseWriter& response) {
                 return (objPtr.get()->*func)(request, response);
             };
         }
@@ -490,7 +490,7 @@ namespace Pistache::Rest
         {
             details::static_checks<details::MiddlewareChecks, Args...>();
 
-            return [func](Http::Request& request, Http::ResponseWriter& response) {
+            return [=](Http::Request& request, Http::ResponseWriter& response) {
                 return func(request, response);
             };
         }

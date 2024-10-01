@@ -5,7 +5,7 @@
 project(
 	'pistache',
 	'cpp',
-	version: '0.2.0', # In Meson 0.57 this can be replaced with files('version.txt')
+        version: '0.3.0', # In Meson 0.57 this can be replaced with files('version.txt')
 	license: 'Apache-2.0',
 	default_options: [
 		'cpp_std=c++17',
@@ -14,11 +14,15 @@ project(
 		'b_lto=false',
 		'warning_level=3'
 	],
-	meson_version: '>=0.50.0'
+	meson_version: '>=0.53.2'
 )
 
-if host_machine.system() != 'linux'
-	error('Pistache currenly only supports Linux. See https://github.com/pistacheio/pistache/issues/6#issuecomment-242398225 for more information')
+fs = import('fs')
+
+#macOS host_machine.system() is 'darwin'
+
+if host_machine.system() != 'linux' and host_machine.system() != 'darwin'
+	error('Pistache currenly only supports Linux and macOS. See https://github.com/pistacheio/pistache/issues/6#issuecomment-242398225 for more information')
 endif
 
 compiler = meson.get_compiler('cpp')
@@ -52,7 +56,26 @@ deps_libpistache = [
 ]
 
 if get_option('PISTACHE_USE_RAPIDJSON')
-	deps_libpistache += dependency('RapidJSON', fallback: ['rapidjson', 'rapidjson_dep'])
+	rapidjson_dep = dependency('RapidJSON', fallback: ['rapidjson', 'rapidjson_dep'])
+	deps_libpistache += rapidjson_dep
+endif
+
+# Support Brotli compressed Content-Encoding responses...
+if get_option('PISTACHE_USE_CONTENT_ENCODING_BROTLI')
+
+    # Need Brotli encoder for library...
+    brotli = dependency('libbrotlienc')
+    deps_libpistache += brotli
+
+endif
+
+# Support deflate compressed Content-Encoding responses...
+if get_option('PISTACHE_USE_CONTENT_ENCODING_DEFLATE')
+
+    # Need zlib...
+    zlib = dependency('zlib')
+    deps_libpistache += zlib
+
 endif
 
 # Check if -latomic is needed - https://github.com/llvm/llvm-project/blob/main/llvm/cmake/modules/CheckAtomic.cmake
@@ -110,9 +133,14 @@ if get_option('PISTACHE_USE_SSL')
 	deps_libpistache += dependency('openssl')
 endif
 
+if host_machine.system() == 'darwin' or get_option('PISTACHE_FORCE_LIBEVENT')
+	deps_libpistache += dependency('libevent')
+        deps_libpistache += dependency('libevent_pthreads')
+endif
+
 version_array = []
 if meson.version().version_compare('>=0.57.0')
-	version_array = import('fs').read('version.txt').strip().split('.')
+	version_array = fs.read('version.txt').strip().split('.')
 else
 	# Ugly workaround for reading a file
 	version_array = run_command(
@@ -153,7 +181,7 @@ endif
 
 if not meson.is_subproject()
 	git = find_program('git', required: false)
-	if git.found()
+	if git.found() and fs.is_dir(meson.source_root()/'.git')
 		run_command(git, 'config', '--local', 'core.hooksPath', meson.source_root()/'.hooks', check: false)
 	endif
 endif

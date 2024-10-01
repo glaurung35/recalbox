@@ -16,6 +16,7 @@
 #include <ostream>
 #include <string>
 #include <type_traits>
+#include <utility>
 #include <vector>
 
 #include <pistache/http_defs.h>
@@ -64,13 +65,21 @@ namespace Pistache::Http::Header
     // 3.5 Content Codings
     // 3.6 Transfer Codings
     enum class Encoding { Gzip,
+                          Br,
                           Compress,
                           Deflate,
                           Identity,
                           Chunked,
                           Unknown };
 
+    /* Returns a textual representation of a given encoding */
     const char* encodingString(Encoding encoding);
+
+    /* Returns the encoding corresponding to the given string */
+    Encoding encodingFromString(std::string_view str);
+
+    /* Returns true if the given encoding is supported by Pistache */
+    bool encodingSupported(Encoding encoding);
 
     class Header
     {
@@ -358,6 +367,30 @@ namespace Pistache::Http::Header
         Encoding encoding_;
     };
 
+    class AcceptEncoding : public Header
+    {
+    public:
+        NAME("Accept-Encoding")
+
+        AcceptEncoding() = default;
+        explicit AcceptEncoding(Encoding encoding);
+
+        void parseRaw(const char* str, size_t len) override;
+        void write(std::ostream& os) const override;
+
+        const std::vector<std::pair<Encoding, float>>& encodings() const;
+
+    private:
+        /* Contains the encodings listed in the header, sorted by preference */
+        std::vector<std::pair<Encoding, float>> encodings_;
+
+        /*
+         * Inserts a new element into the encodings_ vector, keeping it sorted
+         * by qvalue
+         */
+        void insertEncoding(const std::pair<Encoding, float>& elem);
+    };
+
     class ContentEncoding : public EncodingHeader
     {
     public:
@@ -555,6 +588,28 @@ namespace Pistache::Http::Header
         Port port_;
     };
 
+    class LastModified : public Header
+    {
+    public:
+        NAME("Last-Modified");
+
+        LastModified()
+            : fullDate_()
+        { }
+
+        explicit LastModified(const FullDate& fullDate)
+            : fullDate_(fullDate)
+        { }
+
+        void parse(const std::string& data) override;
+        void write(std::ostream& os) const override;
+
+        FullDate fullDate() const { return fullDate_; }
+
+    private:
+        FullDate fullDate_;
+    };
+
     class Location : public Header
     {
     public:
@@ -662,10 +717,10 @@ namespace Pistache::Http::Header
             , value_(std::move(value))
         { }
 
-        Raw(const Raw& other) = default;
+        Raw(const Raw& other)            = default;
         Raw& operator=(const Raw& other) = default;
 
-        Raw(Raw&& other) = default;
+        Raw(Raw&& other)            = default;
         Raw& operator=(Raw&& other) = default;
 
         std::string name() const { return name_; }

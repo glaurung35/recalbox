@@ -71,8 +71,10 @@ void NetPlayThread::Run()
             {
               for (const auto& tmp : newGames)
               {
-                auto it = std::find(oldGames.begin(), oldGames.end(), tmp);
-                if (it == oldGames.end())
+                bool found = false;
+                for(const auto& old : oldGames)
+                  if (tmp.first == old.first && tmp.second == old.second) { found = true; break; }
+                if (!found)
                 {
                   PopupTriggered(tmp.first, tmp.second);
                   break;

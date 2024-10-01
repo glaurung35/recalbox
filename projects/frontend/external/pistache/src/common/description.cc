@@ -408,7 +408,7 @@ namespace Pistache::Rest
     void Swagger::install(Rest::Router& router)
     {
 
-        Route::Handler uiHandler = [this](const Rest::Request& req,
+        Route::Handler uiHandler = [=](const Rest::Request& req,
                                        Http::ResponseWriter response) {
             const auto& res = req.resource();
 

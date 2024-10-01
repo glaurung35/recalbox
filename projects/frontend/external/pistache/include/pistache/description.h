@@ -380,7 +380,7 @@ namespace Pistache::Rest
 
 #define CALL_MEMBER_FN(obj, pmf) ((obj)->*(pmf))
 
-                path_->handler = [this, obj, func](const Rest::Request& request,
+                path_->handler = [=](const Rest::Request& request,
                                      Http::ResponseWriter response) {
                     CALL_MEMBER_FN(obj, func)
                     (request, std::move(response));
@@ -397,7 +397,7 @@ namespace Pistache::Rest
             PathBuilder& bind(Result (*func)(Args...))
             {
 
-                path_->handler = [this, func](const Rest::Request& request,
+                path_->handler = [=](const Rest::Request& request,
                                      Http::ResponseWriter response) {
                     func(request, std::move(response));
 

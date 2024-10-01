@@ -18,7 +18,7 @@ set(SOURCE_FILES
 add_library(pistache OBJECT ${SOURCE_FILES})
 set_target_properties(pistache PROPERTIES POSITION_INDEPENDENT_CODE ${PISTACHE_PIC})
 target_compile_features(pistache PRIVATE cxx_std_17)
-add_definitions(-DONLY_C_LOCALE=1)
+add_definitions(-DONLY_C_LOCALE=1 -D_PISTACHE_USE_CONTENT_ENCODING_BROTLI=1 -DPISTACHE_USE_CONTENT_ENCODING_DEFLATE=1)
 
 set(PISTACHE_INCLUDE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
@@ -56,7 +56,7 @@ if (BUILD_SHARED_LIBS)
 endif ()
 
 add_library(pistache_static STATIC $<TARGET_OBJECTS:pistache>)
-target_link_libraries(pistache_static PRIVATE Threads::Threads ${CMAKE_REQUIRED_LIBRARIES})
+target_link_libraries(pistache_static PRIVATE z Threads::Threads ${CMAKE_REQUIRED_LIBRARIES})
 target_include_directories(pistache_static INTERFACE ${PISTACHE_INCLUDE})
 
 if (PISTACHE_USE_SSL)

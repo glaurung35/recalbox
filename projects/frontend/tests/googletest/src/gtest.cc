@@ -3102,6 +3102,7 @@ static const char* GetAnsiColorCode(GTestColor color) {
     case COLOR_RED:     return "1";
     case COLOR_GREEN:   return "2";
     case COLOR_YELLOW:  return "3";
+    case COLOR_DEFAULT:
     default:
       return nullptr;
   }
@@ -3347,6 +3348,9 @@ void PrettyUnitTestResultPrinter::OnTestPartResult(
     // If the test part succeeded, we don't need to do anything.
     case TestPartResult::kSuccess:
       return;
+    case TestPartResult::kNonFatalFailure:
+    case TestPartResult::kFatalFailure:
+    case TestPartResult::kSkip:
     default:
       // Print failure message from the assertion
       // (e.g. expected this and got that).

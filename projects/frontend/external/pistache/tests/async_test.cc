@@ -21,9 +21,9 @@ using namespace Pistache;
 Async::Promise<int> doAsync(int N)
 {
     Async::Promise<int> promise(
-        [this](Async::Resolver& resolve, Async::Rejection& /*reject*/) {
+        [=](Async::Resolver& resolve, Async::Rejection& /*reject*/) {
             std::thread thr(
-                [this](Async::Resolver resolve) mutable {
+                [=](Async::Resolver resolve) mutable {
                     std::this_thread::sleep_for(std::chrono::seconds(1));
                     resolve(N * 2);
                 },
@@ -39,9 +39,9 @@ template <typename T, typename Func>
 Async::Promise<T> doAsyncTimed(std::chrono::seconds time, T val, Func func)
 {
     Async::Promise<T> promise(
-        [this](Async::Resolver& resolve, Async::Rejection& /*reject*/) {
+        [=](Async::Resolver& resolve, Async::Rejection& /*reject*/) {
             std::thread thr(
-                [this](Async::Resolver resolve) mutable {
+                [=](Async::Resolver resolve) mutable {
                     std::this_thread::sleep_for(time);
                     resolve(func(val));
                 },
@@ -159,7 +159,7 @@ TEST(async_test, chain_test)
     p3.then(
           [](Test result) {
               return Async::Promise<std::string>(
-                  [this](Async::Resolver& resolve, Async::Rejection& /*reject*/) {
+                  [=](Async::Resolver& resolve, Async::Rejection& /*reject*/) {
                       switch (result)
                       {
                       case Test::Foo:
@@ -181,7 +181,7 @@ TEST(async_test, chain_test)
     p4.then(
           [](Test result) {
               return Async::Promise<std::string>(
-                  [this](Async::Resolver& resolve, Async::Rejection& reject) {
+                  [=](Async::Resolver& resolve, Async::Rejection& reject) {
                       switch (result)
                       {
                       case Test::Foo:
@@ -342,7 +342,7 @@ public:
     T pop()
     {
         std::unique_lock<std::mutex> lock(mtx);
-        cv.wait(lock, [this]() { return !q.empty(); });
+        cv.wait(lock, [=]() { return !q.empty(); });
 
         T out = std::move(q.front());
         q.pop_front();
@@ -353,7 +353,7 @@ public:
     bool tryPop(T& out, std::chrono::milliseconds timeout)
     {
         std::unique_lock<std::mutex> lock(mtx);
-        if (!cv.wait_for(lock, timeout, [this]() { return !q.empty(); }))
+        if (!cv.wait_for(lock, timeout, [=]() { return !q.empty(); }))
             return false;
 
         out = std::move(q.front());
@@ -374,14 +374,14 @@ public:
     void start()
     {
         shutdown.store(false);
-        thread.reset(new std::thread([this]() { run(); }));
+        thread.reset(new std::thread([=]() { run(); }));
     }
 
     void stop() { shutdown.store(true); }
 
     Async::Promise<int> doWork(int seq)
     {
-        return Async::Promise<int>([this](Async::Resolver& resolve,
+        return Async::Promise<int>([=](Async::Resolver& resolve,
                                        Async::Rejection& reject) {
             queue.push(new WorkRequest(std::move(resolve), std::move(reject), seq));
         });

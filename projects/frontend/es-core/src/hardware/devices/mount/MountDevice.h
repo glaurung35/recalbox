@@ -98,7 +98,7 @@ class DeviceMount
      * Operators
      */
 
-    bool operator == (const DeviceMount& right)
+    bool operator == (const DeviceMount& right) const
     {
       return mDevice == right.mDevice;
     }

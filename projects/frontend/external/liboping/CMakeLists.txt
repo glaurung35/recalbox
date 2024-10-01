@@ -10,4 +10,5 @@ set(OPING_SOURCES
         )
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
+add_compile_options(-fPIE)
 add_library(liboping STATIC ${OPING_SOURCES} ${OPING_HEADERS})

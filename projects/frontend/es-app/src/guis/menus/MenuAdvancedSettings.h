@@ -47,6 +47,9 @@ class MenuAdvancedSettings : public Menu
     //! Destructor
     ~MenuAdvancedSettings() override;
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
   private:
     enum class Components
     {
@@ -125,7 +128,7 @@ class MenuAdvancedSettings : public Menu
     void MenuSingleChanged(int id, int index, const String& value) override;
 
     /*
-     * ISwitchComponent implementation
+     * ISwitchChanged implementation
      */
 
     void MenuSwitchChanged(int id, bool& status) override;

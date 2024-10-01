@@ -19,22 +19,26 @@
 #include "guis/GuiMsgBox.h"
 #include "guis/GuiInfoPopup.h"
 #include "ItemSelector.h"
+#include "animations/LambdaAnimation.h"
 
 #include <patreon/PatronInfo.h>
 #include <guis/menus/base/MenuColors.h>
 
-Menu::Menu(WindowManager& window, const String& title, const String& footer)
+Menu::Menu(WindowManager& window, const String& title, const String& footer, bool animated)
   : Gui(window)
   , mTheme(ThemeManager::Instance().Menu())
+  , mConfiguration(RecalboxConf::Instance())
   , mCache(ThemeManager::Instance().MenuCache())
   , mBackground(window)
   , mGrid(window, Vector2i(1, 3))
   , mTitleFont(Font::get(FONT_SIZE_LARGE))
   , mTitle(title)
   , mFooter(footer)
-  , mTextMargin(2 + Renderer::Instance().DisplayWidthAsInt() / 320)
-  , mIconMargin(2 + Renderer::Instance().DisplayWidthAsInt() / 320)
+  , mTextMargin(3 + Renderer::Instance().DisplayWidthAsInt() / 320)
+  , mIconMargin(3 + Renderer::Instance().DisplayWidthAsInt() / 320)
   , mMenuInitialized(false)
+  , mAnimated(animated)
+  , m240p(Renderer::Instance().Is240p())
 {
   addChild(&mBackground);
   addChild(&mGrid);
@@ -81,13 +85,14 @@ Menu::Menu(WindowManager& window, const String& title, const String& footer)
   mList = std::make_shared<TextListComponent<ItemBase*>>(mWindow);
   mList->SetOverlayInterface(this);
   mList->setFont(mTheme.Text().font);
-  mList->setSelectedColor(mTheme.Text().selectedColor);
+  mList->setSelectedColor(0); // If defined, it's given priority on color shift
   mList->setSelectorColor(mTheme.Text().selectorColor);
-  mList->setColorAt(MenuColors::sSelectableColor, mTheme.Text().color);                   // Text color
-  mList->setColorAt(MenuColors::sBackgroundColor, mTheme.Background().color);             // Unselected Background color
-  mList->setColorAt(MenuColors::sUnselectableColor, MenuColors::Alpha25Percent(mTheme.Text().color)); // Grayed item
-  mList->setColorAt(MenuColors::sHeaderBackgroundColor, 0x00000040);                      // Grayed item - TODO: make this color themable
-  mList->setColorAt(MenuColors::sHeaderColor, mTheme.Section().color);                    // Header color
+  mList->setColorAt(MenuColors::sSelectableColor, mTheme.Text().color);                                               // Text color
+  mList->setColorAt(MenuColors::sSelectableSelectedColor, mTheme.Text().selectedColor);                               // selected text coplor
+  mList->setColorAt(MenuColors::sUnselectableColor, MenuColors::Alpha25Percent(mTheme.Text().color));                 // Grayed color
+  mList->setColorAt(MenuColors::sUnselectableSelectedColor, MenuColors::Alpha25Percent(mTheme.Text().selectedColor)); // Grayed selected color
+  mList->setColorAt(MenuColors::sHeaderColor, mTheme.Section().color);                                                // Header color
+  mList->setColorAt(MenuColors::sHeaderSelectedColor, mTheme.Section().selectedColor);                                // Header selected color
   mList->setSelectorHeight(mList->EntryHeight());
   mList->setShiftSelectedTextColor(true);
   mList->setAutoAlternate(true);
@@ -184,8 +189,15 @@ bool Menu::IsDisplayable(int index) const
 
 void Menu::BuildMenu()
 {
+  // Clear all
+  for(ItemBase* item : mItems)
+    delete item;
+  mItems.Clear();
   mList->clear();
+
+  // Rebuild
   bool opened = true;
+  BuildMenuItems();
   for(int i = 0; i < mItems.Count(); ++i)
     if (IsDisplayable(i))
     {
@@ -239,7 +251,22 @@ void Menu::SetMenuSize()
 {
   setSize(MenuWidth(), MenuHeight());
   setPosition((Renderer::Instance().DisplayWidthAsFloat() - getWidth()) / 2.f,
-              (Renderer::Instance().DisplayHeightAsFloat() - getHeight()) / 2.f);
+              mAnimated ? Renderer::Instance().DisplayHeightAsFloat()
+                        : (Renderer::Instance().DisplayHeightAsFloat() - getHeight()) / 2.f);
+
+  if (mAnimated)
+  {
+    // Animation
+    auto fadeFunc = [this](float t)
+    {
+      setOpacity((int) lerp<float>(0, 255, t));
+      setPosition(getPosition().x(), lerp<float>(Renderer::Instance().DisplayHeightAsFloat(), (Renderer::Instance().DisplayHeightAsFloat() - mSize.y()) / 2, t));
+    };
+
+    setOpacity(0);
+    setAnimation(new LambdaAnimation(fadeFunc, 200), 0);
+  }
+
   mWindow.UpdateHelpSystem();
 }
 
@@ -270,6 +297,8 @@ void Menu::OverlayApply(const Transform4x4f& parentTrans, const Vector2f& positi
   bool selected = data == mList->getSelected();
   Colors::ColorRGBA iconColor = selected ? mTheme.Text().selectedColor : mTheme.Text().color;
   iconColor = data->IsSelectable() ? iconColor : MenuColors::Alpha25Percent(iconColor);
+  Rectangle area(position, size);
+  int offset = 0;
   if (data->HasValidIcon())
   {
     int h = (int)(mList->EntryHeight() * 0.8f);
@@ -278,10 +307,10 @@ void Menu::OverlayApply(const Transform4x4f& parentTrans, const Vector2f& positi
     std::shared_ptr<TextureResource>& texture = data->IconPath().IsEmpty() ? mCache.GetIcon(data->Icon(), 0, h) : mCache.GetFromPath(data->IconPath(), 0, h);
     // Draw
     Renderer::DrawTexture(*texture, x, y, h, h, true, iconColor);
-    // Next renderer
-    data->OverlayDraw(labelWidth + mTextMargin * 2 + mIconMargin + mIconMargin, Rectangle(position.x() + h + mIconMargin, position.y(), size.x() - (h + mIconMargin), size.y()), iconColor, selected);
+    offset = mIconMargin * 2;
+    area.MoveLeft(h + offset);
   }
-  else data->OverlayDraw(labelWidth + mTextMargin * 2, Rectangle(position, size), iconColor, selected);
+  data->OverlayDraw(labelWidth + mTextMargin * 2 + offset, Rectangle(position.x() - offset, position.y(), size.x(), size.y()), iconColor, selected);
 }
 
 ItemHeader* Menu::AddHeader(const String& label)

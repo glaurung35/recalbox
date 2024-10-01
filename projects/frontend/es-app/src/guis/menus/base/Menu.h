@@ -34,21 +34,21 @@ class Menu : public Gui
      * @param title Title (mandatory)
      * @param footer Title (mandatory)
      */
-    Menu(WindowManager& window, const String& title, const String& footer);
-
-    /*!
-     * @brief Constructor
-     * @param window Window manager
-     * @param title Title (mandatory)
-     */
-    Menu(WindowManager& window, const String& title) : Menu(window, title, String::Empty) {}
+    Menu(WindowManager& window, const String& title, const String& footer = String::Empty, bool animated = false);
 
     //! Destructor
     ~Menu();
 
+    /*!
+     * @brief Inherited classes must add items in here
+     */
+    virtual void BuildMenuItems() = 0;
+
   protected:
     //! Menu theme
     const MenuThemeData& mTheme;
+    //! Configuration reference
+    RecalboxConf& mConfiguration;
 
     /*
      * Identification
@@ -104,29 +104,40 @@ class Menu : public Gui
      */
 
     //! Total item height
-    float ItemHeight() const override { return mList->EntryHeight(); }
+    float ItemHeight() const final { return mList->EntryHeight(); }
 
     //! Total item height
-    float ItemWidth() const override { return mList->getWidth(); }
+    float ItemWidth() const final { return mList->getWidth(); }
 
     //! Front Icon height
-    float IconHeight() const override { return mList->EntryHeight() * 0.7f; }
+    float IconHeight() const final { return mList->EntryHeight() * 0.7f; }
 
     //! Font height
-    float FontHeight() const override { return mList->FontHeight() * 0.8f; }
+    float FontHeight() const final { return mList->FontHeight(); }
 
     //! Margin
-    float Margin() const override { return mTextMargin; }
+    float Margin() const final { return mTextMargin; }
 
     //! Texture cache
-    MenuThemeDataCache& Cache() const override { return mCache; };
+    MenuThemeDataCache& Cache() const final { return mCache; };
 
     //! Get maximum menu area
-    Rectangle GetMenuMaximumArea() const override;
+    Rectangle GetMenuMaximumArea() const final;
+
+    //! Get font spacing for drawing
+    [[nodiscard]] float Spacing() const final { return mList->Spacing(); };
+
+    //! Is 240p ?
+    [[nodiscard]] bool Is240p() const final { return m240p; };
 
     /*
      * Helpers
      */
+
+    /*!
+     * @brief Rebuild the menu, for exemple if some option have changed and the menu needs to show the changes
+     */
+    void RebuildMenu() { mMenuInitialized = false; }
 
     /*!
      * @brief Add simpple header
@@ -568,7 +579,7 @@ class Menu : public Gui
     }
 
   private:
-    /// Menu cache
+    //! Menu cache
     MenuThemeDataCache& mCache;
     //! Background
     NinePatchComponent mBackground;
@@ -591,6 +602,10 @@ class Menu : public Gui
     int mIconMargin;
     //! Menu initialized flag
     bool mMenuInitialized;
+    //! Animated menu
+    bool mAnimated;
+    //! Is 240p ?
+    bool m240p;
 
     /*!
      * @brief Fill help list
@@ -681,8 +696,8 @@ class Menu : public Gui
 
     void HeaderFoldStateChanged() override
     {
-      int index = mList->getCursorIndex();
-      BuildMenu();
-      mList->setCursorIndex(index);
+      /*int index = mList->getCursorIndex();
+      BuildMenuItems();
+      mList->setCursorIndex(index);*/
     }
 };

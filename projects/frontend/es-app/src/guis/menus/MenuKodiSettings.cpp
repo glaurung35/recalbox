@@ -6,14 +6,17 @@
 //
 
 #include "MenuKodiSettings.h"
-#include "ResolutionAdapter.h"
-#include <components/SwitchComponent.h>
-#include <WindowManager.h>
-#include <utils/locale/LocaleHelper.h>
+//#include "ResolutionAdapter.h"
+//#include <WindowManager.h>
+//#include <utils/locale/LocaleHelper.h>
 #include <guis/MenuMessages.h>
 
 MenuKodiSettings::MenuKodiSettings(WindowManager& window)
   : Menu(window, _("KODI SETTINGS"))
+{
+}
+
+void MenuKodiSettings::BuildMenuItems()
 {
   // Enable Kodi
   AddSwitch(_("ENABLE KODI"), RecalboxConf::Instance().GetKodiEnabled(), (int)Components::Enabled, this, _(MENUMESSAGE_ADVANCED_KODI_ENABLE_HELP_MSG));

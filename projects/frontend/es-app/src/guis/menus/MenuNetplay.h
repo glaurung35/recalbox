@@ -30,6 +30,9 @@ class MenuNetplay : public Menu
      */
     explicit MenuNetplay(WindowManager& window, SystemManager& systemManager);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
   private:
     enum class Components
     {
@@ -82,7 +85,7 @@ class MenuNetplay : public Menu
     void MenuSingleChanged(int id, int index, const RecalboxConf::Relay& value) final;
 
     /*
-     * ISWitchComponent implementation
+     * ISwitchChanged implementation
      */
 
     void MenuSwitchChanged(int id, bool& status) final;

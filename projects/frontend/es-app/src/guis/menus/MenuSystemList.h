@@ -22,6 +22,9 @@ class MenuSystemList : public Menu
      */
     explicit MenuSystemList(WindowManager& window, SystemManager& systemManager);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
   private:
     //! System manager
     SystemManager& mSystemManager;

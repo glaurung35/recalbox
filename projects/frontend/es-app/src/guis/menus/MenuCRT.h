@@ -31,6 +31,9 @@ class MenuCRT : public Menu
     //! Default destructor
     ~MenuCRT() override;
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
   private:
     enum class Components
     {
@@ -132,12 +135,12 @@ class MenuCRT : public Menu
     void MenuSingleChanged(int id, int index, const ICrtInterface::HorizontalFrequency& value) final;
 
     /*
-     * ISwitchComponent implementation
+     * ISwitchChanged implementation
      */
     void MenuSwitchChanged(int id, bool& status) final;
 
     /*
-     * ISliderComponent implementation
+     * ISliderChanged implementation
      */
     void MenuSliderMoved(int id, float value) final;
 

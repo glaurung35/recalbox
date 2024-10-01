@@ -354,18 +354,18 @@ template<typename T> class ItemSelector : public ItemBase
       int yArrows = area.CenterY() - mArrowHeight / 2;
       Renderer::DrawTexture(*mArrow, xRightArrow, yArrows, mArrowWidth, mArrowHeight, true, color);
       Renderer::DrawTexture(*mArrow, xLeftArrow, yArrows, mArrowWidth, mArrowHeight, true, false, true, color);
-      mButton.Render(Rectangle(xText - 2, 2, mItemMaxWidth + 4, area.Height() - 4), color);
+      mButton.Render(Rectangle(xText - 2, 2, mItemMaxWidth + 4, area.Height() - 4), mDataProvider.Is240p() ? MenuColors::Alpha50Percent(color) : color);
       if (mMulti)
       {
         Font& font = *mTheme.Text().font;
-        if (mTruncated) font.RenderDirect(font.ShortenText(mSummary, mItemMaxWidth), xText, 0, color, mItemMaxWidth, TextAlignment::Center);
-        else            font.RenderDirect(mSummary, xText, 0, color, mItemMaxWidth, TextAlignment::Center);
+        if (mTruncated) font.RenderDirect(font.ShortenText(mSummary, mItemMaxWidth), xText, 0, color, mItemMaxWidth, TextAlignment::Center, mDataProvider.Spacing());
+        else            font.RenderDirect(mSummary, xText, 0, color, mItemMaxWidth, TextAlignment::Center, mDataProvider.Spacing());
       }
       else
       {
         Font& font = *mTheme.Text().font;
-        if (mTruncated) font.RenderDirect(font.ShortenText(mList[mLastSelectedIndex].mText, mItemMaxWidth), xText, 0, color, mItemMaxWidth, TextAlignment::Center);
-        else            font.RenderDirect(mList[mLastSelectedIndex].mText, xText, 0, color, mItemMaxWidth, TextAlignment::Center);
+        if (mTruncated) font.RenderDirect(font.ShortenText(mList[mLastSelectedIndex].mText, mItemMaxWidth), xText, 0, color, mItemMaxWidth, TextAlignment::Center, mDataProvider.Spacing());
+        else            font.RenderDirect(mList[mLastSelectedIndex].mText, xText, 0, color, mItemMaxWidth, TextAlignment::Center, mDataProvider.Spacing());
       }
     }
 
@@ -440,7 +440,7 @@ template<typename T> class ItemSelector : public ItemBase
          * @brief This little window displays over the menu option that called it
          * @return True if the GUI is an overlay
          */
-        [[nodiscard]] virtual bool IsOverlay() const { return true; }
+        [[nodiscard]] virtual bool IsOverlay() const final { return true; }
 
         /*!
          * @brief Notification of an input event
@@ -474,7 +474,7 @@ template<typename T> class ItemSelector : public ItemBase
          * @brief Lazy selector initialization
          * @param deltaTime Elapsed time from the previous frame, in millisecond
          */
-        void Update(int deltaTime) override
+        void Update(int deltaTime) final
         {
           Gui::Update(deltaTime);
           if (!mInitialized)
@@ -484,7 +484,7 @@ template<typename T> class ItemSelector : public ItemBase
           }
         }
 
-        void Render(const Transform4x4f& parentTrans)
+        void Render(const Transform4x4f& parentTrans) final
         {
 
           Transform4x4f trans = parentTrans * getTransform();
@@ -685,7 +685,7 @@ template<typename T> class ItemSelector : public ItemBase
       if (mArrowHeight != 0) return;
 
       // Load arrow image
-      mArrowHeight = mDataProvider.FontHeight();
+      mArrowHeight = mDataProvider.Is240p() ? mDataProvider.ItemHeight() - 4 : mDataProvider.FontHeight();
       if (!mArrow) mArrow = mDataProvider.Cache().GetElement(MenuThemeData::IconElement::Type::OptionArrow, 0, mArrowHeight);
       mArrowWidth = (mArrow->realWidth() * mArrowHeight) / mArrow->realHeight();
 
@@ -842,16 +842,18 @@ template<typename T> ItemSelector<T>::Selector::Selector(WindowManager& window, 
   mItemList->SetOverlayInterface(this);
   mItemList->setUppercase(false);
   mItemList->setFont(mTheme.SmallText().font);
-  mItemList->setSelectedColor(mTheme.Text().selectedColor);
+  mItemList->setSelectedColor(0); // If defined, it's given priority on color shift
   mItemList->setSelectorColor(mTheme.Text().selectorColor);
-  mItemList->setColorAt(MenuColors::sSelectableColor, mTheme.Text().color);                   // Text color
-  mItemList->setColorAt(MenuColors::sBackgroundColor, mTheme.Background().color);             // Unselected Background color
-  mItemList->setColorAt(MenuColors::sUnselectableColor, MenuColors::Alpha25Percent(mTheme.Text().color)); // Grayed item
-  mItemList->setColorAt(MenuColors::sHeaderBackgroundColor, 0x00000040);                      // Grayed item - TODO: make this color themable
+  mItemList->setColorAt(MenuColors::sSelectableColor, mTheme.Text().color);                                               // Text color
+  mItemList->setColorAt(MenuColors::sSelectableSelectedColor, mTheme.Text().selectedColor);                               // selected text coplor
+  mItemList->setColorAt(MenuColors::sUnselectableColor, MenuColors::Alpha25Percent(mTheme.Text().color));                 // Grayed color
+  mItemList->setColorAt(MenuColors::sUnselectableSelectedColor, MenuColors::Alpha25Percent(mTheme.Text().selectedColor)); // Grayed selected color
+  mItemList->setColorAt(MenuColors::sHeaderColor, mTheme.Section().color);                                                // Header color
+  mItemList->setColorAt(MenuColors::sHeaderSelectedColor, mTheme.Section().selectedColor);                                // Header selected color
   mItemList->setSelectorHeight(mItemList->EntryHeight());
   mItemList->setShiftSelectedTextColor(true);
   mItemList->setAutoAlternate(true);
-  mItemList->setAlignment(mMulti ? HorizontalAlignment::Left : HorizontalAlignment::Center);
+  mItemList->setAlignment(HorizontalAlignment::Left);
   mItemList->setCursorChangedCallback([this](CursorState state) { if (state == CursorState::Stopped) mWindow.UpdateHelpSystem(); });
   mGrid.setEntry(mItemList, Vector2i(0, 1), true);
 

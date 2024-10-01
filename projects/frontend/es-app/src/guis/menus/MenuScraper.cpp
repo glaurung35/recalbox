@@ -18,6 +18,10 @@ MenuScraper::MenuScraper(WindowManager& window, SystemManager& systemManager)
   : Menu(window, _("SCRAPER")),
   mSystemManager(systemManager)
 {
+}
+
+void MenuScraper::BuildMenuItems()
+{
   mScrapers = AddList<ScraperType>(_("SCRAPE FROM"), (int)Components::Scraper, this, GetScrapersEntries(), RecalboxConf::Instance().GetScraperSource(), ScraperType::ScreenScraper, _(MENUMESSAGE_SCRAPER_FROM_HELP_MSG));
 
   if (PatronInfo::Instance().IsPatron())

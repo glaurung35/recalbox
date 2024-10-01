@@ -19,6 +19,9 @@ class MenuScreensavers : public Menu
      */
     explicit MenuScreensavers(WindowManager& window, SystemManager& systemManager);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
   private:
     enum class Components
     {
@@ -37,7 +40,7 @@ class MenuScreensavers : public Menu
     SelectorEntry<String>::List GetSystemEntries();
 
     /*
-     * ISliderComponent implementation
+     * ISliderChanged implementation
      */
 
     void MenuSliderMoved(int id, float value) override;

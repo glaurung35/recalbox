@@ -9,6 +9,10 @@
 MenuPopupSettings::MenuPopupSettings(WindowManager& window)
   : Menu(window, _("POPUP SETTINGS"))
 {
+}
+
+void MenuPopupSettings::BuildMenuItems()
+{
   //help popup time 0=no popup
   AddSlider(_("HELP POPUP DURATION"), 0.f, 10.f, 1.f, 10.f, (float)RecalboxConf::Instance().GetPopupHelp(), "s", (int)Components::Help, this, _(MENUMESSAGE_UI_HELP_POPUP_DURATION_HELP_MSG));
 

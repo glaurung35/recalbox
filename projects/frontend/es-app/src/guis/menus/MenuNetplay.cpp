@@ -9,8 +9,7 @@
 #include <guis/MenuMessages.h>
 #include <utils/locale/LocaleHelper.h>
 #include <systems/SystemManager.h>
-#include <components/SwitchComponent.h>
-#include <guis/GuiNetPlayEditPasswords.h>
+#include <guis/menus/MenuNetPlayEditPasswords.h>
 #include <guis/GuiArcadeVirtualKeyboard.h>
 #include <guis/GuiHashStart.h>
 #include <guis/GuiMsgBox.h>
@@ -23,6 +22,10 @@ MenuNetplay::MenuNetplay(WindowManager& window, SystemManager& systemManager)
   , mRemainingGames(0)
   , mPreviousProgressPercent(0)
   , mOperation(nullptr)
+{
+}
+
+void MenuNetplay::BuildMenuItems()
 {
   // Netplay Enabled
   AddSwitch(_("NETPLAY"), RecalboxConf::Instance().GetNetplayEnabled(), (int)Components::Enabled, this, _(MENUMESSAGE_NP_ONOFF_HELP_MSG));
@@ -80,7 +83,7 @@ void MenuNetplay::MenuEditableChanged(int id, const String& text)
 
 void MenuNetplay::SubMenuSelected(int id)
 {
-  if ((Components)id == Components::Passwords) mWindow.pushGui(new GuiNetPlayEditPasswords(mWindow));
+  if ((Components)id == Components::Passwords) mWindow.pushGui(new MenuNetPlayEditPasswords(mWindow));
 }
 
 void MenuNetplay::MenuActionTriggered(int id)

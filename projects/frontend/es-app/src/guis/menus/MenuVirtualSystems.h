@@ -6,7 +6,6 @@
 //
 #pragma once
 
-#include <guis/menus/GuiMenuBase.h>
 #include <guis/menus/base/Menu.h>
 #include <guis/menus/base/ISwitchChanged.h>
 
@@ -24,6 +23,9 @@ class MenuVirtualSystems : public Menu
      * @param systemManager System manager reference
      */
     explicit MenuVirtualSystems(WindowManager& window, SystemManager& systemManager);
+
+    //! Build menu items
+    void BuildMenuItems() final;
 
   private:
     enum class Components

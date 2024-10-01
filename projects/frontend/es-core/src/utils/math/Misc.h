@@ -46,4 +46,6 @@ class Math
       static float  abs         (float value) { return (value < 0.f) ? -value : value; }
 
       static float  frac        (float value) { int v = (int)value; return value - (float)v; }
+
+      static float  nop         (float value) { return value; }
   };

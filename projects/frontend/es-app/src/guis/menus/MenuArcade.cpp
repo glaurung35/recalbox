@@ -13,7 +13,10 @@ MenuArcade::MenuArcade(WindowManager& window, SystemManager& systemManager, IArc
   , mSystemManager(systemManager)
   , mArcade(arcadeInterface)
 {
+}
 
+void MenuArcade::BuildMenuItems()
+{
   AddSwitch(_("ENABLE ENHANCED VIEW"), RecalboxConf::Instance().GetArcadeViewEnhanced(), (int)Components::EnhancedView, this, _(MENUMESSAGE_UI_ARCADE_ENHANCED_MSG));
 
   AddSwitch(_("FOLD CLONES BY DEFAULT"), RecalboxConf::Instance().GetArcadeViewFoldClones(), (int)Components::FoldClones, this, _(MENUMESSAGE_UI_ARCADE_HIDE_CLONES_MSG));

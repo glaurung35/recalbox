@@ -1,4 +1,4 @@
-// this file was auto-generated from "win_network_share.png" by res2h at 2024-10-01 15:52:47
+// this file was auto-generated from "win_network_share.png" by res2h at 2024-10-01 16:07:16
 
 #include "../Resources.h"
 

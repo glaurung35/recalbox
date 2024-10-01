@@ -245,7 +245,7 @@ class ItemSlider : public ItemBase
       Renderer::DrawRectangle(barStart, (int)area.CenterY() - 1, barSize, 2, color);
       int offset = (int)((mValue / (mMaximum - mMinimum)) * barSize);
       Renderer::DrawTexture(*mKnob, barStart + offset, area.CenterY() - mKnobHeight / 2, mKnobWidth, mKnobHeight, true, color);
-      mTheme.Text().font->RenderDirect(String(mValue, 0).Append(mSuffix), (int)(area.Right() - (mDataProvider.Margin() + mTextSize)), area.Top(), color);
+      mTheme.Text().font->RenderDirect(String(mValue, 0).Append(mSuffix), (int)(area.Right() - (mDataProvider.Margin() + mTextSize)), area.Top(), color, mDataProvider.Spacing());
     }
 
     /*!

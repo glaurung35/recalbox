@@ -15,6 +15,10 @@ MenuSwitchKodiNetplay::MenuSwitchKodiNetplay(WindowManager& window, SystemManage
   : Menu(window, _("KODI/NETPLAY"))
   , mSystemManager(systemManager)
 {
+}
+
+void MenuSwitchKodiNetplay::BuildMenuItems()
+{
   // Start kodi
   AddSubMenu("\uF1c3 " + _("KODI MEDIA CENTER"), (int)Components::Kodi, this);
 

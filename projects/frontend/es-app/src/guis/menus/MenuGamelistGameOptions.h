@@ -27,6 +27,9 @@ class MenuGamelistGameOptions : public Menu
   public:
     MenuGamelistGameOptions(WindowManager& window, ISimpleGameListView& view, SystemManager& systemManager, SystemData& system, FileData& game);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
     ~MenuGamelistGameOptions() override;
   private:
     enum class Components

@@ -10,6 +10,10 @@ MenuDownloadContents::MenuDownloadContents(WindowManager& window, SystemManager&
   : Menu(window, _("DOWNLOAD CONTENTS"))
   , mSystemManager(systemManager)
 {
+}
+
+void MenuDownloadContents::BuildMenuItems()
+{
   AddSubMenu("Free game packs", (int)Components::Games, this);
   AddSubMenu("Overlays", (int)Components::Overlay, this);
   AddSubMenu("Themes", (int)Components::Themes, this);

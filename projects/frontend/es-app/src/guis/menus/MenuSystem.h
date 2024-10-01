@@ -11,9 +11,6 @@
 #include "hardware/devices/storage/StorageDevices.h"
 
 // Forward declaration
-template<class T> class OptionListComponent;
-class SwitchComponent;
-class TextComponent;
 class SystemManager;
 
 class MenuSystem : public Menu
@@ -28,6 +25,9 @@ class MenuSystem : public Menu
      * @param systemManager System manager
      */
     explicit MenuSystem(WindowManager& window, SystemManager& systemManager);
+
+    //! Build menu items
+    void BuildMenuItems() final;
 
     //! Destructeur
     ~MenuSystem() override;

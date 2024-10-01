@@ -19,6 +19,7 @@ class ItemHeader : public ItemBase
       , mLabelWidth(0)
       , mGap(Renderer::Instance().DisplayWidthAsInt() / 160)
       , mIsOpened(true)
+      , mIsLowRes(Renderer::Instance().Is480pOrLower())
     {
       UpdateLabel();
     }
@@ -41,6 +42,8 @@ class ItemHeader : public ItemBase
     int mGap;
     //! Open status
     bool mIsOpened;
+    //! Low res
+    bool mIsLowRes;
 
     /*!
      * @brief Notification of an input event
@@ -87,8 +90,9 @@ class ItemHeader : public ItemBase
       (void)labelWidth;
       (void)selected;
       color = selected ? mSectionTheme.selectedColor : mSectionTheme.color;
-      Renderer::DrawRectangle(2, (int)area.CenterY() - 1, (int)area.Right() - (mLabelWidth + mGap * 2 + 2), 2, color);
-      mSectionTheme.font->RenderDirect(mDisplayableLabel, area.Right() - (mLabelWidth + mGap + 2), 0.f, color);
+      int h = mIsLowRes ? 1 : 2;
+      Renderer::DrawRectangle(2, (int)area.CenterY() - h / 2, (int)area.Right() - (mLabelWidth + mGap * 2 + 2), h, color);
+      mSectionTheme.font->RenderDirect(mDisplayableLabel, area.Right() - (mLabelWidth + mGap + 2), 0.f, color, mDataProvider.Spacing());
     }
 
     /*!

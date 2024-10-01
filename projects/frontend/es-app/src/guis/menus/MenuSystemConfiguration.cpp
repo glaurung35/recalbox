@@ -6,8 +6,6 @@
 //
 
 #include <guis/menus/MenuSystemConfiguration.h>
-#include <components/OptionListComponent.h>
-#include <components/SwitchComponent.h>
 #include <systems/SystemManager.h>
 #include <guis/MenuMessages.h>
 #include <LibretroRatio.h>
@@ -18,36 +16,41 @@ MenuSystemConfiguration::MenuSystemConfiguration(WindowManager& window, SystemDa
   : Menu(window, system.FullName())
   , mSystemManager(systemManager)
   , mSystem(system)
+  , mMenuOptions(options)
+{
+}
+
+void MenuSystemConfiguration::BuildMenuItems()
 {
   // Default emulator/core
   String emulatorAndCore;
   String defaultEmulatorAndCore;
-  if (hasFlag(options, AdvancedMenuOptions::Emulator))
+  if (hasFlag(mMenuOptions, AdvancedMenuOptions::Emulator))
     AddList(_("Emulator"), (int)Components::Emulator, this, GetEmulatorEntries(emulatorAndCore, defaultEmulatorAndCore),
             emulatorAndCore, defaultEmulatorAndCore, _(MENUMESSAGE_ADVANCED_EMU_EMU_HELP_MSG));
 
   // Screen ratio choice
-  if (hasFlag(options, AdvancedMenuOptions::Ratio))
+  if (hasFlag(mMenuOptions, AdvancedMenuOptions::Ratio))
     AddList(_("GAME RATIO"), (int)Components::Ratio, this, GetRatioEntries(), RecalboxConf::Instance().GetSystemRatio(mSystem), String::Empty, _(MENUMESSAGE_GAME_RATIO_HELP_MSG));
 
   // smoothing
-  if (hasFlag(options, AdvancedMenuOptions::Smooth))
-    AddSwitch(_("SMOOTH GAMES"), RecalboxConf::Instance().GetSystemSmooth(system), (int)Components::Smooth, this, _(MENUMESSAGE_GAME_SMOOTH_HELP_MSG));
+  if (hasFlag(mMenuOptions, AdvancedMenuOptions::Smooth))
+    AddSwitch(_("SMOOTH GAMES"), RecalboxConf::Instance().GetSystemSmooth(mSystem), (int)Components::Smooth, this, _(MENUMESSAGE_GAME_SMOOTH_HELP_MSG));
 
   // rewind
-  if (hasFlag(options, AdvancedMenuOptions::Rewind))
-    AddSwitch(_("REWIND"), RecalboxConf::Instance().GetSystemRewind(system), (int)Components::Rewind, this, _(MENUMESSAGE_GAME_REWIND_HELP_MSG));
+  if (hasFlag(mMenuOptions, AdvancedMenuOptions::Rewind))
+    AddSwitch(_("REWIND"), RecalboxConf::Instance().GetSystemRewind(mSystem), (int)Components::Rewind, this, _(MENUMESSAGE_GAME_REWIND_HELP_MSG));
 
   // autosave
-  if (hasFlag(options, AdvancedMenuOptions::AutoSave))
-    AddSwitch(_("AUTO SAVE/LOAD"), RecalboxConf::Instance().GetSystemAutoSave(system), (int)Components::AutoSave, this, _(MENUMESSAGE_GAME_AUTOSAVELOAD_HELP_MSG));
+  if (hasFlag(mMenuOptions, AdvancedMenuOptions::AutoSave))
+    AddSwitch(_("AUTO SAVE/LOAD"), RecalboxConf::Instance().GetSystemAutoSave(mSystem), (int)Components::AutoSave, this, _(MENUMESSAGE_GAME_AUTOSAVELOAD_HELP_MSG));
 
   // Shaders
-  if (hasFlag(options, AdvancedMenuOptions::Shaders))
+  if (hasFlag(mMenuOptions, AdvancedMenuOptions::Shaders))
     AddList(_("SHADERS"), (int)Components::Shaders, this, GetShadersEntries(), RecalboxConf::Instance().GetSystemShaders(mSystem), String::Empty, _(MENUMESSAGE_GAME_SHADERS_HELP_MSG));
 
   // Shaders preset
-  if (hasFlag(options, AdvancedMenuOptions::ShaderSet))
+  if (hasFlag(mMenuOptions, AdvancedMenuOptions::ShaderSet))
     AddList(_("SHADERS SET"), (int)Components::ShaderSet, this, GetShaderSetEntries(), RecalboxConf::Instance().GetSystemShaderSet(mSystem), String("none"), _(MENUMESSAGE_GAME_SHADERSET_HELP_MSG));
 }
 

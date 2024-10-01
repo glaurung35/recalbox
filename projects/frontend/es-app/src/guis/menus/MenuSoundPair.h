@@ -24,6 +24,9 @@ class MenuSoundPair : public Menu
      */
     explicit MenuSoundPair(WindowManager& window, const String::List& deviceList);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
   private:
     enum class Components
     {

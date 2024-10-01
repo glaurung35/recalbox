@@ -75,7 +75,7 @@ class ItemText : public ItemBase
       (void)labelWidth;
       (void)selected;
       int x = (int)(area.Right() - mDataProvider.Margin() - mTextWidth);
-      mTheme.Text().font->RenderDirect(mShortenedText, x, area.Top(), mForcedColor != 0 ? mForcedColor : color);
+      mTheme.Text().font->RenderDirect(mShortenedText, x, area.Top(), mForcedColor != 0 ? mForcedColor : color, mDataProvider.Spacing());
     }
 
     /*!

@@ -19,6 +19,9 @@ class MenuUserInterface : public Menu
      */
     explicit MenuUserInterface(WindowManager& window, SystemManager& systemManager, const IGlobalVariableResolver& resolver);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
     /*!
      * @brief Called once per frame. Override to implement your own drawings.
      * Call your base::Update() to ensure animation and childrens are updated properly

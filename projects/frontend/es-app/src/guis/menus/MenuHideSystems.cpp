@@ -9,9 +9,13 @@ MenuHideSystems::MenuHideSystems(WindowManager& window, SystemManager& systemMan
   : Menu(window, _("VIRTUAL SYSTEMS PER GENRE"))
   , mSystemManager(systemManager)
 {
+}
+
+void MenuHideSystems::BuildMenuItems()
+{
   // All games
   int i = 0;
-  for(const SystemData* system : systemManager.AllSystems())
+  for(const SystemData* system : mSystemManager.AllSystems())
     if (!system->IsPorts() && !system->IsVirtual())
     {
       mGenres[i] = system;

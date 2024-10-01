@@ -6,19 +6,18 @@
 //
 
 #include "MenuSystem.h"
-#include <guis/menus/GuiMenuDiskUsage.h>
+#include <guis/menus/MenuDiskUsage.h>
 #include <guis/MenuMessages.h>
-#include <components/OptionListComponent.h>
-#include <components/SwitchComponent.h>
-#include <systems/SystemManager.h>
 #include <Upgrade.h>
-#include <utils/Files.h>
-#include <recalbox/RecalboxSystem.h>
 #include <MainRunner.h>
 
 MenuSystem::MenuSystem(WindowManager& window, SystemManager& systemManager)
   : Menu(window, _("SYSTEM SETTINGS"))
   , mSystemManager(systemManager)
+{
+}
+
+void MenuSystem::BuildMenuItems()
 {
   // Version
   String version = Upgrade::CurrentVersion();
@@ -48,11 +47,19 @@ MenuSystem::MenuSystem(WindowManager& window, SystemManager& systemManager)
     case BoardType::RG503:                arch = "RG503"; break;
     case BoardType::RG351V:               arch = "RG351V"; break;
   }
-  arch.Append(' ').Append(sizeof(void*) == 4 ? "32bits" : "64bits");
+
+  #if INTPTR_MAX == INT32_MAX
+    const char* archSize = "32bits";
+  #elif INTPTR_MAX == INT64_MAX
+    const char* archSize = "64bits";
+  #else
+    #error "Environment not 32 or 64-bit."
+  #endif
+  arch.Append(' ').Append(archSize);
   AddText(_("VERSION"), version.Append(" (").Append(arch).Append(')'), _(MENUMESSAGE_VERSION_HELP_MSG));
 
   // Share space
-  MountMonitor::DeviceMountReferences mounts = systemManager.GetMountMonitor().AllMountPoints();
+  MountMonitor::DeviceMountReferences mounts = mSystemManager.GetMountMonitor().AllMountPoints();
   if (mounts.size() == 1)
   {
     mounts[0]->UpdateSize();
@@ -193,6 +200,5 @@ void MenuSystem::MenuSingleChanged(int id, int index, const StorageDevices::Devi
 void MenuSystem::SubMenuSelected(int id)
 {
   if ((Components)id == Components::DiskUsage)
-    mWindow.pushGui(new GuiMenuDiskUsage(mWindow, mSystemManager.GetMountMonitor()));
+    mWindow.pushGui(new MenuDiskUsage(mWindow, mSystemManager.GetMountMonitor()));
 }
-

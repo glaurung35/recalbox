@@ -23,6 +23,10 @@ MenuGamelistOptions::MenuGamelistOptions(WindowManager& window, SystemData& syst
   , mGamelist(*ViewController::Instance().GetOrCreateGamelistView(&system))
   , mArcade(arcadeInterface)
 {
+}
+
+void MenuGamelistOptions::BuildMenuItems()
+{
   // edit game metadata
   bool nomenu = RecalboxConf::Instance().GetMenuType() == RecalboxConf::Menu::None;
   bool bartop = RecalboxConf::Instance().GetMenuType() == RecalboxConf::Menu::Bartop;
@@ -67,18 +71,18 @@ MenuGamelistOptions::MenuGamelistOptions(WindowManager& window, SystemData& syst
     AddSubMenu(_("DOWNLOAD GAMES"),  (int)Components::Download, this, _(MENUMESSAGE_GAMELISTOPTION_DOWNLOAD_GAMES_MSG));
 
   // Jump to letter
-	AddList<unsigned int>(_("JUMP TO LETTER"), (int)Components::JumpToLetter, this, GetLetterEntries(), String::UpperUnicode(mGamelist.getCursor()->Name().ReadFirstUTF8()), 0, _(MENUMESSAGE_GAMELISTOPTION_JUMP_LETTER_MSG));
+  AddList<unsigned int>(_("JUMP TO LETTER"), (int)Components::JumpToLetter, this, GetLetterEntries(), String::UpperUnicode(mGamelist.getCursor()->Name().ReadFirstUTF8()), 0, _(MENUMESSAGE_GAMELISTOPTION_JUMP_LETTER_MSG));
 
   // open search wheel for this system
-  if (!system.IsFavorite())
+  if (!mSystem.IsFavorite())
     AddSubMenu(_("SEARCH GAMES HERE"),  (int)Components::Search, this, _(MENUMESSAGE_GAMELISTOPTION_SEARCH_GAMES_MSG));
 
   // Sorting
-	if (!system.IsSelfSorted())
-	  mListSort = AddList<FileSorts::Sorts>(_("SORT GAMES BY"), (int)Components::Sorts, this, GetSortEntries(), RecalboxConf::Instance().GetSystemSort(mSystem), FileSorts::Sorts::FileNameAscending, _(MENUMESSAGE_GAMELISTOPTION_SORT_GAMES_MSG));
+  if (!mSystem.IsSelfSorted())
+    mListSort = AddList<FileSorts::Sorts>(_("SORT GAMES BY"), (int)Components::Sorts, this, GetSortEntries(), RecalboxConf::Instance().GetSystemSort(mSystem), FileSorts::Sorts::FileNameAscending, _(MENUMESSAGE_GAMELISTOPTION_SORT_GAMES_MSG));
 
   // Global arcade option available on any arcade system, true or virtual
-  if (system.IsArcade())
+  if (mSystem.IsArcade())
     AddSubMenu(_("ARCADE SETTINGS"), (int)Components::ArcadeOptions, this, _(MENUMESSAGE_ARCADE_HELP_MSG));
 
   // Decorations
@@ -88,9 +92,9 @@ MenuGamelistOptions::MenuGamelistOptions(WindowManager& window, SystemData& syst
   AddList<Regions::GameRegions>(_("HIGHLIGHT GAMES OF REGION..."), (int)Components::Regions, this, GetRegionEntries(), Regions::Clamp(RecalboxConf::Instance().GetSystemRegionFilter(mSystem)), Regions::GameRegions::Unknown, _(MENUMESSAGE_GAMELISTOPTION_FILTER_REGION_MSG));
 
   // flat folders
-  if (!system.IsFavorite())
+  if (!mSystem.IsFavorite())
   {
-    if (!system.IsAlwaysFlat())
+    if (!mSystem.IsAlwaysFlat())
       AddSwitch(_("SHOW FOLDERS CONTENT"), RecalboxConf::Instance().GetSystemFlatFolders(mSystem), (int) Components::FlatFolders, this, _(MENUMESSAGE_GAMELISTOPTION_SHOW_FOLDER_CONTENT_MSG));
 
     // favorites only
@@ -100,10 +104,10 @@ MenuGamelistOptions::MenuGamelistOptions(WindowManager& window, SystemData& syst
       AddSwitch(_("FAVORITES FIRST"), RecalboxConf::Instance().GetFavoritesFirst(), (int) Components::FavoritesFirst, this, _(MENUMESSAGE_UI_FAVORITES_FIRST_MSG));
   }
   // update game list
-  if (!system.IsFavorite())
+  if (!mSystem.IsFavorite())
     AddSubMenu(_("UPDATE GAMES LISTS"), (int)Components::UpdateGamelist, this, _(MENUMESSAGE_UI_UPDATE_GAMELIST_HELP_MSG));
 
-	if (!nomenu)
+  if (!nomenu)
   {
     // Main menu
     AddSubMenu(_("MAIN MENU"), (int)Components::MainMenu, this, _(MENUMESSAGE_GAMELISTOPTION_MAIN_MENU_MSG));
@@ -417,4 +421,3 @@ void MenuGamelistOptions::MenuMultiChanged(int id, int index, const std::vector<
     default: break;
   }
 }
-

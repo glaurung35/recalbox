@@ -3,11 +3,9 @@
 //
 
 #include <utils/locale/LocaleHelper.h>
-#include <components/SliderComponent.h>
 #include <audio/AudioController.h>
 #include <audio/AudioManager.h>
 #include "MenuSound.h"
-#include "GuiMenuBase.h"
 #include "MenuSoundPair.h"
 #include "guis/MenuMessages.h"
 #include <guis/GuiMsgBox.h>
@@ -16,6 +14,10 @@
 
 MenuSound::MenuSound(WindowManager& window)
   : Menu(window, _("SOUND SETTINGS"))
+{
+}
+
+void MenuSound::BuildMenuItems()
 {
   // Force configuration to reload so that any external modified volume is set properly
   RecalboxConf::Instance().ForceReload();

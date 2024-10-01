@@ -25,6 +25,9 @@ class MenuPadsPair : public Menu
      */
     explicit MenuPadsPair(WindowManager& window, const String::List& deviceList);
 
+    //! Build menu items
+    void BuildMenuItems() final;
+
   private:
     enum class Components
     {

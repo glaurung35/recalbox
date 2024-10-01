@@ -6,7 +6,6 @@
 //
 
 #include <guis/menus/MenuVirtualSystemPerGenre.h>
-#include <components/SwitchComponent.h>
 #include <systems/SystemManager.h>
 #include <utils/locale/LocaleHelper.h>
 #include <guis/GuiMsgBox.h>
@@ -15,6 +14,10 @@
 MenuVirtualSystemPerGenre::MenuVirtualSystemPerGenre(WindowManager& window, SystemManager& systemManager)
   : Menu(window, _("VIRTUAL SYSTEMS PER GENRE"))
   , mSystemManager(systemManager)
+{
+}
+
+void MenuVirtualSystemPerGenre::BuildMenuItems()
 {
   // All games
   for(const GameGenres genre : Genres::GetOrderedList())
@@ -44,4 +47,3 @@ void MenuVirtualSystemPerGenre::MenuSwitchChanged(int id, bool& status)
   RecalboxConf::Instance().SetCollectionGenre(list);
   mSystemManager.UpdateVirtualGenreSystemsVisibility(genre, status ? SystemManager::Visibility::ShowAndSelect : SystemManager::Visibility::Hide);
 }
-

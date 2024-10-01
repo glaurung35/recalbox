@@ -84,7 +84,7 @@ class ItemAction : public ItemBase
       int xBack = area.Right() - mDataProvider.Margin() - mButtonFrame.ChunkWidth() - mButtonWidth;
       mButtonFrame.Render(Rectangle(xBack - mButtonFrame.ChunkWidth(), 2, mButtonWidth + mButtonFrame.ChunkWidth() * 2, mDataProvider.ItemHeight() - 4),
                           selected ? MenuColors::MergeColor(mTheme.Text().selectorColor, mTheme.Background().color) : mTheme.Background().color);
-      mTheme.Text().font->RenderDirect(mButtonText, xBack, area.Top(), color, mButtonWidth, TextAlignment::Center);
+      mTheme.Text().font->RenderDirect(mButtonText, xBack, area.Top(), color, mButtonWidth, TextAlignment::Center, mDataProvider.Spacing());
     }
 
     /*!

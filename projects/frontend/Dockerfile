@@ -13,7 +13,7 @@ ADD . /src
 # This test cause unexpected & crash only in docker run. Remove when fixed.
 RUN mv ./tests/tests/test_messaging.cpp ./tests/tests/test_messaging.ignore
 
-RUN cmake .
+RUN cmake -DPISTACHE_BUILD_TESTS=false -DPISTACHE_BUILD_EXAMPLES=false .
 
 RUN (test -x "RB_VERSION" && echo ok || true ) && make -j8
 

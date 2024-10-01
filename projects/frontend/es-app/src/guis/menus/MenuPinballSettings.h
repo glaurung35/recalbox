@@ -12,7 +12,7 @@
 // Forward declaration
 class SystemManager;
 
-class GuiMenuPinballSettings : public Menu
+class MenuPinballSettings : public Menu
                              , private ISingleSelectorChanged<String>
                              , private ISwitchChanged
 {
@@ -21,7 +21,9 @@ class GuiMenuPinballSettings : public Menu
      * @brief Default constructor
      * @param window Global window
      */
-    explicit GuiMenuPinballSettings(WindowManager& window);
+    explicit MenuPinballSettings(WindowManager& window);
+
+    void BuildMenuItems() final;
 
   private:
     enum class Components

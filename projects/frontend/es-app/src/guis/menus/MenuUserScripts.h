@@ -7,7 +7,7 @@
 #include "usernotifications/ScriptOutputListenerInterface.h"
 #include "guis/GuiASyncWaiter.h"
 
-class GuiMenuUserScripts : public Menu
+class MenuUserScripts : public Menu
                          , private IActionTriggered
                          , private ScriptOutputListenerInterface
                          , private Thread
@@ -18,13 +18,15 @@ class GuiMenuUserScripts : public Menu
      * @brief Default constructor
      * @param window Global window
      */
-    explicit GuiMenuUserScripts(WindowManager& window);
+    explicit MenuUserScripts(WindowManager& window);
 
     //! Destructor
-    ~GuiMenuUserScripts()
+    ~MenuUserScripts()
     {
       Thread::Stop();
     }
+
+    void BuildMenuItems() final;
 
   private:
     //! Script events

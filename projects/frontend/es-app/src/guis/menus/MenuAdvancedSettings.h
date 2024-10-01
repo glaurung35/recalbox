@@ -63,7 +63,6 @@ class MenuAdvancedSettings : public Menu
       PinballSubMenu,
       Cases,
       SecuritySubMenu,
-      Overscan,
       ShowFPS,
       CrtSubMenu,
       Manager,

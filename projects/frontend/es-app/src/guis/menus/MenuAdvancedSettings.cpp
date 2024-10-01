@@ -12,14 +12,15 @@
 #include "MenuKodiSettings.h"
 #include "MenuCRT.h"
 #include "MenuResolutionSettings.h"
-#include "GuiMenuPinballSettings.h"
+#include "MenuPinballSettings.h"
 #include "hardware/RPiEepromUpdater.h"
 #include "views/MenuFilter.h"
-#include "GuiMenuUserScripts.h"
+#include "MenuUserScripts.h"
 #include <guis/MenuMessages.h>
 #include <utils/Files.h>
 #include <guis/GuiMsgBox.h>
 #include <MainRunner.h>
+#include "MenuPinballSettings.h"
 
 MenuAdvancedSettings::MenuAdvancedSettings(WindowManager& window, SystemManager& systemManager)
   : Menu(window, _("ADVANCED SETTINGS"))
@@ -27,6 +28,10 @@ MenuAdvancedSettings::MenuAdvancedSettings(WindowManager& window, SystemManager&
   , mDefaultOverclock({ "none", _("NONE"), false, 0})
   , mLastHazardous(false)
   , mValidOverclock(false)
+{
+}
+
+void MenuAdvancedSettings::BuildMenuItems()
 {
   #if defined(BETA) || defined(DEBUG)
   AddSwitch(_("DEBUG LOGS"), RecalboxConf::Instance().GetDebugLogs(), (int)Components::DebugLogs, this, _(MENUMESSAGE_ADVANCED_DEBUGLOGS_HELP_MSG));
@@ -274,7 +279,7 @@ void MenuAdvancedSettings::SubMenuSelected(int id)
     case Components::KodiSubMenu: mWindow.pushGui(new MenuKodiSettings(mWindow)); break;
     case Components::ResolutionSubMenu: mWindow.pushGui(new MenuResolutionSettings(mWindow, mSystemManager)); break;
     case Components::PinballSubMenu: mWindow.pushGui(new MenuPinballSettings(mWindow)); break;
-    case Components::UserScripts: mWindow.pushGui(new GuiMenuUserScripts(mWindow)); break;
+    case Components::UserScripts: mWindow.pushGui(new MenuUserScripts(mWindow)); break;
     case Components::FactoryReset: ResetFactory(); break;
     case Components::EepromUpdate: EepromUpdate(); break;
     case Components::OverclockList:

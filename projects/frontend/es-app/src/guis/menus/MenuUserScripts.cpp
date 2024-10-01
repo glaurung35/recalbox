@@ -2,15 +2,19 @@
 // Created by bkg2k on 30/05/24.
 //
 
-#include "GuiMenuUserScripts.h"
+#include "MenuUserScripts.h"
 #include "games/GameFilesUtils.h"
 #include <usernotifications/NotificationManager.h>
 
-GuiMenuUserScripts::GuiMenuUserScripts(WindowManager& window)
+MenuUserScripts::MenuUserScripts(WindowManager& window)
   : Menu(window, "USER SCRIPTS")
   , mSender(*this)
   , mWaiter(nullptr)
   , mScriptIndexToRun(0)
+{
+}
+
+void MenuUserScripts::BuildMenuItems()
 {
   NotificationManager::ScriptDescriptorList scripts = NotificationManager::Instance().GetManualScriptList();
   std::sort(scripts.begin(), scripts.end(), [](const NotificationManager::ScriptDescriptor& a, NotificationManager::ScriptDescriptor& b){ return a.mPath.ToString() < b.mPath.ToString(); });
@@ -18,7 +22,7 @@ GuiMenuUserScripts::GuiMenuUserScripts(WindowManager& window)
     AddAction(ExtractScriptName(script.mPath, script.mAttribute), _("RUN"), script.mIndex, true, this);
 }
 
-String GuiMenuUserScripts::ExtractScriptName(const Path& script, ScriptAttributes attributes)
+String MenuUserScripts::ExtractScriptName(const Path& script, ScriptAttributes attributes)
 {
   String name = GameFilesUtils::RemoveParenthesis(script.FilenameWithoutExtension());
   if ((attributes & (ScriptAttributes::Synced | ScriptAttributes::ReportProgress)) != 0) name.Append(' ');
@@ -27,39 +31,39 @@ String GuiMenuUserScripts::ExtractScriptName(const Path& script, ScriptAttribute
   return name;
 }
 
-void GuiMenuUserScripts::MenuActionTriggered(int id)
+void MenuUserScripts::MenuActionTriggered(int id)
 {
   mScriptIndexToRun = id;
   Thread::Start("script");
 }
 
-void GuiMenuUserScripts::ScriptStarts(const Path& script, ScriptAttributes attributes)
+void MenuUserScripts::ScriptStarts(const Path& script, ScriptAttributes attributes)
 {
   Mutex::AutoLock locker(mGuardian);
   mPendingData.push_back(EventData(script, attributes));
   mSender.Send();
 }
 
-void GuiMenuUserScripts::ScriptOutputLine(const Path& script, ScriptAttributes attributes, const String& line)
+void MenuUserScripts::ScriptOutputLine(const Path& script, ScriptAttributes attributes, const String& line)
 {
   Mutex::AutoLock locker(mGuardian);
   mPendingData.push_back(EventData(script, attributes, line));
   mSender.Send();
 }
 
-void GuiMenuUserScripts::ScriptCompleted(const Path& script, ScriptAttributes attributes, const String& output, bool error, const String& errors)
+void MenuUserScripts::ScriptCompleted(const Path& script, ScriptAttributes attributes, const String& output, bool error, const String& errors)
 {
   Mutex::AutoLock locker(mGuardian);
   mPendingData.push_back(EventData(script, attributes, output, error, errors));
   mSender.Send();
 }
 
-void GuiMenuUserScripts::Run()
+void MenuUserScripts::Run()
 {
   NotificationManager::Instance().RunManualScriptAt(mScriptIndexToRun, this);
 }
 
-void GuiMenuUserScripts::ReceiveSyncMessage()
+void MenuUserScripts::ReceiveSyncMessage()
 {
   for(;;)
   {

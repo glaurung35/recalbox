@@ -5,21 +5,25 @@
 // http://www.recalbox.com
 //
 
-#include "GuiMenuPinballSettings.h"
+#include "MenuPinballSettings.h"
 #include <guis/MenuMessages.h>
 
-GuiMenuPinballSettings::GuiMenuPinballSettings(WindowManager& window)
+MenuPinballSettings::MenuPinballSettings(WindowManager& window)
   : Menu(window, _("PINBALL SETTINGS"))
+{
+}
+
+void MenuPinballSettings::BuildMenuItems()
 {
   // Enable Pinball Cabinet
   AddSwitch(_("ENABLE CABINET MODE"), RecalboxConf::Instance().GetPinballCabinet(), (int)Components::Cabinet, this, _(MENUMESSAGE_ADVANCED_PINBALL_CABINET_HELP_MSG));
-  
+
   // Enable Pinball Trail
   AddSwitch(_("ENABLE BALL TRAIL"), RecalboxConf::Instance().GetPinballTrail(), (int)Components::Trail, this, _(MENUMESSAGE_ADVANCED_PINBALL_CABINET_HELP_MSG));
-  
+
   // Select Backglass Screen
   AddList<String>(_("BACKGLASS SCREEN"), (int)Components::BackglassScreen, this, GetPinballBackglassScreenEntries(), RecalboxConf::Instance().GetPinballBackglassScreen(), "1", _(MENUMESSAGE_ADVANCED_PINBALL_CABINET_HELP_MSG));
-  
+
   // Select Backglass resolution
   AddList<String>(_("BACKGLASS RESOLUTION"), (int)Components::BackglassResolution, this, GetPinballBackglassResolutionEntries(), RecalboxConf::Instance().GetPinballBackglassResolution(), "1920x1080", _(MENUMESSAGE_ADVANCED_PINBALL_CABINET_HELP_MSG));
 
@@ -27,7 +31,7 @@ GuiMenuPinballSettings::GuiMenuPinballSettings(WindowManager& window)
   AddList<String>(_("PROFILE"), (int)Components::Profile, this, GetPinballProfileEntries(), RecalboxConf::Instance().GetPinballProfile(), "1", _(MENUMESSAGE_ADVANCED_PINBALL_CABINET_HELP_MSG));
 }
 
-void GuiMenuPinballSettings::MenuSwitchChanged(int id, bool& status)
+void MenuPinballSettings::MenuSwitchChanged(int id, bool& status)
 {	
   switch((Components)id)
   {
@@ -40,7 +44,7 @@ void GuiMenuPinballSettings::MenuSwitchChanged(int id, bool& status)
   }
 }
 
-SelectorEntry<String>::List GuiMenuPinballSettings::GetPinballBackglassResolutionEntries()
+SelectorEntry<String>::List MenuPinballSettings::GetPinballBackglassResolutionEntries()
 {
   return SelectorEntry<String>::List
   {
@@ -49,7 +53,7 @@ SelectorEntry<String>::List GuiMenuPinballSettings::GetPinballBackglassResolutio
   };
 }
 
-SelectorEntry<String>::List GuiMenuPinballSettings::GetPinballBackglassScreenEntries()
+SelectorEntry<String>::List MenuPinballSettings::GetPinballBackglassScreenEntries()
 {
   return SelectorEntry<String>::List
   {
@@ -58,7 +62,7 @@ SelectorEntry<String>::List GuiMenuPinballSettings::GetPinballBackglassScreenEnt
   };
 }
 
-SelectorEntry<String>::List GuiMenuPinballSettings::GetPinballProfileEntries()
+SelectorEntry<String>::List MenuPinballSettings::GetPinballProfileEntries()
 {
   return SelectorEntry<String>::List
   {
@@ -68,7 +72,7 @@ SelectorEntry<String>::List GuiMenuPinballSettings::GetPinballProfileEntries()
   };
 }
 
-void GuiMenuPinballSettings::MenuSingleChanged(int id, int index, const String& value)
+void MenuPinballSettings::MenuSingleChanged(int id, int index, const String& value)
 {
   (void)index;
   switch((Components)id)

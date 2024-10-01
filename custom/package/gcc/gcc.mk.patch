@@ -1,0 +1,13 @@
+diff --git a/package/gcc/gcc.mk b/package/gcc/gcc.mk
+index 672f9472a9..5ef1317bd3 100644
+--- a/package/gcc/gcc.mk
++++ b/package/gcc/gcc.mk
+@@ -14,7 +14,7 @@ ifeq ($(BR2_GCC_VERSION_ARC),y)
+ GCC_SITE = $(call github,foss-for-synopsys-dwc-arc-processors,gcc,$(GCC_VERSION))
+ GCC_SOURCE = gcc-$(GCC_VERSION).tar.gz
+ else
+-GCC_SITE = $(BR2_GNU_MIRROR:/=)/gcc/gcc-$(GCC_VERSION)
++GCC_SITE = ftp://ftp.irisa.fr/pub/mirrors/gcc.gnu.org/gcc/releases/gcc-$(GCC_VERSION)
+ GCC_SOURCE = gcc-$(GCC_VERSION).tar.xz
+ endif
+ 

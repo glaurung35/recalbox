@@ -17,6 +17,7 @@ da90ab5754ec8fcf94fb0dc8048ef344  package/bluez5_utils/bluez5_utils.mk
 139c28fb0a041898208f176f918bf135  package/dhcpcd/dhcpcd.mk
 c445390118f5d058dd372a8b2beb25a8  package/dropbear/S50dropbear
 f8f1d83caf51791602eeefd554506bdf  package/ffmpeg/ffmpeg.mk
+cde90dcb7fa7c77cd2007a91ac7683c2  package/gcc/gcc.mk
 6b31f620c36bb2d6c54cfaf71cc5a086  package/initscripts/init.d/rcK
 76f02a748149f1aa945aa418ea65b2bc  package/initscripts/init.d/rcS
 be7091dd90cc6633f644562fd3416acb  package/libcec/libcec.mk

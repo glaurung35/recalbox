@@ -1,4 +1,4 @@
-// this file was auto-generated from "3plus.svg" by res2h at 2024-10-01 15:52:46
+// this file was auto-generated from "3plus.svg" by res2h at 2024-10-01 16:07:15
 
 #include "../Resources.h"
 

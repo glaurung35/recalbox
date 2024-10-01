@@ -19,6 +19,10 @@ ALSA_PLUGINS_CONF_OPTS = \
 	--disable-maemo-resource-manager \
 	--with-speex=no
 
+ifeq ($(BR2_PACKAGE_ALSA_UTILS),y)
+ALSA_PLUGINS_DEPENDENCIES += alsa-utils
+endif
+
 ifeq ($(BR2_PACKAGE_LIBSAMPLERATE),y)
 ALSA_PLUGINS_CONF_OPTS += --enable-samplerate
 ALSA_PLUGINS_DEPENDENCIES += libsamplerate
@@ -30,7 +34,7 @@ endif
 
 define ALSA_PLUGINS_ADD_DEFAULT_CONF
 	mv $(TARGET_DIR)/etc/alsa/conf.d/99-pulseaudio-default.conf.example \
-		$(TARGET_DIR)/etc/alsa/conf.d/99-pulseaudio-default.conf
+	$(TARGET_DIR)/etc/alsa/conf.d/99-pulseaudio-default.conf
 endef
 
 ALSA_PLUGINS_POST_INSTALL_TARGET_HOOKS += ALSA_PLUGINS_ADD_DEFAULT_CONF

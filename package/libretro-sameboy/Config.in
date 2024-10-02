@@ -5,7 +5,7 @@ config BR2_PACKAGE_LIBRETRO_SAMEBOY
 	help
 	  A libretro GB/C emulator core for ARM.
 
-	  http://www.libretro.com
+	  https://github.com/LIJI32/SameBoy
 
 comment "LIBRETRO_SAMEBOY needs a toolchain w/ C++"
 	depends on !BR2_INSTALL_LIBSTDCPP

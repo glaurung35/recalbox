@@ -546,15 +546,16 @@ void RequestHandler::RomsGetList(const Rest::Request& request, Http::ResponseWri
       {
         if (game->IsGame())
           return JSONBuilder()
-                 .Open()
-                   .Field("path", game->Metadata().Rom().ToString())
-                   .Field("name", game->Metadata().Name())
-                   .Field("publisher", game->Metadata().Publisher())
-                   .Field("developer", game->Metadata().Developer())
-                   .Field("genre", game->Metadata().Genre())
-                   .Field("players", game->Metadata().PlayerMax())
-                   .Field("rating", game->Metadata().Rating())
-                 .Close();
+            .Open()
+                .Field("path", game->Metadata().Rom().ToString())
+                .Field("name", game->Metadata().Name())
+                .Field("publisher", game->Metadata().Publisher())
+                .Field("developer", game->Metadata().Developer())
+                .Field("genre", game->Metadata().Genre())
+                .Field("players", game->Metadata().PlayerMax())
+                .Field("rating", game->Metadata().Rating())
+                .Field("favorite", game->Metadata().Favorite())
+            .Close();
         return JSONBuilder();
       }
   } serializer;

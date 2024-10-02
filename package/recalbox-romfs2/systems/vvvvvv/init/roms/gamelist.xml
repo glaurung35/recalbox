@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<gameList>
+  <provider>
+    <System>PC Windows</System>
+    <software>Skraper</software>
+    <database>ScreenScraper.fr</database>
+    <web>http://www.screenscraper.fr</web>
+  </provider>
+  <game id="351940" source="ScreenScraper.fr">
+    <path>./data.zip</path>
+    <name>VVVVVV</name>
+    <desc>VVVVVV is a challenging 2D action/platformer with one deceptively simple gameplay mechanic: Without the ability to jump, Captain Viridian must rely on inverting gravity to advance through hundreds of rooms and solve the puzzles he encounters therein.
+ 
+VVVVVV is a commercial game! The author has given special permission to make this port available for free. If you enjoy the game, please consider purchasing a copy at thelettervsixtim.es.</desc>
+    <releasedate>20101101T000000</releasedate>
+    <developer>Terry Cavanagh</developer>
+    <players>1</players>
+    <genre>Platform</genre>
+    <hash>70FF9FBB</hash>
+    <image>./media/images/VVVVVV.jpg</image>
+    <genreid>257</genreid>
+  </game>
+</gameList>

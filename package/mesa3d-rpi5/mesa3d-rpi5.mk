@@ -5,9 +5,9 @@
 ################################################################################
 
 # When updating the version, please also update mesa3d-headers
-MESA3D_RPI5_VERSION = f59665bb62b579c6cc26155a26ce557f9f3357d2
-MESA3D_RPI5_SITE = https://gitlab.freedesktop.org/mesa/mesa.git
-MESA3D_RPI5_SITE_METHOD = git
+MESA3D_RPI5_VERSION = 24.2.3
+MESA3D_RPI5_SITE = https://archive.mesa3d.org
+MESA3D_RPI5_SOURCE = mesa-$(MESA3D_VERSION).tar.xz
 MESA3D_RPI5_LICENSE = MIT, SGI, Khronos
 MESA3D_RPI5_LICENSE_FILES = docs/license.rst
 MESA3D_RPI5_CPE_ID_VENDOR = mesa3d
@@ -21,6 +21,7 @@ MESA3D_RPI5_DEPENDENCIES = \
 	host-bison \
 	host-flex \
 	host-python-mako \
+	host-python-pyyaml \
 	expat \
 	libdrm \
 	zlib

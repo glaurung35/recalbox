@@ -32,7 +32,10 @@ dfe35e9f39b004b3977968223107bd51  package/libgtk3/0001-disable-atk-bridge.patch
 8e9d594ccabd51a6863314c188bb2e3b  package/llvm/llvm.mk
 64b2fa393cafff6958f4bfd2b9e30f24  package/luajit/Config.in
 201ba12d953eb7111d08b3952a7b6b3c  package/mesa3d/Config.in
+848b4032bd832a28461e364ce5926383  package/mesa3d/mesa3d.hash
 6d6f9c8f807001b9b421d1b924e8d2f3  package/mesa3d/mesa3d.mk
+7e9d13d9f582e09bffee968741ff90f4  package/meson/meson.hash
+19ea768cd63d0ee6a55cb6b25c7f0b31  package/meson/meson.mk
 f0dfbbe844feaf583ba0cd9432704f09  package/mosquitto/mosquitto.mk
 2cd9a8d1ff6aa58b1ae2709179929998  package/mpv/mpv.mk
 eccca9996f67a8e3091c986d75a6b85e  package/python-pygame/python-pygame.hash
@@ -40,8 +43,6 @@ eccca9996f67a8e3091c986d75a6b85e  package/python-pygame/python-pygame.hash
 0f2a1376ed896b443e62fbf9434a99b5  package/rpi-firmware/Config.in
 bb6386cc54355917f1dad1fd576d9298  package/rpi-firmware/rpi-firmware.hash
 dd767d51e6ab8fa62a8cf94e23d44980  package/rpi-firmware/rpi-firmware.mk
-6f91cb93427f48814997f0f4b16f1673  package/rtl8821cu/rtl8821cu.hash
-a9e1dfeb93963b629064233249ba74d4  package/rtl8821cu/rtl8821cu.mk
 4d001cdf82fc070022638c94d19c6525  package/sdl2/sdl2.hash
 3bfcf3601bf15f5e14fc4aa202bb7c86  package/sdl2/sdl2.mk
 f976cbc5a7299cfc48ec83f255ddf85b  package/sdl2_mixer/sdl2_mixer.mk

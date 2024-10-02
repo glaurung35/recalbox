@@ -33,7 +33,7 @@
               content-class="bg-primary"
               content-style="font-size: 16px"
             >
-              {{ $t('emulation.systems.tooltips.hasNetplay.label') }}
+              {{ $t(filterButtons.hasNetplay ? 'emulation.systems.tooltips.all.label': 'emulation.systems.tooltips.hasNetplay.label') }}
             </q-tooltip>
           </q-btn>
         </template>

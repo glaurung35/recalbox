@@ -694,11 +694,19 @@
           "title": "Médias",
           "media": {
             "title": "Type d'image",
-            "help": "Cette option vous permet de choisir si vous souhaitez que le scrap télécharge un type d'image."
+            "help": "Cette option vous permet de choisir le type d'image à scraper.",
+            "box3d": "Box 3D",
+            "box2d": "box 2D",
+            "clearLogo": "Clear logo",
+            "titleScreenshot": "Title screenshot",
+            "inGameScreenshot": "Ingame Screenshot",
+            "marquee": "Marquee",
+            "mixv1": "Mix v1",
+            "mixv2": "Mix v2"
           },
           "thumbnail": {
             "title": "Type de vignette",
-            "help": "Cette option vous permet de choisir si vous souhaitez que le scrap télécharge un type de vignette."
+            "help": "Cette option vous permet de choisir le type de vignette à scraper. Les types sont les mêmes que pour les images mais sont utilisés lors de l'affichage de répertoires."
           },
           "video": {
             "title": "Type de vidéo",

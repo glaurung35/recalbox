@@ -694,11 +694,19 @@
           "title": "Medias",
           "media": {
             "title": "Picture type",
-            "help": "This option allows you to choose if you would like to download a picture type."
+            "help": "This option allows you to choose the type of image to scrap.",
+            "box3d": "Box 3D",
+            "box2d": "box 2D",
+            "clearLogo": "Clear logo",
+            "titleScreenshot": "Title screenshot",
+            "inGameScreenshot": "Ingame Screenshot",
+            "marquee": "Marquee",
+            "mixv1": "Mix v1",
+            "mixv2": "Mix v2"
           },
           "thumbnail": {
             "title": "Thumbnail type",
-            "help": "This option allows you to choose if you would like to download a thumbnail type."
+            "help": "This option allows you to choose the type of thumbnail to scrap. The types are the same as for images but are used when displaying directories."
           },
           "video": {
             "title": "Video type",

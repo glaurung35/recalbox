@@ -1,32 +1,29 @@
-diff --git a/libretro/libretro.c b/libretro/libretro.c
-index 5b449743..fe0e5a3a 100644
---- a/libretro/libretro.c
-+++ b/libretro/libretro.c
-@@ -759,10 +759,16 @@ void retro_run(void)
+diff -Naur a/libretro/libretro.c b/libretro/libretro.c
+--- a/libretro/libretro.c	2023-09-29 17:17:58.000000000 +0200
++++ b/libretro/libretro.c	2023-10-02 15:58:54.640399279 +0200
+@@ -1574,11 +1574,18 @@
  
- bool retro_load_game(const struct retro_game_info *info)
- {
--   // Init
-+  /* Set default configuration values */
-+  Configuration_SetDefault();
-+  /* Now load the values from the configuration file */
-+  Configuration_Load("/recalbox/share/system/.hatari/hatari.cfg");
-+
-+  // Init
-    environ_cb(RETRO_ENVIRONMENT_SET_INPUT_DESCRIPTORS, input_descriptors);
--   path_join(RETRO_TOS, RETRO_DIR, "tos.img");
--   
-+   path_join(RETRO_TOS, "", ConfigureParams.Rom.szTosImageFileName);
-+   log_cb(RETRO_LOG_INFO, "TOS image: '%s'\n", RETRO_TOS);
-+
-    // Verify if tos.img is present
-    if(!file_exists(RETRO_TOS))
-    {
-diff --git a/src/configuration.c b/src/configuration.c
-index 59bfb6c8..6750d91c 100644
---- a/src/configuration.c
-+++ b/src/configuration.c
-@@ -771,34 +771,34 @@ void Configuration_Load(const char *psFileName)
+     // Clear all paths
+     RPATH[0] = RPATH2[0] = RETRO_GD[0] = RETRO_HD[0] = RETRO_IDE[0] = 0;
++    
++    /* Set default configuration values */
++    Configuration_SetDefault();
++    /* Now load the values from the configuration file */
++    Configuration_Load("/recalbox/share/system/.hatari/hatari.cfg");
+ 
+     // Init
+     environ_cb(RETRO_ENVIRONMENT_SET_INPUT_DESCRIPTORS, input_descriptors);
+ 
+     //path_join(RETRO_TOS, RETRO_DIR, "tos.img");
++    path_join(RETRO_TOS, "", ConfigureParams.Rom.szTosImageFileName);
++    log_cb(RETRO_LOG_INFO, "TOS image: '%s'\n", RETRO_TOS);
+ 
+     // Verify if tos.img is present
+     if (!file_exists(RETRO_TOS))
+diff -Naur a/src/configuration.c b/src/configuration.c
+--- a/src/configuration.c	2023-09-29 17:17:58.000000000 +0200
++++ b/src/configuration.c	2023-10-02 16:01:05.891763931 +0200
+@@ -776,34 +776,34 @@
  		return;
  	}
  

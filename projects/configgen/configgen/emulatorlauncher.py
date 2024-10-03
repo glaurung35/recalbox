@@ -142,6 +142,10 @@ def getGenerator(emulator):
         module = __import__("configgen.generators.rb5000.rb5000Generator", fromlist=["RB5000Generator"])
         generatorClass = getattr(module, "RB5000Generator")
         return generatorClass()
+    elif emulator == "xemu":
+        module = __import__("configgen.generators.xemu.xemuGenerator", fromlist=["XemuGenerator"])
+        generatorClass = getattr(module, "XemuGenerator")
+        return generatorClass()
     else:
         print("Missing generator for {}".format(emulator))
         raise ValueError

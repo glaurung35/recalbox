@@ -1,0 +1,27 @@
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index badf207da0..4125828067 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -2683,11 +2683,6 @@ static const char *get_eeprom_path(void)
+ 
+     if (qemu_access(path, F_OK) == -1) {
+         if (!xbox_eeprom_generate(path, XBOX_EEPROM_VERSION_R1)) {
+-            char *msg = g_strdup_printf("Failed to generate EEPROM file '%s'."
+-                                        "\n\nPlease check machine settings.",
+-                                        path);
+-            xemu_queue_error_message(msg);
+-            g_free(msg);
+             return NULL;
+         }
+     }
+@@ -2695,10 +2690,6 @@ static const char *get_eeprom_path(void)
+     int size = get_image_size(path);
+ 
+     if (size < 0) {
+-        char *msg = g_strdup_printf("Failed to open EEPROM file '%s'.\n\n"
+-                                    "Please check machine settings.", path);
+-        xemu_queue_error_message(msg);
+-        g_free(msg);
+         return NULL;
+     }
+

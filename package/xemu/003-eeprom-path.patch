@@ -1,0 +1,14 @@
+diff --git a/ui/xemu-settings.cc b/ui/xemu-settings.cc
+index 5237d5682b..92a98f3b17 100644
+--- a/ui/xemu-settings.cc
++++ b/ui/xemu-settings.cc
+@@ -102,6 +102,9 @@ const char *xemu_settings_get_path(void)
+ const char *xemu_settings_get_default_eeprom_path(void)
+ {
+     static char *eeprom_path = NULL;
++    
++    return "/recalbox/share/saves/xbox/xemu_eeprom.bin";
++    
+     if (eeprom_path != NULL) {
+         return eeprom_path;
+     }

@@ -54,6 +54,7 @@ recalboxBins =\
     'supermodel'  : '/usr/bin/supermodel',
     'ti99sim'     : '/usr/bin/ti99sim/ti99sim-sdl',
     'vice'        : '/usr/bin/x64',
+    'xemu'        : '/usr/bin/xemu',
     'xroar'       : '/usr/bin/xroar',
 }
 
@@ -181,3 +182,5 @@ frotzConfig = HOME + '/.config/frotz/frotz.conf'
 
 sdlpopConfigFile = CONF + '/sdlpop/sdlpop.ini'
 sdlpopControllersFile = CONF + '/sdlpop/gamecontrollerdb.txt'
+
+xemuConfig = CONF + '/xemu/xemu.toml'

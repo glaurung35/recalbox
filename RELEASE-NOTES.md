@@ -10,6 +10,7 @@ as release notes for end user on a Recalbox upgrade.
 ### Hardware
 
 ### News
+- Add original xbox emulator (xemu)
 - New menus design, better, faster, stronger !
 - Add meaningfull headers when using sorts other than alphabetical order
 - Reintroduced Favorites on top of gamelist as an option

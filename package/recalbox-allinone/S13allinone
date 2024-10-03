@@ -1,0 +1,16 @@
+#!/bin/bash
+
+isRecalboxAllInOne(){
+  find /proc/device-tree/ -name "aio_player"
+}
+if test "$1" == "start"; then
+  # AllInOne volumed
+  if isRecalboxAllInOne; then
+    for js in $(find /sys/class/input/ -name "event*"); do
+      if [[ $(cat "$js/device/name") == "AllInOneP1" ]]; then
+        (sleep 5 && volumed "/dev/input/$(basename "$js")") &
+      fi
+    done
+    echo 'bash /recalbox/scripts/recalbox_allinone_rgb.sh $6' > "/recalbox/share/userscripts/allinone[systembrowsing].sh"
+  fi
+fi

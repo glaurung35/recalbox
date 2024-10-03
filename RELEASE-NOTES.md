@@ -4,6 +4,9 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
+## Version 9.2.3-Pulstar-RPi5-2GB
+
+- Add support for Raspberry Pi 5 2GB version
 
 ## Version 9.2.3-Pulstar
 

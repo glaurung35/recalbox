@@ -67,7 +67,8 @@ class MenuAdvancedSettings : public Menu
       CrtSubMenu,
       Manager,
       FactoryReset,
-      EepromUpdate
+      EepromUpdate,
+      UserScripts,
     };
 
     static constexpr const char* sOverclockBaseFolder = "/recalbox/system/configs/overclocking";

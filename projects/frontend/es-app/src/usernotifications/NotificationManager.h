@@ -11,47 +11,25 @@
 #include <utils/json/JSONBuilder.h>
 #include <utils/os/system/Signal.h>
 #include <utils/os/system/Thread.h>
-
-enum class Notification
-{
-    None                 = 0x00000, //!< Non triggered event
-    Start                = 0x00001, //!< ES start or restart. Parameter: start count
-    Stop                 = 0x00002, //!< ES stops. Parameter: start count
-    Shutdown             = 0x00004, //!< The whole system is required to shutdown
-    Reboot               = 0x00008, //!< The whole system is required to reboot
-    Relaunch             = 0x00010, //!< ES is going to relaunch
-    Quit                 = 0x00020, //!< ES is going to quit (ex: GPI case power button)
-    SystemBrowsing       = 0x00040, //!< The user is browsing system list and selected a new system. Parameter: system short name
-    GamelistBrowsing     = 0x00080, //!< The user is browsing the game list and selected a new game. Parameter: game path
-    RunGame              = 0x00100, //!< A game is going to launch. Parameter: game path
-    RunDemo              = 0x00200, //!< A game is going to launch in demo mode. Parameter: game path
-    EndGame              = 0x00400, //!< Game session end. Parameter: game path
-    EndDemo              = 0x00800, //!< Game demo session end. Parameter: game path
-    Sleep                = 0x01000, //!< EmulationStation is entering sleep state.
-    WakeUp               = 0x02000, //!< EmulationStation is waking up
-    ScrapStart           = 0x04000, //!< A multiple game scraping session starts
-    ScrapStop            = 0x08000, //!< Scraping session end. Parameter: scraped game count
-    ScrapGame            = 0x10000, //!< A game has been scraped. Parameter: game path
-    ConfigurationChanged = 0x20000, //!< The user changed something in the configuration.
-    RunKodi              = 0x40000, //!< Run kodi!
-    StartGameClip        = 0x60000, //!< Start a game clip
-    StopGameClip         = 0x80000, //!< Stop a game clip
-};
-
-DEFINE_BITFLAG_ENUM(Notification, int)
+#include "ScriptOutputListenerInterface.h"
+#include "ScriptAttributes.h"
+#include "Notifications.h"
 
 class NotificationManager : public StaticLifeCycleControler<NotificationManager>
                           , private Thread
 {
   private:
+    static constexpr const char* sTempStdout = "/tmp/script-stdout.fifo";
+    static constexpr const char* sTempStderr = "/tmp/script-stderr.fifo";
+
     /*!
      * @brief Script data
      */
     struct ScriptData
     {
-      Path         mPath;      //!< Script path
-      Notification mFilter;    //!< Bitflag of notifications this script must reply to
-      bool         mSync;      //!< RunSynchronously?
+      Path             mPath;      //!< Script path
+      Notification     mFilter;    //!< Bitflag of notifications this script must reply to
+      ScriptAttributes mAttribute; //!< Script attributes
     };
 
     //! Shortcut :)
@@ -127,6 +105,8 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
 
     //! Script folder
     static constexpr const char* sScriptPath = "/recalbox/share/userscripts";
+    //! Manual Script folder
+    static constexpr const char* sManualScriptPath = "/recalbox/share/userscripts/manual";
 
     //! MQTT Topic - event only
     static constexpr const char* sEventTopic     = "Recalbox/EmulationStation/Event";
@@ -147,11 +127,14 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
     //! Status file
     static const Path sStatusFilePath;
 
-    //! All available scripts
+    //! All automatic scripts
     ScriptList mScriptList;
 
     //! Last JSON event
     JSONBuilder mLastJSONEvent;
+
+    //! All manual scripts
+    ScriptList mManualScriptList;
 
     //! Request provider
     MessageFactory<NotificationRequest> mRequestProvider;
@@ -194,25 +177,21 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
     static Notification ExtractNotificationsFromPath(const Path& path);
 
     /*!
-     * @brief Extract sync flag from file name.
-     * Sync flag must be '(sync)'. Case insensitive
-     * @param path
-     * @return
+     * @brief Extract attributes from file name. Case insensitive
+     * @param path file path
+     * @return Script Attributes
      */
-    static bool ExtractSyncFlagFromPath(const Path& path);
-
-    /*!
-     * @brief Extract permanent flag from file name.
-     * Sync flag must be '(permanent)'. Case insensitive
-     * @param path
-     * @return
-     */
-    static bool ExtractPermanentFlagFromPath(const Path& path);
+    static ScriptAttributes ExtractAttributesFromPath(const Path& path);
 
     /*!
      * @brief Load all available scripts
      */
     void LoadScriptList();
+
+    /*!
+     * @brief Load all available scripts
+     */
+    bool LoadManualScriptList();
 
     /*!
      * @brief Get a filtered list from all available list
@@ -242,8 +221,10 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
      * The target is run aither natively or using python or sh regarding the target extension
      * @param target executable/scriupt to run
      * @param arguments arguments passed to the target
+     * @param attributes Script attributes
+     * @param interface Listening interface for manual scripts
      */
-    void RunProcess(const Path& target, const String::List& arguments, bool synchronous, bool permanent);
+    void RunProcess(const Path& target, const String::List& arguments, ScriptAttributes attributes, ScriptOutputListenerInterface* interface);
 
     /*!
      * @brief Build es_state.info Common information into output string
@@ -302,6 +283,17 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
     void Run() override;
 
   public:
+    /*!
+     * @brief Script descriptor
+     */
+    struct ScriptDescriptor
+    {
+      Path             mPath;      //!< Script path
+      int              mIndex;     //! internal index required for manual script execution
+      ScriptAttributes mAttribute; //!< Script attributes
+    };
+    //! Script descriptor list
+    typedef std::vector<ScriptDescriptor> ScriptDescriptorList;
 
     /*!
      * @brief Default constructor
@@ -351,4 +343,23 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
       Mutex::AutoLock locker(mSyncer);
       return mLastJSONEvent;
     }
+
+    /*!
+     * @brief Check if there is at least one manual script available
+     * @return True if there is at least one manual script available, false otherwise
+     */
+    bool HasManualScript();
+
+    /*!
+     * @brief Get manual script list (file name w/o decorations)
+     * @return Script list
+     */
+    ScriptDescriptorList GetManualScriptList();
+
+    /*!
+     * @brief Run a partucular script
+     * @param index
+     * @return
+     */
+    bool RunManualScriptAt(int index, ScriptOutputListenerInterface* interface);
 };

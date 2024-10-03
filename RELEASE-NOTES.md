@@ -4,6 +4,11 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
+## Version 10
+
+### News
+- Add manuel script runnable from Recalbox interface
+
 
 ## Version 10
 
@@ -14,6 +19,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add meaningfull headers when using sorts other than alphabetical order
 - Reintroduced Favorites on top of gamelist as an option
 - Add new menu to hide systems individually
+- Add user script menu to run scripts from the interface
 
 ### Improvements
 - Add gamelist decoration on the right side: regions flags, genre & players

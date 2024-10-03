@@ -380,7 +380,6 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
          { "secondminitft.backlightcontrol"        , Validator(0, 100) },
          { "secondminitft.usemarquee"              , Validator(true) },
          { "secondminitft.sleepenabled"            , Validator(true) },
-         { "overscan"                              , Validator(true) },
          { "externalscreen.prefered"               , Validator("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-_") },
          { "externalscreen.forceresolution"        , Validator("0123456789x") },
          { "externalscreen.forcefrequency"         , Validator("0123456789.") },

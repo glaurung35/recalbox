@@ -1,20 +1,20 @@
-From bdc5466e3e5910c2ec461df19ed910ffb9799cba Mon Sep 17 00:00:00 2001
+From e2310f3be73cdec5e7ce8c492d802b87341116cf Mon Sep 17 00:00:00 2001
 From: digitalLumberjack <digitallumberjack@gmail.com>
 Date: Mon, 8 May 2023 21:22:41 +0200
-Subject: [PATCH 12/12] activate overlay auto rotation when video rotate
+Subject: [PATCH 10/12] activate overlay auto rotation when video rotate
 
 ---
- input/input_driver.c  | 16 ++++++++++++----
+ input/input_driver.c  | 18 ++++++++++++------
  input/input_overlay.h |  4 +++-
  retroarch.c           |  1 +
  runloop.c             |  1 +
- 4 files changed, 17 insertions(+), 5 deletions(-)
+ 4 files changed, 17 insertions(+), 7 deletions(-)
 
 diff --git a/input/input_driver.c b/input/input_driver.c
-index a100cae414..e74aec8e68 100644
+index 97b00561f7..ac64689864 100644
 --- a/input/input_driver.c
 +++ b/input/input_driver.c
-@@ -2025,6 +2025,7 @@ static void input_overlay_free(input_overlay_t *ol)
+@@ -2835,6 +2835,7 @@ static void input_overlay_free(input_overlay_t *ol)
  void input_overlay_auto_rotate_(
        unsigned video_driver_width,
        unsigned video_driver_height,
@@ -22,7 +22,7 @@ index a100cae414..e74aec8e68 100644
        bool input_overlay_enable,
        input_overlay_t *ol)
  {
-@@ -2038,7 +2039,9 @@ void input_overlay_auto_rotate_(
+@@ -2848,7 +2849,9 @@ void input_overlay_auto_rotate_(
        return;
  
     /* Get current screen orientation */
@@ -33,7 +33,7 @@ index a100cae414..e74aec8e68 100644
        screen_orientation = OVERLAY_ORIENTATION_LANDSCAPE;
  
     /* Get orientation of active overlay */
-@@ -2048,6 +2051,8 @@ void input_overlay_auto_rotate_(
+@@ -2858,6 +2861,8 @@ void input_overlay_auto_rotate_(
           active_overlay_orientation = OVERLAY_ORIENTATION_LANDSCAPE;
        else if (strstr(ol->active->name, "portrait"))
           active_overlay_orientation = OVERLAY_ORIENTATION_PORTRAIT;
@@ -42,7 +42,7 @@ index a100cae414..e74aec8e68 100644
        else /* Sanity check */
           return;
     }
-@@ -2071,10 +2076,12 @@ void input_overlay_auto_rotate_(
+@@ -2881,10 +2886,12 @@ void input_overlay_auto_rotate_(
        if (!string_is_empty(desc->next_index_name))
        {
           bool next_overlay_found = false;
@@ -58,19 +58,21 @@ index a100cae414..e74aec8e68 100644
  
           if (next_overlay_found)
           {
-@@ -3906,6 +3913,7 @@ static void input_overlay_loaded(retro_task_t *task,
-       input_overlay_auto_rotate_(
-             video_st->width,
-             video_st->height,
-+            settings->uints.video_rotation,
-             input_overlay_enable,
-             input_st->overlay_ptr);
+@@ -4986,8 +4993,7 @@ static void input_overlay_enable_(bool enable)
  
+       if (auto_rotate)
+          input_overlay_auto_rotate_(
+-               video_st->width, video_st->height, true, ol);
+-
++               video_st->width, video_st->height, settings->uints.video_rotation, true, ol);
+       /* Enable */
+       if (ol->iface->enable)
+          ol->iface->enable(ol->iface_data, true);
 diff --git a/input/input_overlay.h b/input/input_overlay.h
-index 45748d9851..35a2063bea 100644
+index b6a6083f57..010314f9dc 100644
 --- a/input/input_overlay.h
 +++ b/input/input_overlay.h
-@@ -110,7 +110,8 @@ enum overlay_orientation
+@@ -97,7 +97,8 @@ enum overlay_orientation
  {
     OVERLAY_ORIENTATION_NONE = 0,
     OVERLAY_ORIENTATION_LANDSCAPE,
@@ -80,7 +82,7 @@ index 45748d9851..35a2063bea 100644
  };
  
  enum overlay_show_input_type
-@@ -362,6 +363,7 @@ void input_overlay_set_visibility(int overlay_idx,enum overlay_visibility vis);
+@@ -437,6 +438,7 @@ void input_overlay_set_visibility(int overlay_idx,enum overlay_visibility vis);
  void input_overlay_auto_rotate_(
        unsigned video_driver_width,
        unsigned video_driver_height,
@@ -89,22 +91,22 @@ index 45748d9851..35a2063bea 100644
        input_overlay_t *ol);
  
 diff --git a/retroarch.c b/retroarch.c
-index 183724d9e4..4954019bcc 100644
+index eef9430929..f83914276d 100644
 --- a/retroarch.c
 +++ b/retroarch.c
-@@ -2980,6 +2980,7 @@ bool command_event(enum event_command cmd, void *data)
+@@ -3986,6 +3986,7 @@ bool command_event(enum event_command cmd, void *data)
                       input_overlay_auto_rotate_(
                             video_st->width,
                             video_st->height,
 +                           settings->uints.video_rotation,
                             settings->bools.input_overlay_enable,
-                            input_st->overlay_ptr);
+                            ol);
           }
 diff --git a/runloop.c b/runloop.c
-index 1567c22424..be4aca06f7 100644
+index a4bc004f26..264f7039e5 100644
 --- a/runloop.c
 +++ b/runloop.c
-@@ -5417,6 +5417,7 @@ static enum runloop_state_enum runloop_check_state(
+@@ -5645,6 +5645,7 @@ static enum runloop_state_enum runloop_check_state(
              input_overlay_auto_rotate_(
                    video_st->width,
                    video_st->height,
@@ -113,5 +115,5 @@ index 1567c22424..be4aca06f7 100644
                    input_st->overlay_ptr);
  
 -- 
-2.41.0
+2.43.0
 

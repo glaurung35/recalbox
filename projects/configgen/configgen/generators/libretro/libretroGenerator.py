@@ -142,17 +142,25 @@ class LibretroGenerator(Generator):
         # recalbox-crt-options.cfg options
 
         # Retroarch CRT configuration
-        from configgen.generators.libretro.crt.LibretroConfigCRT import LibretroConfigCRT
-        from configgen.crt.CRTConfigParser import CRTConfigParser
-        from configgen.crt.CRTModeOffsetter import CRTModeOffsetter
-        libretro_crt_configurator = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter(), system.CRTV2)
-        for option in libretro_crt_configurator.createConfigFor(system, rom).items():
-            retroarchConfig.setString(option[0], option[1])
-        # Core configuration
-        from configgen.generators.libretro.crt.LibretroCoreConfigCRT import LibretroCoreConfigCRT
-        core_config = LibretroCoreConfigCRT().createConfigFor(system)
-        for core_option in core_config.items():
-            coreConfig.setString(core_option[0], core_option[1])
+        if system.CRTV2:
+            from configgen.generators.libretro.crtswitchres.LibretroConfigCRTSwitchres import LibretroConfigCRTSwitchres
+            retroOptions, coreOptions = LibretroConfigCRTSwitchres().createConfigFor(system, rom)
+            for option in retroOptions.items():
+                retroarchConfig.setString(option[0], option[1])
+            for option in coreOptions.items():
+                coreConfig.setString(option[0], option[1])
+        else:
+            from configgen.generators.libretro.crt.LibretroConfigCRT import LibretroConfigCRT
+            from configgen.crt.CRTConfigParser import CRTConfigParser
+            from configgen.crt.CRTModeOffsetter import CRTModeOffsetter
+            libretro_crt_configurator = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter(), system.CRTV2)
+            for option in libretro_crt_configurator.createConfigFor(system, rom).items():
+                retroarchConfig.setString(option[0], option[1])
+            # Core configuration
+            from configgen.generators.libretro.crt.LibretroCoreConfigCRT import LibretroCoreConfigCRT
+            core_config = LibretroCoreConfigCRT().createConfigFor(system)
+            for core_option in core_config.items():
+                coreConfig.setString(core_option[0], core_option[1])
 
         retroarchConfig.saveFile()
         coreConfig.saveFile()
@@ -371,6 +379,22 @@ class LibretroGenerator(Generator):
             }
         return {"fbneo-cpu-speed-adjust": '"100%"'}
 
+    @staticmethod
+    def createRemapConfig(system: Emulator, rom: str, config: keyValueSettings):
+        remapConfig = keyValueSettings(recalboxFiles.retroarchRemapCommon, True)
+        remapConfig.loadFile(True)
+        remapConfig.clear()
+        remapConfigDevice = config.getOptionByRegex('input_libretro_device_p\d+$')
+
+        for option in remapConfigDevice.items():
+            remapConfig.setString(option[0], '"' + option[1] + '"')
+
+        for i in range(1, len(remapConfigDevice) + 1):
+            value = config.getInt("input_player{}_analog_dpad_mode".format(i), 0)
+            remapConfig.setString("input_player{}_analog_dpad_mode".format(i), '"' + str(value) + '"')
+            remapConfig.setString("input_remap_port_p{}".format(i), '"' + str(i - 1) + '"' )
+
+        remapConfig.saveFile()
 
     # recalbox-crt-options.cfg options
     # Create configuration file
@@ -435,11 +459,30 @@ class LibretroGenerator(Generator):
             retroarchConfig.setString(option[0], option[1])
         retroarchConfig.saveFile()
 
+        # Disable notification when use common remap file
+        retroarchConfig.setString("notification_show_remap_load", "false")
+        coreCapitalize = system.Core.capitalize()
+        romName = os.path.splitext(os.path.basename(rom))[0]
+        if (os.path.isfile("{}/{}/{}.rmp".format(recalboxFiles.retroarchRemap, coreCapitalize, coreCapitalize))
+                or os.path.isfile("{}/{}/{}.rmp".format(recalboxFiles.retroarchRemap, coreCapitalize, system.Name))
+                or os.path.isfile("{}/{}/{}.rmp".format(recalboxFiles.retroarchRemap, coreCapitalize, romName))):
+            retroarchConfig.setString("notification_show_remap_load", "true")
+
+        # Reduce volume for flycast
         if system.Core == "flycast" or system.Core == "flycast-next":
             retroarchConfig.setString("audio_volume", "-2.0")
         else:
             retroarchConfig.setString("audio_volume", "0.0")
+
+        # Force 10 players for Saturn
+        retroarchConfig.setString("input_max_users", '"8"')
+        if system.Name == "saturn":
+            retroarchConfig.setString("input_max_users", '"12"')
+
         retroarchConfig.saveFile()
+
+        # Create remap file
+        LibretroGenerator.createRemapConfig(system, rom, retroarchConfig)
 
         commandArgs = configuration.getCommandLineArguments(retroarchConfig, coreConfig)
 

@@ -247,6 +247,13 @@ class LibretroCores:
         with open(recalboxFiles.libretroScummvmConfig, 'w') as f:
             scummvmSettings.write(f)
 
+    def configureSaturn(self, coreSettings: keyValueSettings):
+        core = self.system.Core
+        if len(self.controllers) > 2:
+            coreSettings.setString("{}_multitap_port1".format(core), '"1"')
+        if len(self.controllers) > 7:
+            coreSettings.setString("{}_multitap_port2".format(core), '"1"')
+
     # Fill cores configuration
     def fillCoresConfiguration(self):
         settings = self.settings
@@ -296,6 +303,7 @@ class LibretroCores:
             "videopacplus" : LibretroCores.configureVideoPacPlus,
             "sg1000"       : LibretroCores.configureSg1000,
             "naomi2"       : self.configureNaomi2,
+            "saturn"       : self.configureSaturn,
         }
 
         # Get handler and execute

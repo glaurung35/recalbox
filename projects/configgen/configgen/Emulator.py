@@ -3,7 +3,7 @@ from enum import Enum
 from typing import List, Union
 
 from configgen.controllers.JammaLayout import JammaLayout
-from configgen.crt.CRTTypes import CRTResolution, CRTConfigurationByResolution, CRTVideoStandard, CRTRegion, \
+from configgen.crtswitchres.CRTTypes import CRTVideoStandard, CRTRegion, \
     CRTResolutionType, CRTScreenType, CRTSuperRez, CRTAdapter, CRTScanlines
 from configgen.settings.keyValueSettings import keyValueSettings
 from configgen.utils.Rotation import Rotation
@@ -25,44 +25,11 @@ class ExtraArguments:
      crtadaptor:str
      crtregion:str = "auto"
      crtscanlines:str = ""
-     crt_verticaloffset_p1920x240at120: int = 0
-     crt_horizontaloffset_p1920x240at120: int = 0
-     crt_viewportwidth_p1920x240at120: int = 0
-     crt_verticaloffset_p640x480: int = 0
-     crt_horizontaloffset_p640x480: int = 0
-     crt_viewportwidth_p640x480: int = 0
-     crt_verticaloffset_i768x576: int = 0
-     crt_horizontaloffset_i768x576: int = 0
-     crt_viewportwidth_i768x576: int = 0
-     crt_verticaloffset_i640x480: int = 0
-     crt_horizontaloffset_i640x480: int = 0
-     crt_viewportwidth_i640x480: int = 0
-     crt_verticaloffset_p1920x288: int = 0
-     crt_horizontaloffset_p1920x288: int = 0
-     crt_viewportwidth_p1920x288: int = 0
-     crt_verticaloffset_p1920x240: int = 0
-     crt_horizontaloffset_p1920x240: int = 0
-     crt_viewportwidth_p1920x240: int = 0
-     crt_verticaloffset_p1920x224: int = 0
-     crt_horizontaloffset_p1920x224: int = 0
-     crt_viewportwidth_p1920x224: int = 0
-     crt_verticaloffset_p320x240: int = 0
-     crt_horizontaloffset_p320x240: int = 0
-     crt_viewportwidth_p320x240: int = 0
-     crt_verticaloffset_p320x224: int = 0
-     crt_horizontaloffset_p320x224: int = 0
-     crt_viewportwidth_p320x224: int = 0
-     crt_verticaloffset_p384x288: int = 0
-     crt_horizontaloffset_p384x288: int = 0
-     crt_viewportwidth_p384x288: int = 0
-     crt_verticaloffset_p1920x480: int = 0
-     crt_horizontaloffset_p1920x480: int = 0
-     crt_viewportwidth_p1920x480: int = 0
      rotation: int = 0
      rotatecontrols: bool = False
      verticalgame: bool = False
-     crtsuperrez: str = "x6"
-     crtv2: bool = False
+     crtsuperrez: str = "1"
+     crtv2: bool = True
      sgb: bool = False
      jammalayoutp1: str = ""
      jammalayoutp2: str = ""
@@ -127,14 +94,13 @@ class Emulator:
         # CRT arguments
         self._crtvideostandard: CRTVideoStandard = CRTVideoStandard.AUTO
         self._crtregion: CRTRegion = CRTRegion.AUTO
-        self._crtresolutiontype: CRTResolutionType = CRTResolutionType.Progressive
-        self._crtscreentype: CRTScreenType = CRTScreenType.k15
+        self._crtresolutiontype: CRTResolutionType = CRTResolutionType.Auto
+        self._crtscreentype: CRTScreenType = CRTScreenType.kHz15
         self._crtenabled: bool = False
         self._crtadapter: CRTAdapter = CRTAdapter.NONE
         self._crtscanlines: CRTScanlines = CRTScanlines.NONE
-        self._crtsuperrez: CRTSuperRez = CRTSuperRez.original
-        self._crtv2: bool = False
-        self._crt_config = {}
+        self._crtsuperrez: CRTSuperRez = CRTSuperRez.x6
+        self._crtv2: bool = True
         self._jammalayoutp1 = ""
         self._jammalayoutp2 = ""
 
@@ -218,17 +184,6 @@ class Emulator:
         self._crtenabled: bool = arguments.crtadaptor is not None and len(arguments.crtadaptor) > 0
         self._crtadapter: str = CRTAdapter.fromString(arguments.crtadaptor)
         self._crtsuperrez: CRTSuperRez = CRTSuperRez.fromString(arguments.crtsuperrez)
-        self._crtv2: bool = arguments.crtv2
-        self._crt_config = {}
-        for resolution in CRTResolution:
-            self._crt_config[resolution] = {}
-            if hasattr(arguments, f'crt_verticaloffset_{resolution}'):
-                self._crt_config[resolution]["vertical"] = getattr(arguments, f'crt_verticaloffset_{resolution}')
-            if hasattr(arguments, f'crt_horizontaloffset_{resolution}'):
-                self._crt_config[resolution]["horizontal"] = getattr(arguments, f'crt_horizontaloffset_{resolution}')
-            if hasattr(arguments, f'crt_viewportwidth_{resolution}'):
-                self._crt_config[resolution]["viewportwidth"] = getattr(arguments, f'crt_viewportwidth_{resolution}')
-
         self._crtscanlines = CRTScanlines.fromString(arguments.crtscanlines)
         self._jammalayoutp1 = arguments.jammalayoutp1
         self._jammalayoutp2 = arguments.jammalayoutp2
@@ -441,24 +396,6 @@ class Emulator:
 
     @property
     def CRTAdapter(self) -> CRTAdapter: return self._crtadapter
-
-
-    def CRTVerticalOffset(self, resolution: CRTResolution) -> int:
-        if resolution in self._crt_config:
-            if "vertical" in self._crt_config[resolution]:
-                return self._crt_config[resolution]["vertical"]
-        return 0
-    def CRTHorizontalOffset(self, resolution: CRTResolution) -> int:
-        if resolution in self._crt_config:
-            if "horizontal" in self._crt_config[resolution]:
-                return self._crt_config[resolution]["horizontal"]
-        return 0
-
-    def CRTViewportWidth(self, resolution: CRTResolution) -> int:
-        if resolution in self._crt_config:
-            if "viewportwidth" in self._crt_config[resolution]:
-                return self._crt_config[resolution]["viewportwidth"]
-        return 0
 
     @property
     def CRTScanlines(self) -> CRTScanlines: return self._crtscanlines

@@ -93,6 +93,15 @@ class keyValueSettings:
             self.__settings.pop(key, None)
         return self    
 
+    def getOptionByRegex(self, pattern) -> Dict[str, str]:
+        import re
+        reg = r"{}".format(pattern)
+        result: Dict[str, str] = {}
+        for key in self.__settings.keys():
+            if re.match(reg, key):
+                result[key] = self.__settings[key]
+        return result
+
     def getOptionSubset(self, startWith) -> Dict[str, str]:
         result: Dict[str, str] = {}
         swl = len(startWith)

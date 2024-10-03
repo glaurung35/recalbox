@@ -28,34 +28,32 @@ class CrtRGBDual : public ICrtInterface
     }
 
     //! This adapter is an RGB Dual
-    CrtAdapterType GetCrtAdapter() const override { return CrtAdapterType::RGBDual; }
+    [[nodiscard]] CrtAdapterType GetCrtAdapter() const override { return CrtAdapterType::RGBDual; }
 
     //! RGB Dual has support for 31khz
-    bool Has31KhzSupport() const override { return true; }
+    [[nodiscard]] bool Has31KhzSupport() const override { return true; }
 
     //! RGB Dual has support for 120hz modes
-    bool Has120HzSupport() const override { return true; }
+    [[nodiscard]] bool Has120HzSupport() const override { return GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31; }
 
     //! Return select output frequency
-    HorizontalFrequency GetHorizontalFrequency() const override {
-      return MultiSyncEnabled()? ICrtInterface::HorizontalFrequency::KHzMulti :
-             (GetRGBDual31khzSwitchState() ? HorizontalFrequency::KHz31 :
-             (CrtConf::Instance().GetSystemCRTScreen31kHz() ? HorizontalFrequency::KHz31 : HorizontalFrequency::KHz15));
+    [[nodiscard]] HorizontalFrequency GetHorizontalFrequency() const override {
+      HorizontalFrequency configFreq = static_cast<HorizontalFrequency>(CrtConf::Instance().GetSystemCRTScreenType());
+      if(configFreq != ICrtInterface::HorizontalFrequency::Auto)
+        return configFreq;
+      return GetRGBDual31khzSwitchState() ? HorizontalFrequency::KHz31 : HorizontalFrequency::KHz15;
     }
 
-    //! Return multisync enabled
-    bool MultiSyncEnabled() const override { return CrtConf::Instance().GetSystemCRTScreenMultiSync(); }
-
     //! This adapter has support of forced 50hz
-    bool HasForced50hzSupport() const override { return true; }
+    [[nodiscard]] bool HasForced50hzSupport() const override { return true; }
 
     //! Get 50hz switch state
-    bool MustForce50Hz() const override { return GetRGBDual50hzSwitchState(); }
+    [[nodiscard]] bool MustForce50Hz() const override { return GetRGBDual50hzSwitchState(); }
 
     //! The comment is here to tell you that the name will be returned bby this methode named Name()
-    std::string& Name() const override { static std::string adapterString("Recalbox RGB Dual"); return adapterString; }
+    [[nodiscard]] std::string& Name() const override { static std::string adapterString("Recalbox RGB Dual"); return adapterString; }
 
-    std::string& ShortName() const override { static std::string adapterShortString("recalboxrgbdual"); return adapterShortString; }
+    [[nodiscard]] std::string& ShortName() const override { static std::string adapterShortString("recalboxrgbdual"); return adapterShortString; }
   private:
     static constexpr const char* sRGBDual31khzSwitch = "/sys/devices/platform/recalboxrgbdual/dipswitch-31khz/value";
     static constexpr const char* sRGBDual50hzSwitch = "/sys/devices/platform/recalboxrgbdual/dipswitch-50hz/value";

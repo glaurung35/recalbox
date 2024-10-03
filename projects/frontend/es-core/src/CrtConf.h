@@ -39,14 +39,13 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     void OnSave() const override;
 
     DefineGetterSetterEnumGeneric(CrtConf, SystemCRT, CrtAdapterType, sSystemCRT, CrtAdapter)
-    DefineGetterSetterGeneric(CrtConf, SystemCRTResolution, String, String, sSystemCRTResolution, "240")
-    DefineGetterSetterGeneric(CrtConf, SystemCRT31kHzResolution, String, String, sSystemCRT31kHzResolution, "480")
+    DefineGetterSetterGeneric(CrtConf, SystemCRTResolution, String, String, sSystemCRTResolution, "0")
     DefineGetterSetterGeneric(CrtConf, SystemCRTGameRegionSelect, bool, Bool, sSystemCRTGameRegionSelect, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTGameResolutionSelect, bool, Bool, sSystemCRTGameResolutionSelect, true)
     DefineGetterSetterGeneric(CrtConf, SystemCRTRunDemoIn240pOn31kHz, bool, Bool, sSystemCRTRunDemoIn240pOn31kHz, false)
     DefineGetterSetterEnumGeneric(CrtConf, SystemCRTScanlines31kHz, CrtScanlines, sSystemCRTScanlines31kHz, CrtScanlines)
     DefineGetterSetterGeneric(CrtConf, SystemCRTExtended15KhzRange, bool, Bool, sSystemCRTExtended15KhzRange, false)
-    DefineGetterSetterGeneric(CrtConf, SystemCRTSuperrez, String, String, sSystemCRTSuperrez, "x6")
+    DefineGetterSetterGeneric(CrtConf, SystemCRTSuperrez, String, String, sSystemCRTSuperrez, "1920")
     DefineGetterSetterGeneric(CrtConf, SystemCRTUseV2, bool, Bool, sSystemCRTUseV2, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTForceJack, bool, Bool, sSystemCRTForceJack, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTForceHDMI, bool, Bool, sSystemCRTForceHDMI, false)
@@ -65,8 +64,7 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     DefineGetterSetterGeneric(CrtConf, SystemCRTJammaSoundOnStart, bool, Bool, sSystemCRTJammaSoundOnStart, true)
     DefineGetterSetterGeneric(CrtConf, SystemCRTJammaDebounceTime, int, Int, sSystemCRTJammaDebounceTime, 10)
 
-    DefineGetterSetterGeneric(CrtConf, SystemCRTScreen31kHz, bool, Bool, sSystemCRTScreen31kHz, false)
-    DefineGetterSetterGeneric(CrtConf, SystemCRTScreenMultiSync, bool, Bool, sSystemCRTScreenMultiSync, false)
+    DefineGetterSetterGeneric(CrtConf, SystemCRTScreenType, int, Int, sSystemCRTScreenType, 0)
 
 
     DefineCrtModeOffsetDeclaration(VerticalOffset, int, Int, sVerticalOffset)
@@ -86,14 +84,12 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     static constexpr const char* sSystemCRTGameResolutionSelect   = "options.resolutionselect";
     static constexpr const char* sSystemCRTUseV2                  = "options.usev2";
     static constexpr const char* sSystemCRTSuperrez               = "options.superrez";
-    static constexpr const char* sSystemCRT31kHzResolution        = "options.31khz.es.resolution";
     static constexpr const char* sSystemCRTRunDemoIn240pOn31kHz   = "options.31khz.demo240pOn31khz";
     static constexpr const char* sSystemCRTScanlines31kHz         = "options.31khz.scanlines";
     static constexpr const char* sSystemCRTExtended15KhzRange     = "options.15khz.extendedrange";
     static constexpr const char* sSystemCRTForceJack              = "audio.forcejack";
     static constexpr const char* sSystemCRTForceHDMI              = "video.forcehdmi";
-    static constexpr const char* sSystemCRTScreen31kHz            = "options.screen.31kHz";
-    static constexpr const char* sSystemCRTScreenMultiSync        = "options.screen.multisync";
+    static constexpr const char* sSystemCRTScreenType             = "options.screen.type";
     static constexpr const char* sSystemCRTJammaAmpDisable        = "options.jamma.amp.disable";
     static constexpr const char* sSystemCRTJammaMonoAmpBoost      = "options.jamma.amp.boost";
     static constexpr const char* sSystemCRTJammaPanelButtons      = "options.jamma.controls.panel_buttons";

@@ -43,6 +43,7 @@ class ItemSlider : public ItemBase
       , mSustainedIncrement(0)
       , mSustainedTimeAccumulator(0)
       , mSustainedTimeLimit(0)
+      , mSustainedEvent(false)
     {}
 
     /*!
@@ -77,6 +78,7 @@ class ItemSlider : public ItemBase
       , mSustainedIncrement(0)
       , mSustainedTimeAccumulator(0)
       , mSustainedTimeLimit(0)
+      , mSustainedEvent(false)
     {}
 
     /*
@@ -142,6 +144,8 @@ class ItemSlider : public ItemBase
     int mSustainedTimeAccumulator;
     //! Current sustained time limit
     int mSustainedTimeLimit;
+    //! Sustained press has triggered an event?
+    bool mSustainedEvent;
 
     /*
      * Itembase
@@ -179,18 +183,27 @@ class ItemSlider : public ItemBase
       {
         mSustainedIncrement = -mIncrement;
         mSustainedTimeLimit = sSustainedTimeFirst;
+        mSustainedEvent = false;
         return true;
       }
       else if (event.AnyRightPressed())
       {
         mSustainedIncrement = mIncrement;
         mSustainedTimeLimit = sSustainedTimeFirst;
+        mSustainedEvent = false;
         return true;
       }
       else if (event.AnyLeftReleased() || event.AnyRightReleased())
       {
+        if (!mSustainedEvent)
+        {
+          float previous = mValue;
+          mValue = Math::clamp(mValue + mSustainedIncrement, mMinimum, mMaximum);
+          if (previous != mValue) Fire();
+        }
         mSustainedTimeAccumulator = 0;
         mSustainedIncrement = 0;
+        mSustainedEvent = false;
         return true;
       }
       return false;
@@ -209,7 +222,11 @@ class ItemSlider : public ItemBase
           mSustainedTimeLimit = sSustainedTime;
           float previous = mValue;
           mValue = Math::clamp(mValue + mSustainedIncrement, mMinimum, mMaximum);
-          if (previous != mValue) Fire();
+          if (previous != mValue)
+          {
+            Fire();
+            mSustainedEvent = true;
+          }
         }
     }
 

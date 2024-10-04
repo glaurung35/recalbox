@@ -358,7 +358,7 @@ ItemSwitch* Menu::AddSwitch(const Path& icon, const String& label, bool value, i
   return item;
 }
 
-ItemSlider* Menu::AddSlider(const String& label, float min, float max, float inc, float value, float defaultValue, const String& suffix, int id,
+ItemSlider* Menu::AddSlider(const String& label, float min, float max, float inc, float defaultValue, float value, const String& suffix, int id,
                     ISliderChanged* interface, const String& help, bool unselectable, const String& helpUnselectable)
 {
   ItemSlider* item = new ItemSlider(*this, label, mTheme, interface, id, min, max, inc, value, defaultValue, suffix, help, unselectable, helpUnselectable);

@@ -23,7 +23,7 @@ void MenuSound::BuildMenuItems()
   RecalboxConf::Instance().ForceReload();
 
   // Volume
-  mVolume = AddSlider(_("SYSTEM VOLUME"), 0.f, 100.f, 1.f, (float)AudioController::Instance().GetVolume(), 80.f, "%", (int)Components::Volume, this, _(MENUMESSAGE_SOUND_VOLUME_HELP_MSG));
+  mVolume = AddSlider(_("SYSTEM VOLUME"), 0.f, 100.f, 1.f, 80.f, (float)AudioController::Instance().GetVolume(), "%", (int)Components::Volume, this, _(MENUMESSAGE_SOUND_VOLUME_HELP_MSG));
   mMusicVolume = AddSlider(_("MUSIC VOLUME"), 0.f, 100.f, 1.f, (float)AudioController::Instance().GetMusicVolume(), 80.f, "%", (int)Components::MusicVolume, this, _(MENUMESSAGE_SOUND_MUSIC_VOLUME_HELP_MSG));
 
   // AudioMode

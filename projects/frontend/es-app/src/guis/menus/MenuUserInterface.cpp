@@ -123,8 +123,6 @@ void MenuUserInterface::MenuSliderMoved(int id, float value)
 
 void MenuUserInterface::MenuSwitchChanged(int id, bool& status)
 {
-  SystemData* systemData = ViewController::Instance().CurrentSystem();
-
   switch((Components)id)
   {
     case Components::Clock: RecalboxConf::Instance().SetClock(status).Save(); break;
@@ -137,10 +135,10 @@ void MenuUserInterface::MenuSwitchChanged(int id, bool& status)
       break;
     }
     case Components::DisplayByFileName:
+    {
       RecalboxConf::Instance().SetDisplayByFileName(status).Save();
-      ViewController::Instance().GetOrCreateGamelistView(systemData)->refreshList();
-      ViewController::Instance().InvalidateAllGamelistsExcept(nullptr);
       break;
+    }
     case Components::Popups:
     case Components::Theme:
     case Components::ThemeConfig:

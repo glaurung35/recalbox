@@ -17,6 +17,7 @@ class DetailedGameListView : public ISimpleGameListView
                            , public ITextListComponentOverlay<FileData*>
                            , private IScraperEngineStage
                            , private IVideoComponentAction
+                           , private RecalboxConf::DisplayByFileNameConfigurationNotify
 {
   public:
     DetailedGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system, const IGlobalVariableResolver& resolver, PictogramCaches& pictogramCache);
@@ -81,11 +82,18 @@ class DetailedGameListView : public ISimpleGameListView
     void clean() override { mVideo.setVideo(Path::Empty); }
 
     /*!
+     * @brief Get undecorated (NO icons or decorations) display name in functions of options
+     * @param game Game to lookup name
+     * @return Name
+     */
+    String GetUndecoratedDisplayName(const FileData& game) override;
+
+    /*!
      * @brief Get display name of the given game
      * @param game Game
      * @return Final display name
      */
-    virtual String GetDisplayName(FileData& game);
+    virtual String GetDisplayName(const FileData& game);
 
     /*!
      * @brief Get description of the given game
@@ -117,6 +125,12 @@ class DetailedGameListView : public ISimpleGameListView
     void removeEntry(FileData* fileData) override;
 
     /*
+     * RecalboxConf::DisplayByFileNameConfigurationNotify
+     */
+
+    void DisplayByFileNameConfigurationChanged(const bool& value) override;
+
+    /*
      * Component override
      */
 
@@ -141,6 +155,9 @@ class DetailedGameListView : public ISimpleGameListView
     int mElapsedTimeOnGame;
     //! Scraping state (for visual feedback)
     bool mIsScraping;
+
+    //! Cached value of display per filename
+    bool mIsDisplayedByFileName;
 
     void initMDLabels();
     void initMDValues();

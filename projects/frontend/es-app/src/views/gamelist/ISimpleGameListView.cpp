@@ -18,6 +18,7 @@ ISimpleGameListView::ISimpleGameListView(WindowManager& window, SystemManager& s
   , mHeaderImage(window)
   , mBackground(window)
   , mThemeExtras(window)
+  , mInvalidated(false)
   , mVerticalMove(false)
   , mListRefreshRequired(false)
 {
@@ -345,7 +346,7 @@ void ISimpleGameListView::JumpToNextLetter(bool forward)
 
 void ISimpleGameListView::JumpToLetter(unsigned int unicode)
 {
-  for(int c = 0; c < (int)getCursorIndexMax(); ++c)
+  for(int c = 0; c <= (int)getCursorIndexMax(); ++c)
     if (getDataAt(c)->IsGame())
       if (String::UpperUnicode(getDataAt(c)->Name().ReadFirstUTF8()) == unicode) // Change to dynamic naming ASAP
       {
@@ -353,4 +354,3 @@ void ISimpleGameListView::JumpToLetter(unsigned int unicode)
         break;
       }
 }
-

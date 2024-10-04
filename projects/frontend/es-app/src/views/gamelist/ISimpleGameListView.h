@@ -121,13 +121,26 @@ class ISimpleGameListView : public Gui
     virtual FileData::List getFileDataList() = 0;
 
     /*!
+     * @brief Get undecorated (NO icons or decorations) display name in functions of options
+     * @param game Game to lookup name
+     * @return Name
+     */
+    virtual String GetUndecoratedDisplayName(const FileData& game) = 0;
+
+    /*!
      * @brief Must be called right after the constructor
      */
-    void DoInitialize()
+    void DoInitialize(ISimpleGameListView* sourceView)
     {
       Initialize();
       SwitchToTheme(mSystem.Theme(), false, nullptr);
-      populateList(mSystem.MasterRoot());
+      if (sourceView != nullptr)
+      {
+        mCursorStack = sourceView->mCursorStack;
+        populateList(*mCursorStack.top());
+        setCursorIndex(sourceView->getCursorIndex());
+      }
+      else populateList(mSystem.MasterRoot());
     }
 
     /*!
@@ -149,20 +162,28 @@ class ISimpleGameListView : public Gui
     virtual void UpdateSlowData(const SlowDataInformation& info) = 0;
 
     /*!
+     * @brief Invalidate list content. Gamelist must refresh itself
+     */
+    void Invalidate() { mInvalidated = true; }
+
+    /*!
+     * @brief Override update to enable list auto-refresh
+     * @param elasped
+     */
+    void Update(int elapsed) override
+    {
+      Gui::Update(elapsed);
+      if (mInvalidated) { refreshList(); Validate(); }
+    }
+
+    /*!
      * @brief Refrest a list refresh
      */
     void ListRefreshRequired() { mListRefreshRequired = true; }
 
-    //! Refresh list
-    void Update(int deltatime) override
-    {
-      Gui::Update(deltatime);
-      (void)deltatime;
-      if (mListRefreshRequired)
-        refreshList();
-    }
-
   protected:
+    void Validate() { mInvalidated = false; }
+
     /*!
      * @brief Called right after the constructor
      */
@@ -192,6 +213,8 @@ class ISimpleGameListView : public Gui
     ThemeExtras mThemeExtras;
 
     std::stack<FolderData*> mCursorStack;
+
+    bool mInvalidated;
 
     /*
      * IThemeSwitchable

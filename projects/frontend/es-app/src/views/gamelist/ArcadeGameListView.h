@@ -9,6 +9,7 @@
 
 class ArcadeGameListView : public DetailedGameListView
                          , public IArcadeGamelistInterface
+                         , public RecalboxConf::ArcadeUseDatabaseNamesConfigurationNotify
 {
   public:
     /*!
@@ -51,6 +52,8 @@ class ArcadeGameListView : public DetailedGameListView
 
     //! List
     ParentTuppleList mGameList;
+    //! Fast lookup in Parent Tupple list
+    HashMap<const FileData*, ArcadeTupple*> mGameListLookup;
 
     //! Last database to use
     const ArcadeDatabase* mDatabase;
@@ -59,16 +62,16 @@ class ArcadeGameListView : public DetailedGameListView
     //! Default core for the current folder
     String mDefaultCore;
 
+    //! Cached original name
+    bool mIsUsingArcadeDatabaseNames;
+
+    bool IsClone(const ArcadeTupple* tupple) { return tupple != nullptr &&  tupple->mArcade != nullptr && tupple->mArcade->Hierarchy() == ArcadeGame::Type::Clone; }
+
     /*!
      * @brief Get Arcade interface
      * @return Arcade interface
      */
     IArcadeGamelistInterface* getArcadeInterface() override { return this; }
-
-    /*!
-     * @brief Refresh name & properties of the given item
-     */
-    void RefreshItem(FileData* game);
 
     /*!
      * @brief Rebuild the gamelist - regenerate internal structure
@@ -106,14 +109,6 @@ class ArcadeGameListView : public DetailedGameListView
     void AddSortedCategories(const std::vector<ParentTuppleList*>& categoryLists, FileSorts::ComparerArcade comparer, bool ascending);
 
     /*!
-     * @brief Get display name of the given game
-     * @param database Arcade Database
-     * @param game Game
-     * @return Final display name
-     */
-    static String GetDisplayName(const ArcadeTupple& game);
-
-    /*!
      * @brief Get description of the given game
      * @param game Game
      * @return Description
@@ -126,7 +121,15 @@ class ArcadeGameListView : public DetailedGameListView
      * @param game Game
      * @return Final display name
      */
-    String GetDisplayName(FileData& game) override;
+    String GetUndecoratedDisplayName(const ArcadeTupple& game);
+
+    /*!
+     * @brief Get display name of the given game
+     * @param database Arcade Database
+     * @param game Game
+     * @return Final display name
+     */
+    String GetUndecoratedDisplayName(const FileData& game) override;
 
     /*!
      * @brief Get display name of the given game w/icons
@@ -134,7 +137,15 @@ class ArcadeGameListView : public DetailedGameListView
      * @param game Game
      * @return Final display name
      */
-    String GetIconifiedDisplayName(const ArcadeTupple& game);
+    String GetDisplayName(const ArcadeTupple& game);
+
+    /*!
+     * @brief Get display name of the given game w/icons
+     * @param database Arcade Database
+     * @param game Game
+     * @return Final display name
+     */
+    String GetDisplayName(const FileData& game) override;
 
     /*!
      * @brief Get available regions from the given listt
@@ -163,16 +174,9 @@ class ArcadeGameListView : public DetailedGameListView
     /*!
      * @brief Lookup the arcade tupple attached to the given
      * @param item game
-     * @return ArcadeTupple (or empty ArcadeTupple if the lookup fails!)
+     * @return ArcadeTupple or nullptr if the lookup fails!
      */
-    const ArcadeTupple& Lookup(const FileData& item);
-
-    /*!
-     * @brief Lookup display name of the given item
-     * @param item game
-     * @return Display name
-     */
-    String LookupDisplayName(const FileData& item);
+    const ArcadeTupple* Lookup(const FileData& item);
 
     //! Fold all parents
     void FoldAll();
@@ -257,4 +261,10 @@ class ArcadeGameListView : public DetailedGameListView
      * @param game Game ran
      */
     void ReturnedFromGame(FileData* game) override { (void)game; }
+
+    /*
+     * RecalboxConf::ArcadeUseDatabaseNamesConfigurationNotify
+     */
+
+    void ArcadeUseDatabaseNamesConfigurationChanged(const bool& value) final;
 };

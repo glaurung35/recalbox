@@ -9,6 +9,7 @@
 ArcadeGameListView::ArcadeGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system, const IGlobalVariableResolver& resolver, PictogramCaches& flagCache)
   : DetailedGameListView(window, systemManager, system, resolver, flagCache)
   , mDatabase(nullptr)
+  , mIsUsingArcadeDatabaseNames(RecalboxConf::Instance().GetArcadeUseDatabaseNames())
 {
 }
 
@@ -95,7 +96,7 @@ void ArcadeGameListView::BuildList()
           colorIndexOffset = HighlightColor;
     }
     // Store
-    mList.add(GetIconifiedDisplayName(parent), parent.mGame, colorIndexOffset + (parent.mGame->IsFolder() ? FolderColor : GameColor), false);
+    mList.add(GetDisplayName(parent), (FileData*)parent.mGame, colorIndexOffset + (parent.mGame->IsFolder() ? FolderColor : GameColor), false);
 
     // Children?
     if (/*parent.mArcade != nullptr && */parent.mCloneList != nullptr)
@@ -112,7 +113,7 @@ void ArcadeGameListView::BuildList()
               if (!Regions::IsIn4Regions(clone.mGame->Metadata().Region().Pack, currentRegion))
                 colorIndexOffset = HighlightColor;
             // Store
-            mList.add(GetIconifiedDisplayName(clone), clone.mGame, colorIndexOffset, false);
+            mList.add(GetDisplayName(clone), (FileData*)clone.mGame, colorIndexOffset, false);
           }
         }
   }
@@ -129,6 +130,15 @@ bool ArcadeGameListView::HasMatchingManufacturer(const HashSet<int>& manufacture
     if (manufacturerSet.contains(manufacturers.Manufacturer(i)))
       return true;
   return false;
+}
+
+void ArcadeGameListView::ArcadeUseDatabaseNamesConfigurationChanged(const bool& value)
+{
+  if (value != mIsUsingArcadeDatabaseNames)
+  {
+    mIsUsingArcadeDatabaseNames = value;
+    Invalidate();
+  }
 }
 
 String ArcadeGameListView::getArcadeItemIcon(const ArcadeTupple& game)
@@ -168,16 +178,39 @@ String ArcadeGameListView::getArcadeItemIcon(const ArcadeTupple& game)
   return result.Append(' ');
 }
 
-String ArcadeGameListView::GetDisplayName(const ArcadeTupple& game)
+const ArcadeTupple* ArcadeGameListView::Lookup(const FileData& item)
 {
-  if (RecalboxConf::Instance().GetArcadeUseDatabaseNames() && game.mArcade != nullptr)
-    return game.mArcade->ArcadeName();
-  return RecalboxConf::Instance().GetDisplayByFileName() ? game.mGame->Metadata().RomFileOnly().ToString() : game.mGame->Name(); // TODO: Use gugue new displayable name ASAP
+  ArcadeTupple** tupple = mGameListLookup.try_get(&item);
+  if (tupple != nullptr) return *tupple;
+  { LOG(LogError) << "[ArcadeGameListView] Lookup FileData failed for game " << item.Name(); }
+  return nullptr;
 }
 
-String ArcadeGameListView::GetIconifiedDisplayName(const ArcadeTupple& game)
+String ArcadeGameListView::GetUndecoratedDisplayName(const FileData& game)
 {
-  return getArcadeItemIcon(game).Append(GetDisplayName(game));
+  const ArcadeTupple* tupple = Lookup(game);
+  if (tupple != nullptr) return GetUndecoratedDisplayName(*tupple);
+  ArcadeTupple noParent(nullptr, &game);
+  return GetUndecoratedDisplayName(noParent);
+}
+
+String ArcadeGameListView::GetDisplayName(const FileData& game)
+{
+  const ArcadeTupple* tupple = Lookup(game);
+  if (tupple != nullptr) return GetDisplayName(*tupple);
+  ArcadeTupple noParent(nullptr, &game);
+  return GetDisplayName(noParent);
+}
+
+String ArcadeGameListView::GetUndecoratedDisplayName(const ArcadeTupple& game)
+{
+  if (mIsUsingArcadeDatabaseNames && game.mArcade != nullptr) return game.mArcade->ArcadeName();
+  return DetailedGameListView::GetUndecoratedDisplayName(*game.mGame);
+}
+
+String ArcadeGameListView::GetDisplayName(const ArcadeTupple& game)
+{
+  return getArcadeItemIcon(game).Append(GetUndecoratedDisplayName(game));
 }
 
 void ArcadeGameListView::BuildAndSortArcadeGames(FileData::List& items, FileSorts::ComparerArcade comparer, bool ascending)
@@ -277,6 +310,15 @@ void ArcadeGameListView::BuildAndSortArcadeGames(FileData::List& items, FileSort
   AddSortedCategories({ &bios }, comparer, ascending);
   AddSortedCategories({ &notWorking }, comparer, ascending);
 
+  // Build fast lookup
+  for(ParentTupple& parent : mGameList)
+  {
+    mGameListLookup[parent.mGame] = &parent;
+    if (parent.mCloneList != nullptr)
+      for(ArcadeTupple& clone : *parent.mCloneList)
+        mGameListLookup[clone.mGame] = &clone;
+  }
+
   // For virtual arcade systems, cleanup database
   if (mSystem.IsVirtualArcade()) mDatabase = nullptr;
 }
@@ -287,7 +329,8 @@ void ArcadeGameListView::AddSortedCategories(const std::vector<ParentTuppleList*
   for(ParentTuppleList* categoryList : categoryLists)
     for(ParentTupple& item : *categoryList) sortedList.push_back(&item);
   FileSorts::SortArcade(sortedList, comparer, ascending); // Sort bios
-  for(ArcadeTupple* item : sortedList) mGameList.push_back(*((ParentTupple*)item));
+  for(ArcadeTupple* item : sortedList)
+    mGameList.push_back(*((ParentTupple*)item));
 }
 
 Regions::List ArcadeGameListView::AvailableRegionsInGames(ArcadeGameListView::ParentTuppleList& games)
@@ -432,14 +475,14 @@ Array<String::Unicode> ArcadeGameListView::GetAvailableLetters()
   Array<unsigned int> unicode;        // 1 bit per unicode char used
   unicode.ExpandTo(UnicodeSize / (sizeof(unsigned int) * 8));
 
-  for (auto* file : files)
+  for(const FileData* file : files)
     if (file->IsGame())
     {
-      const ArcadeTupple& currentArcade = Lookup(*file);
-      if (currentArcade.mArcade != nullptr && currentArcade.mArcade->Hierarchy() == ArcadeGame::Type::Clone) continue; // Skip clones
+      const ArcadeTupple* currentArcade = Lookup(*file);
+      if (IsClone(currentArcade)) continue; // Skip clones
 
       // Tag every first characters from every game name
-      String::Unicode wc = String::UpperUnicode(file->Name().ReadFirstUTF8());
+      String::Unicode wc = String::UpperUnicode((currentArcade != nullptr ? GetUndecoratedDisplayName(*currentArcade) : GetUndecoratedDisplayName(*file)).ReadFirstUTF8());
       if (wc < UnicodeSize) // Ignore extended unicodes
         unicode((int)(wc >> 5)) |= 1 << (wc & 0x1F);
     }
@@ -461,14 +504,16 @@ Array<String::Unicode> ArcadeGameListView::GetAvailableLetters()
 
 void ArcadeGameListView::JumpToLetter(unsigned int unicode)
 {
-  for(int c = 0; c < (int)getCursorIndexMax(); ++c)
-    if (getDataAt(c)->IsGame())
+  for(int c = 0; c < mList.Count(); ++c)
+    if (FileData& file = *getDataAt(c); file.IsGame())
     {
-      const ArcadeTupple& currentArcade = Lookup(*getDataAt(c));
-      if (currentArcade.mArcade != nullptr && currentArcade.mArcade->Hierarchy() == ArcadeGame::Type::Clone) continue; // Skip clones
-      if (String::UpperUnicode(LookupDisplayName(*getDataAt(c)).ReadFirstUTF8()) == unicode)
+      const ArcadeTupple* currentArcade = Lookup(file);
+      if (IsClone(currentArcade)) continue; // Skip clones
+
+      String::Unicode wc = String::UpperUnicode((currentArcade != nullptr ? GetUndecoratedDisplayName(*currentArcade) : GetUndecoratedDisplayName(file)).ReadFirstUTF8());
+      if (wc == unicode)
       {
-        setCursor(getDataAt(c));
+        setCursor(&file);
         break;
       }
     }
@@ -476,42 +521,26 @@ void ArcadeGameListView::JumpToLetter(unsigned int unicode)
 
 void ArcadeGameListView::JumpToNextLetter(bool forward)
 {
-  const ArcadeTupple& baseArcade = Lookup(*getCursor());
-  const FileData* baseGame = baseArcade.mArcade != nullptr && baseArcade.mArcade->Hierarchy() == ArcadeGame::Type::Clone ? baseArcade.mArcade->Parent() : getCursor();
-  UnicodeChar baseChar = String::UpperUnicode(LookupDisplayName(*baseGame).ReadFirstUTF8());
-  int max = getCursorIndexMax() + 1;
+  const ArcadeTupple* baseArcade = Lookup(*getCursor());
+  // Clone? get parent
+  if (IsClone(baseArcade)) baseArcade = Lookup(*baseArcade->mArcade->Parent());
+  UnicodeChar baseChar = String::UpperUnicode((baseArcade != nullptr ? GetUndecoratedDisplayName(*baseArcade) : GetUndecoratedDisplayName(*getCursor())).ReadFirstUTF8());
+  int max = mList.Count();
   int step = max + (forward ? 1 : -1);
 
   int cursorIndex = getCursorIndex();
   for(int i = cursorIndex; (i = (i + step) % max) != cursorIndex; )
   {
-    const ArcadeTupple& currentArcade = Lookup(*getDataAt(i));
-    if (currentArcade.mArcade != nullptr && currentArcade.mArcade->Hierarchy() == ArcadeGame::Type::Clone) continue; // Skip clones
-    if (String::UpperUnicode(LookupDisplayName(*getDataAt(i)).ReadFirstUTF8()) != baseChar)
+    const ArcadeTupple* currentArcade = Lookup(*getDataAt(i));
+    if (IsClone(currentArcade)) continue; // Skip clones
+
+    String::Unicode wc = String::UpperUnicode((currentArcade != nullptr ? GetUndecoratedDisplayName(*currentArcade) : GetUndecoratedDisplayName(*getDataAt(i))).ReadFirstUTF8());
+    if (wc != baseChar)
     {
       setCursorIndex(i);
       break;
     }
   }
-}
-
-const ArcadeTupple& ArcadeGameListView::Lookup(const FileData& item)
-{
-  for(const ParentTupple& parent : mGameList)
-    if (parent.mGame == &item) return parent;
-    else if (parent.mCloneList != nullptr)
-      for(const ArcadeTupple& clone : *parent.mCloneList)
-        if (clone.mGame == &item)
-          return clone;
-
-  { LOG(LogError) << "[ArcadeGameListView] Lookup FileData failed for game " << item.Name(); }
-  static ArcadeTupple nullTupple(nullptr, nullptr);
-  return nullTupple;
-}
-
-String ArcadeGameListView::LookupDisplayName(const FileData& item)
-{
-  return GetDisplayName(Lookup(item));
 }
 
 std::vector<ArcadeDatabase::Manufacturer> ArcadeGameListView::GetManufacturerList() const
@@ -535,18 +564,6 @@ int ArcadeGameListView::GetGameCountForManufacturer(int driverIndex) const
   return count;
 }
 
-String ArcadeGameListView::GetDisplayName(FileData& game)
-{
-  for(const ParentTupple& parent : mGameList)
-    if (parent.mGame == &game) return GetIconifiedDisplayName(parent);
-    else if (parent.mCloneList != nullptr)
-      for(const ArcadeTupple& clone : *parent.mCloneList)
-        if (clone.mGame == &game) return GetIconifiedDisplayName(clone);
-
-  // Fallback
-  return GetIconifiedDisplayName(ArcadeTupple(nullptr, &game));
-}
-
 String ArcadeGameListView::GetDescription(FileData& game)
 {
   String emulator;
@@ -561,13 +578,3 @@ String ArcadeGameListView::GetDescription(FileData& game)
     }
   return game.Metadata().Description();
 }
-
-void ArcadeGameListView::RefreshItem(FileData* game)
-{
-  if (game == nullptr || !game->IsGame()) { LOG(LogError) << "[DetailedGameListView] Trying to refresh null or empty item"; return; }
-
-  int index = mList.Lookup(game);
-  if (index < 0) { LOG(LogError) << "[DetailedGameListView] Trying to refresh a not found item"; return; }
-  mList.changeTextAt(index, GetDisplayName(*game));
-}
-

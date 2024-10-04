@@ -1,0 +1,20 @@
+config BR2_PACKAGE_KF5_KDOCTOOLS
+	bool "kf5-kguiaddons"
+	select BR2_PACKAGE_QT5BASE_DBUS
+	select BR2_PACKAGE_KF5_EXTRA_CMAKE_MODULES
+	select BR2_PACKAGE_LIBXML2
+	select BR2_PACKAGE_LIBXSLT
+	depends on BR2_PACKAGE_PERL_URI
+	help
+	  KF5 is a set of Qt framework addons, extending Qt in various
+	  ways, not only restricted in helping integration in KDE.
+
+	  This package contains the kguiaddons bindings from the
+	  KF5 project.
+
+	  https://api.kde.org/frameworks/kguiaddons/html/index.html
+
+comment "kf5-kguiaddons needs toolchain w/ threads"
+	depends on BR2_USE_MMU
+	depends on BR2_PACKAGE_MODEM_MANAGER
+	depends on !BR2_TOOLCHAIN_HAS_THREADS

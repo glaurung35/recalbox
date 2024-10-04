@@ -17,6 +17,7 @@ class SystemHolder:
             "engine": 5,
             "port": 6,
             "fantasy": 7,
+            "other": 8,
         }
 
         __deviceRequirement: Dict[str, int] = {

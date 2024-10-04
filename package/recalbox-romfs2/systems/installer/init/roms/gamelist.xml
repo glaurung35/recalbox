@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<gameList>
+  <provider>
+    <System>PC Windows</System>
+    <software>Skraper</software>
+    <database>ScreenScraper.fr</database>
+    <web>http://www.screenscraper.fr</web>
+  </provider>
+  <game>
+    <path>./installer.ini</path>
+    <name>Installer</name>
+    <developer>Recalbox</developer>
+  </game>
+</gameList>

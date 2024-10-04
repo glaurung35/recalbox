@@ -344,6 +344,7 @@ menu "Utils"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/rpi-utils/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/llvm-cmake/Config.in.host"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/nodejs-quasar/Config.in.host"
+         source "$BR2_EXTERNAL_RECALBOX_PATH/package/calamares/Config.in"
 endmenu
 menu "Small TFT Screen"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/rpi-fbcp/Config.in"

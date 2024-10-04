@@ -31,7 +31,6 @@ BR2_LINUX_KERNEL_CUSTOM_VERSION_VALUE="6.10"
 BR2_LINUX_KERNEL_CUSTOM_CONFIG_FILE="$(BR2_EXTERNAL_RECALBOX_PATH)/board/recalbox/anbernic/rg353x/kernel-6.10-defconfig.config"
 BR2_LINUX_KERNEL_PATCH="$(BR2_EXTERNAL_RECALBOX_PATH)/board/recalbox/kernel_patches/$(BR2_TOOLCHAIN_HEADERS_AT_LEAST) $(BR2_EXTERNAL_RECALBOX_PATH)/board/recalbox/anbernic/rg353x/kernel_patches/$(BR2_TOOLCHAIN_HEADERS_AT_LEAST)"
 BR2_LINUX_KERNEL_USE_CUSTOM_CONFIG=y
-BR2_LINUX_KERNEL_CUSTOM_CONFIG_FILE="$(BR2_EXTERNAL_RECALBOX_PATH)/board/recalbox/anbernic/rg353x/kernel-aarch64-4.19-defconfig.config"
 BR2_LINUX_KERNEL_DTS_SUPPORT=y
 BR2_LINUX_KERNEL_INTREE_DTS_NAME="rockchip/rk3566-anbernic-rg353ps rockchip/rk3566-anbernic-rg353vs rockchip/rk3566-anbernic-rg503 rockchip/rk3566-anbernic-rg353p rockchip/rk3566-anbernic-rg353v rockchip/rk3566-powkiddy-rk2023 rockchip/rk3566-powkiddy-rgb30 rockchip/rk3566-powkiddy-rgb10max3"
 BR2_PACKAGE_ROCKCHIP_RKBIN_TPL_FILENAME="bin/rk35/rk3568_ddr_1056MHz_v1.18.bin"

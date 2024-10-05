@@ -1,4 +1,4 @@
-From 59401020b6ea2db786232b801ded8bee86bf6645 Mon Sep 17 00:00:00 2001
+From c210de0c5e5ffdbd8a41805a8e28938e290155bc Mon Sep 17 00:00:00 2001
 From: David Barbion <davidb@230ruedubac.fr>
 Date: Wed, 2 Nov 2022 23:06:23 +0100
 Subject: [PATCH 2/2] add gamepad support through evdev
@@ -394,10 +394,10 @@ index 0000000000..73dc5ce4b9
 +    mp_input_add_thread_src(ictx, NULL, read_gamepad_thread);
 +}
 diff --git a/input/input.c b/input/input.c
-index 40abd7d0fa..c867d68f45 100644
+index f69517f748..ca448e4df1 100644
 --- a/input/input.c
 +++ b/input/input.c
-@@ -198,7 +198,7 @@ const struct m_sub_options input_config = {
+@@ -200,7 +200,7 @@ const struct m_sub_options input_config = {
          {"input-cursor", OPT_FLAG(enable_mouse_movements)},
          {"input-vo-keyboard", OPT_FLAG(vo_key_input)},
          {"input-media-keys", OPT_FLAG(use_media_keys)},
@@ -406,7 +406,7 @@ index 40abd7d0fa..c867d68f45 100644
          {"input-gamepad", OPT_FLAG(use_gamepad)},
  #endif
          {"window-dragging", OPT_FLAG(allow_win_drag)},
-@@ -1386,11 +1386,13 @@ void mp_input_load_config(struct input_ctx *ictx)
+@@ -1389,11 +1389,13 @@ void mp_input_load_config(struct input_ctx *ictx)
          talloc_free(tmp);
      }
  
@@ -435,13 +435,13 @@ index 5b5e7a99ce..c1e45880c5 100644
  struct mp_ipc_ctx;
  struct mp_client_api;
 diff --git a/wscript b/wscript
-index b81f1202ec..782c53f8ad 100644
+index e349d4103e..0874811ea9 100644
 --- a/wscript
 +++ b/wscript
-@@ -387,7 +387,12 @@ iconv support use --disable-iconv.",
-         'desc': 'SDL2 gamepad input',
-         'deps': 'sdl2',
-         'func': check_true,
+@@ -405,7 +405,12 @@ iconv support use --disable-iconv.",
+         'name': 'rubberband-3',
+         'desc': 'new engine support for librubberband',
+         'func': check_pkg_config('rubberband >= 3.0.0'),
 +    }, {
 +        'name': '--evdev-gamepad',
 +        'desc': 'EVDEV gamepad input',
@@ -452,10 +452,10 @@ index b81f1202ec..782c53f8ad 100644
  
  libav_dependencies = [
 diff --git a/wscript_build.py b/wscript_build.py
-index 14c254e1ec..b5cb788a57 100644
+index 16c8cf0895..4b83ac7d0b 100644
 --- a/wscript_build.py
 +++ b/wscript_build.py
-@@ -309,6 +309,7 @@ def build(ctx):
+@@ -325,6 +325,7 @@ def build(ctx):
          ( ipc_c ),
          ( "input/keycodes.c" ),
          ( "input/sdl_gamepad.c",                 "sdl2-gamepad" ),
@@ -464,5 +464,5 @@ index 14c254e1ec..b5cb788a57 100644
          ## Misc
          ( "misc/bstr.c" ),
 -- 
-2.38.1
+2.43.0
 

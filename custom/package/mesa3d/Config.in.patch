@@ -1,24 +1,19 @@
 diff --git a/package/mesa3d/Config.in b/package/mesa3d/Config.in
-index e21bbbe3e4..cfe46c8558 100644
+index d8ea22ac91..095d8f8761 100644
 --- a/package/mesa3d/Config.in
 +++ b/package/mesa3d/Config.in
-@@ -316,6 +316,55 @@ comment "intel vulkan needs a glibc toolchain w/ headers >= 3.17"
+@@ -7,6 +7,7 @@ menuconfig BR2_PACKAGE_MESA3D
+ 	depends on BR2_TOOLCHAIN_GCC_AT_LEAST_8
+ 	select BR2_PACKAGE_EXPAT
+ 	select BR2_PACKAGE_LIBDRM
++	select BR2_PACKAGE_LIBCLC
+ 	select BR2_PACKAGE_WAYLAND_PROTOCOLS if BR2_PACKAGE_WAYLAND
+ 	select BR2_PACKAGE_ZLIB
+ 	help
+@@ -306,6 +307,42 @@ comment "intel vulkan needs a glibc toolchain w/ headers >= 3.17"
  	depends on !BR2_TOOLCHAIN_HEADERS_AT_LEAST_3_17 || \
  		!BR2_TOOLCHAIN_USES_GLIBC
  
-+config BR2_PACKAGE_MESA3D_VULKAN_DRIVER_BROADCOM
-+	bool "Vulkan Broadcom driver"
-+	depends on BR2_arm || BR2_aarch64
-+	depends on BR2_TOOLCHAIN_USES_GLIBC # ifunc, static_assert
-+	select BR2_PACKAGE_MESA3D_VULKAN_DRIVER
-+	help
-+	  Vulkan driver for Broadcom hardware from v3dv Raspberry PI 4.
-+
-+comment "broadcom vulkan needs a glibc toolchain w/ headers >= 3.17"
-+	depends on BR2_arm || BR2_aarch64
-+	depends on !BR2_TOOLCHAIN_HEADERS_AT_LEAST_3_17 || \
-+		!BR2_TOOLCHAIN_USES_GLIBC
-+
 +config BR2_PACKAGE_MESA3D_VULKAN_DRIVER_HASWELL
 +	bool "Vulkan Haswell driver"
 +	depends on BR2_i386 || BR2_x86_64
@@ -55,6 +50,6 @@ index e21bbbe3e4..cfe46c8558 100644
 +	depends on !BR2_TOOLCHAIN_HEADERS_AT_LEAST_3_17 || \
 +		!BR2_TOOLCHAIN_USES_GLIBC || !BR2_PACKAGE_XORG7
 +
- comment "Off-screen Rendering"
- 
- config BR2_PACKAGE_MESA3D_OSMESA_GALLIUM
+ config BR2_PACKAGE_MESA3D_VULKAN_DRIVER_SWRAST
+ 	bool "Vulkan swrast driver"
+ 	depends on BR2_PACKAGE_MESA3D_LLVM

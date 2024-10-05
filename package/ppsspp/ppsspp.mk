@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-PPSSPP_VERSION = 8c72cc119ee2f1a65d5524276eadd4dbdd838dbb
+PPSSPP_VERSION = 5e635aab5ccc67c40fcb4c690e61e5be27fccc43
 PPSSPP_SITE = https://github.com/hrydgard/ppsspp.git
 PPSSPP_LICENSE = GPL-2.0
 PPSSPP_LICENSE_FILES = LICENSE.TXT

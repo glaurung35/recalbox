@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-BEEBEM_VERSION = 5e81412d73bcd8e1b4b5944e8ad4787346252a89
+BEEBEM_VERSION = b45922f1e33e477c87213fac81e4221418dabbbd
 BEEBEM_SITE = https://gitlab-ci-token-beebem:$(GITLAB_TOKEN_BEEBEM)@gitlab.com/bkg2k/beebem-linux.git
 BEEBEM_SITE_METHOD = git
 BEEBEM_LICENSE = GPL
@@ -27,6 +27,6 @@ BEEBEM_CONF_OPTS += -DCMAKE_C_FLAGS="$(COMPILER_COMMONS_CFLAGS_EXE)"
 BEEBEM_CONF_OPTS += -DCMAKE_CXX_FLAGS="$(COMPILER_COMMONS_CXXFLAGS_EXE)"
 BEEBEM_CONF_OPTS += -DCMAKE_EXE_LINKER_FLAGS="$(COMPILER_COMMONS_LDFLAGS_EXE)"
 
-ifneq ($(GITLAB_TOKEN_BEEBEM),)
+#ifneq ($(GITLAB_TOKEN_BEEBEM),)
 $(eval $(cmake-package))
-endif
+#endif

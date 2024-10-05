@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# Commit of 15/09/2021
-MUPEN64PLUS_VIDEO_GLIDE64MK2_VERSION = 5ac60b38e2c9d9dea3c21fd341b03799841b0b5f
+# Commit of 2024/09/14
+MUPEN64PLUS_VIDEO_GLIDE64MK2_VERSION = 39a8c11e8a041e16bcc6d67ebc2281b8632ba5ed
 MUPEN64PLUS_VIDEO_GLIDE64MK2_SITE = $(call github,mupen64plus,mupen64plus-video-glide64mk2,$(MUPEN64PLUS_VIDEO_GLIDE64MK2_VERSION))
 
 MUPEN64PLUS_VIDEO_GLIDE64MK2_LICENSE = MIT
@@ -20,7 +20,7 @@ define MUPEN64PLUS_VIDEO_GLIDE64MK2_BUILD_CMDS
 		$(MAKE) CXX="$(TARGET_CXX)" CC="$(TARGET_CC)" LD="$(TARGET_LD)" RANLIB="$(TARGET_RANLIB)" AR="$(TARGET_AR)" CROSS_COMPILE="$(STAGING_DIR)/usr/bin/" \
 			PREFIX="$(STAGING_DIR)/usr" \
 			SHAREDIR="/recalbox/share/system/configs/mupen64/" \
-			PKG_CONFIG="$(HOST_DIR)/usr/bin/pkg-config" \
+			PKG_CONFIG="$(HOST_DIR)/bin/pkg-config" \
 			HOST_CPU="$(MUPEN64PLUS_CORE_HOST_CPU)" \
 			APIDIR="$(STAGING_DIR)/usr/include/mupen64plus" \
 			GL_CFLAGS="$(MUPEN64PLUS_CORE_GL_CFLAGS)" \
@@ -37,7 +37,7 @@ define MUPEN64PLUS_VIDEO_GLIDE64MK2_INSTALL_TARGET_CMDS
 		$(MAKE) CXX="$(TARGET_CXX)" CC="$(TARGET_CC)" LD="$(TARGET_LD)" RANLIB="$(TARGET_RANLIB)" AR="$(TARGET_AR)" CROSS_COMPILE="$(STAGING_DIR)/usr/bin/" \
 			PREFIX="$(TARGET_DIR)/usr/" \
 			SHAREDIR="$(TARGET_DIR)/recalbox/share_init/system/configs/mupen64/" \
-			PKG_CONFIG="$(HOST_DIR)/usr/bin/pkg-config" \
+			PKG_CONFIG="$(HOST_DIR)/bin/pkg-config" \
 			HOST_CPU="$(MUPEN64PLUS_CORE_HOST_CPU)" \
 			APIDIR="$(STAGING_DIR)/usr/include/mupen64plus" \
 			GL_CFLAGS="$(MUPEN64PLUS_CORE_GL_CFLAGS)" \

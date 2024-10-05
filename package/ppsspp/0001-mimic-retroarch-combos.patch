@@ -1,0 +1,121 @@
+From 9d04160f7f1e45ab7cf24cd6ca212e3cfe8f0956 Mon Sep 17 00:00:00 2001
+From: Bkg2k <bkg2k9@gmail.com>
+Date: Fri, 6 Sep 2024 09:51:35 +0200
+Subject: [PATCH 1/6] mimic retroarch combos
+
+---
+ Core/ControlMapper.cpp |  5 +++++
+ UI/EmuScreen.cpp       | 30 ++++++++++++++++++++++++------
+ 2 files changed, 29 insertions(+), 6 deletions(-)
+
+diff --git a/Core/ControlMapper.cpp b/Core/ControlMapper.cpp
+index ad38aeca91..52b30d9dad 100644
+--- a/Core/ControlMapper.cpp
++++ b/Core/ControlMapper.cpp
+@@ -18,6 +18,7 @@ using KeyMap::MultiInputMapping;
+ const float AXIS_BIND_THRESHOLD = 0.75f;
+ const float AXIS_BIND_THRESHOLD_MOUSE = 0.01f;
+ 
++bool g_Hotkey = false;
+ 
+ // We reduce the threshold of some axes when another axis on the same stick is active.
+ // This makes it easier to hit diagonals if you bind an analog stick to four face buttons or D-Pad.
+@@ -688,6 +689,10 @@ void ControlMapper::PSPKey(int deviceId, int pspKeyCode, int flags) {
+ 		if (flags & KEY_UP)
+ 			updatePSPButtons_(0, pspKeyCode);
+ 	}
++
++  if (g_Hotkey || (__CtrlPeekButtons() & CTRL_SELECT) == CTRL_SELECT ) {
++    onVKey(pspKeyCode, true);
++  }
+ }
+ 
+ void ControlMapper::onVKeyAnalog(int deviceId, int vkey, float value) {
+diff --git a/UI/EmuScreen.cpp b/UI/EmuScreen.cpp
+index bb352c8b81..be694e5ca7 100644
+--- a/UI/EmuScreen.cpp
++++ b/UI/EmuScreen.cpp
+@@ -110,6 +110,7 @@ static int lastNumFlips;
+ static bool startDumping;
+ 
+ extern bool g_TakeScreenshot;
++extern bool g_Hotkey;
+ 
+ static void __EmuScreenVblank()
+ {
+@@ -651,6 +652,7 @@ void EmuScreen::onVKey(int virtualKeyCode, bool down) {
+ 
+ 	switch (virtualKeyCode) {
+ 	case VIRTKEY_FASTFORWARD:
++  case CTRL_RIGHT:
+ 		if (down) {
+ 			if (coreState == CORE_STEPPING) {
+ 				Core_EnableStepping(false);
+@@ -705,12 +707,23 @@ void EmuScreen::onVKey(int virtualKeyCode, bool down) {
+ 		break;
+ 
+ 	case VIRTKEY_PAUSE:
+-		if (down) {
+-			// Trigger on key-up to partially avoid repetition problems.
+-			// This is needed whenever we pop up a menu since the mapper
+-			// might miss  the key-up. Same as VIRTKEY_OPENCHAT.
+-			pauseTrigger_ = true;
+-			controlMapper_.ForceReleaseVKey(virtualKeyCode);
++    g_Hotkey = down;
++      break;
++
++  case CTRL_START:
++    System_ExitApp();
++    //System_SendMessage("event", "exitprogram");
++    //System_SendMessage("finish", "");
++    break;
++
++  case CTRL_CROSS:
++    g_Hotkey = false;
++    if (down) {
++      // Trigger on key-up to partially avoid repetition problems.
++      // This is needed whenever we pop up a menu since the mapper
++      // might miss  the key-up. Same as VIRTKEY_OPENCHAT.
++      pauseTrigger_ = true;
++      controlMapper_.ForceReleaseVKey(virtualKeyCode);
+ 		}
+ 		break;
+ 
+@@ -773,6 +786,7 @@ void EmuScreen::onVKey(int virtualKeyCode, bool down) {
+ #endif
+ 
+ 	case VIRTKEY_REWIND:
++  case CTRL_LEFT:
+ 		if (down && !Achievements::WarnUserIfHardcoreModeActive(false)) {
+ 			if (SaveState::CanRewind()) {
+ 				SaveState::Rewind(&AfterSaveStateAction);
+@@ -782,22 +796,26 @@ void EmuScreen::onVKey(int virtualKeyCode, bool down) {
+ 		}
+ 		break;
+ 	case VIRTKEY_SAVE_STATE:
++  case CTRL_SQUARE:
+ 		if (down && !Achievements::WarnUserIfHardcoreModeActive(true)) {
+ 			SaveState::SaveSlot(gamePath_, g_Config.iCurrentStateSlot, &AfterSaveStateAction);
+ 		}
+ 		break;
+ 	case VIRTKEY_LOAD_STATE:
++  case CTRL_TRIANGLE:
+ 		if (down && !Achievements::WarnUserIfHardcoreModeActive(false)) {
+ 			SaveState::LoadSlot(gamePath_, g_Config.iCurrentStateSlot, &AfterSaveStateAction);
+ 		}
+ 		break;
+ 	case VIRTKEY_PREVIOUS_SLOT:
++  case CTRL_DOWN:
+ 		if (down && !Achievements::WarnUserIfHardcoreModeActive(true)) {
+ 			SaveState::PrevSlot();
+ 			System_PostUIMessage(UIMessage::SAVESTATE_DISPLAY_SLOT);
+ 		}
+ 		break;
+ 	case VIRTKEY_NEXT_SLOT:
++  case CTRL_UP:
+ 		if (down && !Achievements::WarnUserIfHardcoreModeActive(true)) {
+ 			SaveState::NextSlot();
+ 			System_PostUIMessage(UIMessage::SAVESTATE_DISPLAY_SLOT);
+-- 
+2.46.0
+

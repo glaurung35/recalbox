@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# Commit version 29/04/2021
-MUPEN64PLUS_INPUT_SDL_VERSION = 4340d306b7dd3e8a45d00129bced5f43fda5933c
+# Commit version 2024/07/15
+MUPEN64PLUS_INPUT_SDL_VERSION = f2ca3839415d45a547f79d21177dfe15a0ce6d8c
 MUPEN64PLUS_INPUT_SDL_SITE = $(call github,mupen64plus,mupen64plus-input-sdl,$(MUPEN64PLUS_INPUT_SDL_VERSION))
 MUPEN64PLUS_INPUT_SDL_LICENSE = MIT
 MUPEN64PLUS_INPUT_SDL_DEPENDENCIES = sdl2 alsa-lib mupen64plus-core
@@ -19,7 +19,7 @@ define MUPEN64PLUS_INPUT_SDL_BUILD_CMDS
 		$(MAKE) CXX="$(TARGET_CXX)" CC="$(TARGET_CC)" LD="$(TARGET_LD)" RANLIB="$(TARGET_RANLIB)" AR="$(TARGET_AR)" CROSS_COMPILE="$(STAGING_DIR)/usr/bin/" \
 			PREFIX="$(STAGING_DIR)/usr" \
 			SHAREDIR="/recalbox/share/system/configs/mupen64/" \
-			PKG_CONFIG="$(HOST_DIR)/usr/bin/pkg-config" \
+			PKG_CONFIG="$(HOST_DIR)/bin/pkg-config" \
 			HOST_CPU="$(MUPEN64PLUS_CORE_HOST_CPU)" \
 			APIDIR="$(STAGING_DIR)/usr/include/mupen64plus" \
 			GL_CFLAGS="$(MUPEN64PLUS_CORE_GL_CFLAGS)" \
@@ -35,7 +35,7 @@ define MUPEN64PLUS_INPUT_SDL_INSTALL_TARGET_CMDS
 		$(MAKE) CXX="$(TARGET_CXX)" CC="$(TARGET_CC)" LD="$(TARGET_LD)" RANLIB="$(TARGET_RANLIB)" AR="$(TARGET_AR)" CROSS_COMPILE="$(STAGING_DIR)/usr/bin/" \
 			PREFIX="$(TARGET_DIR)/usr/" \
 			SHAREDIR="$(TARGET_DIR)/recalbox/share_init/system/configs/mupen64/" \
-			PKG_CONFIG="$(HOST_DIR)/usr/bin/pkg-config" \
+			PKG_CONFIG="$(HOST_DIR)/bin/pkg-config" \
 			HOST_CPU="$(MUPEN64PLUS_CORE_HOST_CPU)" \
 			APIDIR="$(STAGING_DIR)/usr/include/mupen64plus" \
 			GL_CFLAGS="$(MUPEN64PLUS_CORE_GL_CFLAGS)" \

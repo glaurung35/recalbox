@@ -1,31 +1,31 @@
-From c19f345facd8048508e5ec8149db3ff117a926ee Mon Sep 17 00:00:00 2001
+From 32f9c59175cd35520a5e5ca5c852cb647330dc7d Mon Sep 17 00:00:00 2001
 From: AreaScout <d.mehrwald@gmail.com>
 Date: Thu, 1 Sep 2022 13:08:38 +0200
-Subject: [PATCH 6/9] Add: enable v4l2-m2m support
+Subject: [PATCH 6/8] Add: enable v4l2-m2m support
 
 ---
  tools/depends/target/ffmpeg/CMakeLists.txt    |  1 +
- .../DVDCodecs/Video/DVDVideoCodecFFmpeg.cpp   | 74 +++++++++++++++++--
+ .../DVDCodecs/Video/DVDVideoCodecFFmpeg.cpp   | 69 +++++++++++++++++--
  .../DVDCodecs/Video/DVDVideoCodecFFmpeg.h     |  1 +
- 3 files changed, 70 insertions(+), 6 deletions(-)
+ 3 files changed, 67 insertions(+), 4 deletions(-)
 
 diff --git a/tools/depends/target/ffmpeg/CMakeLists.txt b/tools/depends/target/ffmpeg/CMakeLists.txt
-index e358775911..64978612bc 100644
+index 0bbc23540a..b8865b5d64 100644
 --- a/tools/depends/target/ffmpeg/CMakeLists.txt
 +++ b/tools/depends/target/ffmpeg/CMakeLists.txt
-@@ -122,6 +122,7 @@ externalproject_add(ffmpeg
-                       --enable-pthreads
-                       --enable-muxer=spdif
-                       --enable-muxer=adts
-+                      --enable-v4l2-m2m
-                       --enable-muxer=asf
-                       --enable-muxer=ipod
-                       --enable-encoder=ac3
+@@ -37,6 +37,7 @@ list(APPEND ffmpeg_conf --disable-doc
+                         --enable-postproc
+                         --enable-runtime-cpudetect
+                         --enable-pthreads
++                        --enable-v4l2-m2m
+                         --extra-version="Kodi"
+             )
+ 
 diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecFFmpeg.cpp b/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecFFmpeg.cpp
-index 1a98610eaa..fee83d1969 100644
+index d66378fa07..5bc388f43d 100644
 --- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecFFmpeg.cpp
 +++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecFFmpeg.cpp
-@@ -43,6 +43,16 @@ extern "C" {
+@@ -44,6 +44,16 @@ extern "C" {
  #define RINT lrint
  #endif
  
@@ -42,13 +42,10 @@ index 1a98610eaa..fee83d1969 100644
  enum DecoderState
  {
    STATE_NONE,
-@@ -328,7 +338,45 @@ bool CDVDVideoCodecFFmpeg::Open(CDVDStreamInfo &hints, CDVDCodecOptions &options
-   m_hints = hints;
-   m_options = options;
+@@ -331,6 +341,44 @@ bool CDVDVideoCodecFFmpeg::Open(CDVDStreamInfo &hints, CDVDCodecOptions &options
  
--  AVCodec* pCodec;
-+  AVCodec* pCodec = nullptr;
-+
+   const AVCodec* pCodec = nullptr;
+ 
 +  if(CServiceBroker::GetSettingsComponent()->GetSettings()->GetBool(CSettings::SETTING_VIDEOPLAYER_USESOFTWAREDECODER) || m_useSoftDecoder)
 +  {
 +    goto software;
@@ -86,20 +83,11 @@ index 1a98610eaa..fee83d1969 100644
 +  }
 +
 +software:
- 
++
    m_iOrientation = hints.orientation;
  
-@@ -338,7 +386,8 @@ bool CDVDVideoCodecFFmpeg::Open(CDVDStreamInfo &hints, CDVDCodecOptions &options
-   m_processInfo.SetSwDeinterlacingMethods();
-   m_processInfo.SetVideoInterlaced(false);
- 
--  pCodec = avcodec_find_decoder(hints.codec);
-+  if(pCodec == NULL)
-+    pCodec = avcodec_find_decoder(hints.codec);
- 
-   if(pCodec == NULL)
-   {
-@@ -438,7 +487,7 @@ bool CDVDVideoCodecFFmpeg::Open(CDVDStreamInfo &hints, CDVDCodecOptions &options
+   m_formats.clear();
+@@ -457,7 +505,7 @@ bool CDVDVideoCodecFFmpeg::Open(CDVDStreamInfo &hints, CDVDCodecOptions &options
    }
  
    UpdateName();
@@ -108,7 +96,7 @@ index 1a98610eaa..fee83d1969 100644
    m_processInfo.SetVideoDimensions(m_pCodecContext->coded_width, m_pCodecContext->coded_height);
    m_processInfo.SetVideoPixelFormat(pixFmtName ? pixFmtName : "");
  
-@@ -516,15 +565,22 @@ void CDVDVideoCodecFFmpeg::SetFilters()
+@@ -540,15 +588,22 @@ void CDVDVideoCodecFFmpeg::SetFilters()
  
  void CDVDVideoCodecFFmpeg::UpdateName()
  {
@@ -131,9 +119,9 @@ index 1a98610eaa..fee83d1969 100644
 +  }
 +  m_processInfo.SetVideoDecoderName(m_name, isHW ? true : false);
  
-   CLog::Log(LOGDEBUG, "CDVDVideoCodecFFmpeg - Updated codec: %s", m_name.c_str());
+   CLog::Log(LOGDEBUG, "CDVDVideoCodecFFmpeg - Updated codec: {}", m_name);
  }
-@@ -748,8 +804,14 @@ CDVDVideoCodec::VCReturn CDVDVideoCodecFFmpeg::GetPicture(VideoPicture* pVideoPi
+@@ -800,8 +855,14 @@ CDVDVideoCodec::VCReturn CDVDVideoCodecFFmpeg::GetPicture(VideoPicture* pVideoPi
    if (m_pDecodedFrame->interlaced_frame)
      m_interlaced = true;
    else
@@ -150,7 +138,7 @@ index 1a98610eaa..fee83d1969 100644
      m_processInfo.SetVideoInterlaced(m_interlaced);
  
 diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecFFmpeg.h b/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecFFmpeg.h
-index 4f2407c0a3..a337f0e1cd 100644
+index 86c83cd1a0..a5552d3350 100644
 --- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecFFmpeg.h
 +++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecFFmpeg.h
 @@ -95,6 +95,7 @@ protected:
@@ -162,5 +150,5 @@ index 4f2407c0a3..a337f0e1cd 100644
    CDVDStreamInfo m_hints;
    CDVDCodecOptions m_options;
 -- 
-2.38.1
+2.46.1
 

@@ -18,7 +18,7 @@ display_interface null_display_interface = {
 };
 
 // allocate handler
-display_handler * null_display_init() {
+display_handler * null_display_init(__attribute__((unused)) uint8_t t) {
   display_handler * handler = calloc(1, sizeof(display_handler));
   return handler;
 }

@@ -35,7 +35,7 @@ fan_interface mb_pwm_interface = {
     &mb_pwm_fan_close,
     &mb_pwm_fan_capabilities,
     &mb_pwm_fan_set_pwm,
-    &fan_func_unimplemented,
+    &fan_func_status_unimplemented,
 };
 
 fan_handler * mb_pwm_fan_init() {

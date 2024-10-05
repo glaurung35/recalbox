@@ -1,6 +1,6 @@
---- a/xbmc/messaging/ApplicationMessenger.cpp 2020-04-17 15:15:06.174603268 +0200
-+++ b/xbmc/messaging/ApplicationMessenger.cpp 2020-04-17 15:16:35.109765876 +0200
-@@ -32,6 +32,27 @@
+--- a/xbmc/messaging/ApplicationMessenger.cpp	2025-01-25 21:53:38.586874970 +0100
++++ b/xbmc/messaging/ApplicationMessenger.cpp	2024-01-25 21:55:21.658634888 +0100
+@@ -34,6 +34,27 @@
      ThreadMessage  m_msg;
  };
  
@@ -25,10 +25,10 @@
 +  }
 +}
 +
- CDelayedMessage::CDelayedMessage(ThreadMessage& msg, unsigned int delay) : CThread("DelayedMessage")
+ CDelayedMessage::CDelayedMessage(const ThreadMessage& msg, unsigned int delay)
+   : CThread("DelayedMessage"), m_msg(msg)
  {
-   m_msg = msg;
-@@ -221,6 +242,8 @@
+@@ -226,6 +247,8 @@
  
  void CApplicationMessenger::ProcessMessage(ThreadMessage *pMsg)
  {

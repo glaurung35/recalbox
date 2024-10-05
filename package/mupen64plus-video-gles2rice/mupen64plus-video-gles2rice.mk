@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-MUPEN64PLUS_VIDEO_GLES2RICE_VERSION = 03189cb54a5b8f19d0680715f05e1bd76e9149ab
+# Commit of 2023/10/23 - pandora backport for RPi
+MUPEN64PLUS_VIDEO_GLES2RICE_VERSION = 1dcd6ddb6c60750c9fe4dd6dab6a2d04c304221e
 MUPEN64PLUS_VIDEO_GLES2RICE_SITE = $(call github,ricrpi,mupen64plus-video-gles2rice,$(MUPEN64PLUS_VIDEO_GLES2RICE_VERSION))
 MUPEN64PLUS_VIDEO_GLES2RICE_LICENSE = MIT
 MUPEN64PLUS_VIDEO_GLES2RICE_DEPENDENCIES = sdl2 alsa-lib mupen64plus-core libgles
@@ -18,7 +19,7 @@ define MUPEN64PLUS_VIDEO_GLES2RICE_BUILD_CMDS
 		$(MAKE) CXX="$(TARGET_CXX)" CC="$(TARGET_CC)" LD="$(TARGET_LD)" RANLIB="$(TARGET_RANLIB)" AR="$(TARGET_AR)" CROSS_COMPILE="$(STAGING_DIR)/usr/bin/" \
 			PREFIX="$(STAGING_DIR)/usr" \
 			SHAREDIR="/recalbox/share/system/configs/mupen64/" \
-			PKG_CONFIG="$(HOST_DIR)/usr/bin/pkg-config" \
+			PKG_CONFIG="$(HOST_DIR)/bin/pkg-config" \
 			HOST_CPU="$(MUPEN64PLUS_CORE_HOST_CPU)" \
 			APIDIR="$(STAGING_DIR)/usr/include/mupen64plus" \
 			GL_CFLAGS="$(MUPEN64PLUS_CORE_GL_CFLAGS)" \
@@ -34,7 +35,7 @@ define MUPEN64PLUS_VIDEO_GLES2RICE_INSTALL_TARGET_CMDS
 		$(MAKE) CXX="$(TARGET_CXX)" CC="$(TARGET_CC)" LD="$(TARGET_LD)" RANLIB="$(TARGET_RANLIB)" AR="$(TARGET_AR)" CROSS_COMPILE="$(STAGING_DIR)/usr/bin/" \
 			PREFIX="$(TARGET_DIR)/usr/" \
 			SHAREDIR="$(TARGET_DIR)/recalbox/share_init/system/configs/mupen64/" \
-			PKG_CONFIG="$(HOST_DIR)/usr/bin/pkg-config" \
+			PKG_CONFIG="$(HOST_DIR)/bin/pkg-config" \
 			HOST_CPU="$(MUPEN64PLUS_CORE_HOST_CPU)" \
 			APIDIR="$(STAGING_DIR)/usr/include/mupen64plus" \
 			GL_CFLAGS="$(MUPEN64PLUS_CORE_GL_CFLAGS)" \

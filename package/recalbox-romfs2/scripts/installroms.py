@@ -21,7 +21,7 @@ class InstallRoms:
         "_leeme.txt": "es",
     }
 
-    __NULL_CORE = SystemHolder.Core("", 0, "", "", "", False, False, "", "", False, "", "", "")
+    __NULL_CORE = SystemHolder.Core("", 0, "", "", "", False, False, "", "", False, "", "", "", "")
 
     def __init__(self, systemRoot: str, target: str, root: str, lite: bool = False):
         self.__systemRoot = systemRoot

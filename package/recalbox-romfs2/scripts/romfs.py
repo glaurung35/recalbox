@@ -10,7 +10,7 @@ from systembuilder import SystemBuilder
 class romfs:
 
     def __init__(self, args: argparse.Namespace):
-        self.__root:str = os.path.realpath(args.systems + "/../../..")
+        self.__root:str = os.getenv("BR2_EXTERNAL_RECALBOX_PATH", os.path.realpath(args.systems + "/../../.."))
         self.__args = args
 
     def execute(self):

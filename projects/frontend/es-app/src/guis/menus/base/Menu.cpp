@@ -93,6 +93,7 @@ Menu::Menu(WindowManager& window, const String& title, const String& footer, boo
   mList->setColorAt(MenuColors::sUnselectableSelectedColor, MenuColors::Alpha25Percent(mTheme.Text().selectedColor)); // Grayed selected color
   mList->setColorAt(MenuColors::sHeaderColor, mTheme.Section().color);                                                // Header color
   mList->setColorAt(MenuColors::sHeaderSelectedColor, mTheme.Section().selectedColor);                                // Header selected color
+
   mList->setSelectorHeight(mList->EntryHeight());
   mList->setShiftSelectedTextColor(true);
   mList->setAutoAlternate(true);

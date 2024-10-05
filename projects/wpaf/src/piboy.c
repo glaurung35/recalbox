@@ -21,8 +21,8 @@ board_handler * piboy_init() {
   board->fan = &xpi_gamecon_fan_interface;
   board->display = &null_display_interface;
 
-  board->f_handler = board->fan->init(NULL);
-  board->o_handler = board->display->init(NULL);
+  board->f_handler = board->fan->init(FAN_NOADDRESS);
+  board->o_handler = board->display->init(DISPLAY_NOADDRESS);
 
   return board;
 }

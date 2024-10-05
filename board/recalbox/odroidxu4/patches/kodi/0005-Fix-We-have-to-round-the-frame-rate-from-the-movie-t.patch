@@ -1,7 +1,7 @@
-From f5717a9a8c542651e4ecf3257193ebb388f89646 Mon Sep 17 00:00:00 2001
+From 38a95eeb41861938c8b0cc756c7442b391fa7fc9 Mon Sep 17 00:00:00 2001
 From: AreaScout <d.mehrwald@gmail.com>
 Date: Thu, 1 Sep 2022 13:01:19 +0200
-Subject: [PATCH 5/9] Fix: We have to round the frame rate from the movie to
+Subject: [PATCH 5/8] Fix: We have to round the frame rate from the movie to
  match the frame rate of the plane -> VOP doesn't support frame rates with
  decimal places
 
@@ -10,7 +10,7 @@ Subject: [PATCH 5/9] Fix: We have to round the frame rate from the movie to
  1 file changed, 2 insertions(+)
 
 diff --git a/xbmc/windowing/Resolution.cpp b/xbmc/windowing/Resolution.cpp
-index af36e6e5c8..77e813da69 100644
+index 951ec08035..5e7356babb 100644
 --- a/xbmc/windowing/Resolution.cpp
 +++ b/xbmc/windowing/Resolution.cpp
 @@ -70,6 +70,8 @@ float RESOLUTION_INFO::DisplayRatio() const
@@ -20,8 +20,8 @@ index af36e6e5c8..77e813da69 100644
 +  fps = static_cast<float>(std::round(fps));
 +
    RESOLUTION res = CServiceBroker::GetWinSystem()->GetGfxContext().GetVideoResolution();
-   float weight;
+   float weight = 0.0f;
  
 -- 
-2.38.1
+2.46.1
 

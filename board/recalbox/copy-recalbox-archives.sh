@@ -143,7 +143,7 @@ case "${RECALBOX_TARGET}" in
 	rm -rf "${BINARIES_DIR}/boot-data/boot" || exit 1
 	mkdir -p "${BINARIES_DIR}/boot-data/boot" || exit 1
 	mkdir -p "${BINARIES_DIR}/boot-data/boot/extlinux" || exit 1
-	mkdir -p "${BINARIES_DIR}/boot-data/boot/dtb" || exit 1
+	mkdir -p "${BINARIES_DIR}/boot-data/boot/dtb/rockchip" || exit 1
 	mkdir -p "${BINARIES_DIR}/boot-data/boot/bootloader/64" || exit 1
 	mkdir -p "${BINARIES_DIR}/boot-data/boot/bootloader/16384" || exit 1
 	mkdir -p "${BINARIES_DIR}/boot-data/boot/bootloader/24576" || exit 1
@@ -152,17 +152,15 @@ case "${RECALBOX_TARGET}" in
 	echo "generating boot"
 	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/anbernic/rg353x/extlinux.conf" "${BINARIES_DIR}/boot-data/boot/extlinux/extlinux.conf" || exit 1
 	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/anbernic/boot-640x480.ppm" "${BINARIES_DIR}/boot-data/boot.ppm" || exit 1
-	cp "${BINARIES_DIR}/rk3566-rg353p-linux.dtb" "${BINARIES_DIR}/boot-data/boot/dtb/" || exit 1
-	cp "${BINARIES_DIR}/rk3566-rg353v-linux.dtb" "${BINARIES_DIR}/boot-data/boot/dtb/" || exit 1
-	cp "${BINARIES_DIR}/rk3566-rg353m-linux.dtb" "${BINARIES_DIR}/boot-data/boot/dtb/" || exit 1
-	cp "${BINARIES_DIR}/rk3566-rg503-linux.dtb" "${BINARIES_DIR}/boot-data/boot/dtb/" || exit 1
-	cp "${BINARIES_DIR}/rk3566-rk2023-linux.dtb" "${BINARIES_DIR}/boot-data/boot/dtb/" || exit 1
+  for dtb in rk3566-anbernic-rg353ps.dtb rk3566-anbernic-rg353vs.dtb   rk3566-anbernic-rg503.dtb \
+             rk3566-anbernic-rg353p.dtb  rk3566-anbernic-rg353v.dtb    rk3566-powkiddy-rk2023.dtb \
+             rk3566-powkiddy-rgb30.dtb   rk3566-powkiddy-rgb10max3.dtb; do
+	  cp "${BINARIES_DIR}/${dtb}" "${BINARIES_DIR}/boot-data/boot/dtb/rockchip/" || exit 1
+  done
 	cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/boot-data/boot/initrd.gz" || exit 1
 	cp "${BINARIES_DIR}/Image" "${BINARIES_DIR}/boot-data/boot/linux" || exit 1
 	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/boot-data/boot/recalbox" || exit 1
-	cp "${BINARIES_DIR}/idbloader.img" "${BINARIES_DIR}/boot-data/boot/bootloader/64/" || exit 1
-	cp "${BINARIES_DIR}/uboot.img"     "${BINARIES_DIR}/boot-data/boot/bootloader/16384/" || exit 1
-	cp "${BINARIES_DIR}/resource.img"  "${BINARIES_DIR}/boot-data/boot/bootloader/24576/" || exit 1
+	cp "${BINARIES_DIR}/uboot-rockchip.img" "${BINARIES_DIR}/boot-data/boot/bootloader/64/" || exit 1
 
 	GENIMAGE_CFG="${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/anbernic/rg353x/genimage.cfg"
 	;;

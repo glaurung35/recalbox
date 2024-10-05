@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<gameList>
+	<provider>
+		<System>PC Dos</System>
+		<software>Skraper</software>
+		<database>ScreenScraper.fr</database>
+		<web>http://www.screenscraper.fr</web>
+	</provider>
+	<game id="152356" source="ScreenScraper.fr">
+		<path>./diabdat.mpq</path>
+		<name>DevilutionX</name>
+		<desc>
+DevilutionX is a port of Diablo and Hellfire that strives to make it simple to run the game while providing engine improvements, bug fixes, and some optional quality of life features.
+</desc>
+		<releasedate>20180601T000000</releasedate>
+		<developer>diasurgical</developer>
+		<publisher>diasurgical</publisher>
+		<genre>RPG</genre>
+		<image>media/images/devilutionx.png</image>
+		<genreid>257</genreid>
+	</game>
+</gameList>

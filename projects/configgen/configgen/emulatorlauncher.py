@@ -22,6 +22,10 @@ def getGenerator(emulator):
         module = __import__("configgen.generators.reicast.reicastGenerator", fromlist=["ReicastGenerator"])
         generatorClass = getattr(module, "ReicastGenerator")
         return generatorClass()
+    elif emulator == "devilutionx":
+        module = __import__("configgen.generators.devilutionx.devilutionxGenerator", fromlist=["DevilutionxGenerator"])
+        generatorClass = getattr(module, "DevilutionxGenerator")
+        return generatorClass()
     elif emulator == "dolphin":
         module = __import__("configgen.generators.dolphin.dolphinGenerator", fromlist=["DolphinGenerator"])
         generatorClass = getattr(module, "DolphinGenerator")

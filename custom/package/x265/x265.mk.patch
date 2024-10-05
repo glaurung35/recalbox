@@ -1,8 +1,8 @@
 diff --git a/package/x265/x265.mk b/package/x265/x265.mk
-index 51c39df4cd..ada7f1e4eb 100644
+index bd5180b24b..c3d77d704f 100644
 --- a/package/x265/x265.mk
 +++ b/package/x265/x265.mk
-@@ -35,4 +35,8 @@ else
+@@ -49,4 +49,8 @@ else
  X265_CONF_OPTS += -DENABLE_CLI=OFF
  endif
  

@@ -34,8 +34,8 @@ fan_interface pcf8574_interface = {
     &pcf8574_fan_off,
     &pcf8574_fan_close,
     &pcf8574_fan_capabilities,
-    &fan_func_unimplemented,
-    &fan_func_unimplemented,
+    &fan_func_set_pwm_unimplemented,
+    &fan_func_status_unimplemented,
 };
 
 // initialize i2c

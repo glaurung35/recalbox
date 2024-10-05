@@ -9,7 +9,7 @@ DOSBOX_SITE = https://gitlab.com/lmerckx/recalbox-dosbox.git
 DOSBOX_SITE_METHOD = git
 DOSBOX_LICENSE = GPL2
 DOSBOX_LICENSE_FILES = COPYING
-DOSBOX_DEPENDENCIES = sdl2 zlib libpng libogg libvorbis sdl_sound sdl2_net
+DOSBOX_DEPENDENCIES = sdl2 zlib libpng libogg libvorbis sdl2_sound sdl2_net
 
 # Use best architecture for ARM boards
 # RPI1: armv6l

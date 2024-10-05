@@ -49,6 +49,8 @@ class FakeArguments:
         self.jammalayoutp1 = ""
         self.jammalayoutp2 = ""
 
+        self.videobackend = "default"
+
 
 @pytest.mark.parametrize(
     'emulator',

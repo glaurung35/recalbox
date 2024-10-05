@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# Commit of 11/02/2021
-MUPEN64PLUS_VIDEO_RICE_VERSION = 8cd53f0272cd3cd44510a01fd0aedcb7e5df0790
+# Commit of 2024/07/15
+MUPEN64PLUS_VIDEO_RICE_VERSION = fcf00779f08a9503ef30d26422f6b0350684820d
 MUPEN64PLUS_VIDEO_RICE_SITE = $(call github,mupen64plus,mupen64plus-video-rice,$(MUPEN64PLUS_VIDEO_RICE_VERSION))
 MUPEN64PLUS_VIDEO_RICE_LICENSE = MIT
 MUPEN64PLUS_VIDEO_RICE_DEPENDENCIES = sdl2 alsa-lib mupen64plus-core
@@ -19,7 +19,7 @@ define MUPEN64PLUS_VIDEO_RICE_BUILD_CMDS
 		$(MAKE) CXX="$(TARGET_CXX)" CC="$(TARGET_CC)" LD="$(TARGET_LD)" RANLIB="$(TARGET_RANLIB)" AR="$(TARGET_AR)" CROSS_COMPILE="$(STAGING_DIR)/usr/bin/" \
 			PREFIX="$(STAGING_DIR)/usr" \
 			SHAREDIR="/recalbox/share/system/configs/mupen64/" \
-			PKG_CONFIG="$(HOST_DIR)/usr/bin/pkg-config" \
+			PKG_CONFIG="$(HOST_DIR)/bin/pkg-config" \
 			HOST_CPU="$(MUPEN64PLUS_CORE_HOST_CPU)" \
 			APIDIR="$(STAGING_DIR)/usr/include/mupen64plus" \
 			GL_CFLAGS="$(MUPEN64PLUS_CORE_GL_CFLAGS)" \
@@ -35,7 +35,7 @@ define MUPEN64PLUS_VIDEO_RICE_INSTALL_TARGET_CMDS
 		$(MAKE) CXX="$(TARGET_CXX)" CC="$(TARGET_CC)" LD="$(TARGET_LD)" RANLIB="$(TARGET_RANLIB)" AR="$(TARGET_AR)" CROSS_COMPILE="$(STAGING_DIR)/usr/bin/" \
 			PREFIX="$(TARGET_DIR)/usr/" \
 			SHAREDIR="$(TARGET_DIR)/recalbox/share_init/system/configs/mupen64/" \
-			PKG_CONFIG="$(HOST_DIR)/usr/bin/pkg-config" \
+			PKG_CONFIG="$(HOST_DIR)/bin/pkg-config" \
 			HOST_CPU="$(MUPEN64PLUS_CORE_HOST_CPU)" \
 			APIDIR="$(STAGING_DIR)/usr/include/mupen64plus" \
 			GL_CFLAGS="$(MUPEN64PLUS_CORE_GL_CFLAGS)" \

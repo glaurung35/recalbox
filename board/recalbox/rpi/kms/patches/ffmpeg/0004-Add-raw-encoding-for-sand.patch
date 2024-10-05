@@ -1,19 +1,18 @@
-From afa1ca170e9c634f667d4760e77ceef176fa48d2 Mon Sep 17 00:00:00 2001
+From c33e68ceb86244307969a2d52eee469f31867b59 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Tue, 27 Apr 2021 11:56:02 +0100
-Subject: [PATCH 004/222] Add raw encoding for sand
+Subject: [PATCH 004/176] Add raw encoding for sand
 
-(cherry picked from commit ca63988a9ef1af9dc727d2325a662b0e6cabc783)
 ---
  libavcodec/raw.c    |  6 +++
  libavcodec/rawenc.c | 92 ++++++++++++++++++++++++++++++++++++++++++++-
  2 files changed, 96 insertions(+), 2 deletions(-)
 
 diff --git a/libavcodec/raw.c b/libavcodec/raw.c
-index 079d5c5d10..0781f28615 100644
+index b73b80e5fd..7ca36ac849 100644
 --- a/libavcodec/raw.c
 +++ b/libavcodec/raw.c
-@@ -294,6 +294,12 @@ const PixelFormatTag ff_raw_pix_fmt_tags[] = {
+@@ -297,6 +297,12 @@ static const PixelFormatTag raw_pix_fmt_tags[] = {
      { AV_PIX_FMT_RGB565LE,MKTAG( 3 ,  0 ,  0 ,  0 ) }, /* flipped RGB565LE */
      { AV_PIX_FMT_YUV444P, MKTAG('Y', 'V', '2', '4') }, /* YUV444P, swapped UV */
  
@@ -27,7 +26,7 @@ index 079d5c5d10..0781f28615 100644
  };
  
 diff --git a/libavcodec/rawenc.c b/libavcodec/rawenc.c
-index d181b74570..3fe2ab445f 100644
+index 8c577006d9..594a77c42a 100644
 --- a/libavcodec/rawenc.c
 +++ b/libavcodec/rawenc.c
 @@ -24,6 +24,7 @@
@@ -36,9 +35,9 @@ index d181b74570..3fe2ab445f 100644
  
 +#include "config.h"
  #include "avcodec.h"
- #include "raw.h"
- #include "internal.h"
-@@ -31,6 +32,10 @@
+ #include "codec_internal.h"
+ #include "encode.h"
+@@ -33,6 +34,10 @@
  #include "libavutil/intreadwrite.h"
  #include "libavutil/imgutils.h"
  #include "libavutil/internal.h"
@@ -49,7 +48,7 @@ index d181b74570..3fe2ab445f 100644
  
  static av_cold int raw_encode_init(AVCodecContext *avctx)
  {
-@@ -49,12 +54,95 @@ FF_ENABLE_DEPRECATION_WARNINGS
+@@ -46,12 +51,95 @@ static av_cold int raw_encode_init(AVCodecContext *avctx)
      return 0;
  }
  
@@ -65,7 +64,7 @@ index d181b74570..3fe2ab445f 100644
 +    uint8_t * dst;
 +    int ret;
 +
-+    if ((ret = ff_alloc_packet2(avctx, pkt, size, size)) < 0)
++    if ((ret = ff_get_encode_buffer(avctx, pkt, size, 0)) < 0)
 +        return ret;
 +
 +    dst = pkt->data;
@@ -88,7 +87,7 @@ index d181b74570..3fe2ab445f 100644
 +    uint8_t * dst;
 +    int ret;
 +
-+    if ((ret = ff_alloc_packet2(avctx, pkt, size, size)) < 0)
++    if ((ret = ff_get_encode_buffer(avctx, pkt, size, 0)) < 0)
 +        return ret;
 +
 +    dst = pkt->data;
@@ -111,7 +110,7 @@ index d181b74570..3fe2ab445f 100644
 +    uint8_t * dst;
 +    int ret;
 +
-+    if ((ret = ff_alloc_packet2(avctx, pkt, size, size)) < 0)
++    if ((ret = ff_get_encode_buffer(avctx, pkt, size, 0)) < 0)
 +        return ret;
 +
 +    dst = pkt->data;
@@ -131,7 +130,7 @@ index d181b74570..3fe2ab445f 100644
 -    int ret = av_image_get_buffer_size(frame->format,
 -                                       frame->width, frame->height, 1);
 +    int ret;
-+
+ 
 +#if CONFIG_SAND
 +    if (av_rpi_is_sand_frame(frame)) {
 +        ret = av_rpi_is_sand8_frame(frame) ? raw_sand8_as_yuv420(avctx, pkt, frame) :
@@ -141,12 +140,12 @@ index d181b74570..3fe2ab445f 100644
 +        return ret;
 +    }
 +#endif
- 
++
 +    ret = av_image_get_buffer_size(frame->format,
 +                                       frame->width, frame->height, 1);
      if (ret < 0)
          return ret;
  
 -- 
-2.45.2
+2.46.0
 

@@ -19,15 +19,33 @@ def runCommand(command, args, demoStartButtons, recalboxOptions, fixedScreenSize
         import configgen.utils.videoMode as videoMode
         chosenMode = videoMode.setVideoMode(command.videomode, command.delay)
 
+    video_backend: str = args.videobackend
+    if video_backend not in ["unknown", "default", "kms", "x11r7", "wayland"]:
+        video_backend = "default"
+        print("Selected video backend: {}".format(video_backend))
+
+    match video_backend:
+        case "wayland":
+            emulator_command: list = ["/usr/bin/dwl", "-s", " ".join('"{}"'.format(item) for item in command.array)]
+        case _:
+            emulator_command: list = command.array
+
     # Update environment
     import os
     command.env.update(os.environ)
-    print("Running command: {}".format(command))
+    print("Running command: {}".format(emulator_command))
 
     # Run emulator process
     try:
         import subprocess
-        proc = subprocess.Popen(command.array, bufsize=-1, env=command.env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=command.cwdPath)
+        proc = subprocess.Popen(
+            emulator_command,
+            bufsize=-1,
+            env=command.env,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            cwd=command.cwdPath
+        )
     except Exception as e:
         print("Error running command!\nException: {}".format(e))
 

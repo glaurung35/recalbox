@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# commit of 02/01/2021
-MUPEN64PLUS_UICONSOLE_VERSION = 32e27344214946f0dce3cd2b4fff152a3538bd8f
+# commit of 2024/09/10
+MUPEN64PLUS_UICONSOLE_VERSION = beddd15785663f1c3b4e9476998defea36223cf3
 MUPEN64PLUS_UICONSOLE_SITE = $(call github,mupen64plus,mupen64plus-ui-console,$(MUPEN64PLUS_UICONSOLE_VERSION))
 MUPEN64PLUS_UICONSOLE_LICENSE = MIT
 MUPEN64PLUS_UICONSOLE_DEPENDENCIES = sdl2 alsa-lib mupen64plus-core
@@ -19,7 +19,7 @@ define MUPEN64PLUS_UICONSOLE_BUILD_CMDS
 			PREFIX="$(STAGING_DIR)/usr" \
 			SHAREDIR="/recalbox/share/system/configs/mupen64/" \
 			HOST_CPU="$(MUPEN64PLUS_CORE_HOST_CPU)" \
-			PKG_CONFIG="$(HOST_DIR)/usr/bin/pkg-config" \
+			PKG_CONFIG="$(HOST_DIR)/bin/pkg-config" \
 			APIDIR="$(STAGING_DIR)/usr/include/mupen64plus" \
 			-C $(@D)/projects/unix all $(MUPEN64PLUS_CORE_PARAMS) OPTFLAGS="$(TARGET_CXXFLAGS)"
 endef
@@ -32,7 +32,7 @@ define MUPEN64PLUS_UICONSOLE_INSTALL_TARGET_CMDS
 		$(MAKE) CXX="$(TARGET_CXX)" CC="$(TARGET_CC)" LD="$(TARGET_LD)" RANLIB="$(TARGET_RANLIB)" AR="$(TARGET_AR)" CROSS_COMPILE="$(STAGING_DIR)/usr/bin/" \
 			PREFIX="$(TARGET_DIR)/usr" \
 			APIDIR="$(STAGING_DIR)/usr/include/mupen64plus" \
-			PKG_CONFIG="$(HOST_DIR)/usr/bin/pkg-config" \
+			PKG_CONFIG="$(HOST_DIR)/bin/pkg-config" \
 			HOST_CPU="$(MUPEN64PLUS_CORE_HOST_CPU)" \
 			INSTALL="/usr/bin/install" \
 			INSTALL_STRIP_FLAG="" \

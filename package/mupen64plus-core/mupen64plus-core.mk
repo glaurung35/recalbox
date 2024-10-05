@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# Commit of 30/11/2021
-MUPEN64PLUS_CORE_VERSION = 6860d134afd16f40262fe335cfee04967265fbac
+# Commit of 2024/09/10
+MUPEN64PLUS_CORE_VERSION = 312a5befde1b44db8beee7868b929c23d896991f
 MUPEN64PLUS_CORE_SITE = $(call github,mupen64plus,mupen64plus-core,$(MUPEN64PLUS_CORE_VERSION))
 MUPEN64PLUS_CORE_LICENSE = GPLv2+
 MUPEN64PLUS_CORE_DEPENDENCIES = sdl2 alsa-lib libpng freetype host-nasm host-binutils
@@ -31,6 +31,14 @@ endif
 ifeq ($(BR2_PACKAGE_HAS_LIBEGL),y)
 MUPEN64PLUS_CORE_DEPENDENCIES += libegl
 MUPEN64PLUS_CORE_GL_LDLIBS += -lEGL
+endif
+
+ifeq ($(BR2_PACKAGE_HAS_VULKAN),y)
+MUPEN64PLUS_CORE_DEPENDENCIES += vulkan-headers
+MUPEN64PLUS_CORE_GL_LDLIBS += -lvulkan
+MUPEN64PLUS_CORE_PARAMS += VULKAN=1
+else
+MUPEN64PLUS_CORE_PARAMS += VULKAN=0
 endif
 
 ifeq ($(BR2_PACKAGE_RPI_USERLAND),y)
@@ -69,7 +77,7 @@ define MUPEN64PLUS_CORE_BUILD_CMDS
 		    CROSS_COMPILE="$(STAGING_DIR)/usr/bin/" AS="$(HOST_DIR)/bin/nasm" STRINGS="$(STAGING_DIR)/../bin/strings" \
 			PREFIX="$(STAGING_DIR)/usr" \
 			SHAREDIR="/recalbox/share/system/configs/mupen64/" \
-			PKG_CONFIG="$(HOST_DIR)/usr/bin/pkg-config" \
+			PKG_CONFIG="$(HOST_DIR)/bin/pkg-config" \
 			HOST_CPU="$(MUPEN64PLUS_CORE_HOST_CPU)" \
 			-C $(@D)/projects/unix all $(MUPEN64PLUS_CORE_PARAMS) OPTFLAGS="$(TARGET_CXXFLAGS)"
 endef
@@ -82,7 +90,7 @@ define MUPEN64PLUS_CORE_INSTALL_STAGING_CMDS
 		$(MAKE) CXX="$(TARGET_CXX)" CC="$(TARGET_CC)" LD="$(TARGET_LD)" RANLIB="$(TARGET_RANLIB)" AR="$(TARGET_AR)" CROSS_COMPILE="$(STAGING_DIR)/usr/bin/" \
 			PREFIX="$(STAGING_DIR)/usr" \
 			SHAREDIR="$(TARGET_DIR)/recalbox/share_init/system/configs/mupen64/" \
-			PKG_CONFIG="$(HOST_DIR)/usr/bin/pkg-config" \
+			PKG_CONFIG="$(HOST_DIR)/bin/pkg-config" \
 			HOST_CPU="$(MUPEN64PLUS_CORE_HOST_CPU)" \
 			INSTALL="/usr/bin/install" \
 			INSTALL_STRIP_FLAG="" \

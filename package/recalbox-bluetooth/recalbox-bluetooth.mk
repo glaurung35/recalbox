@@ -25,11 +25,11 @@ RECALBOX_BLUETOOTH_SCRIPTS_FILES = \
 	autopair \
 	recalbox-bluetooth-agent
 define RECALBOX_BLUETOOTH_INSTALL_TARGET_CMDS
-	$(INSTALL) -D -m 0755 $(RECALBOX_BLUETOOTH_PKGDIR)src/init/bluetooth $(TARGET_DIR)/etc/init.d/S07bluetooth
+	$(INSTALL) -D -m 0755 $(RECALBOX_BLUETOOTH_PKGDIR)/src/init/bluetooth $(TARGET_DIR)/etc/init.d/S07bluetooth
 	$(foreach script,$(RECALBOX_BLUETOOTH_SCRIPTS_FILES),\
-		$(INSTALL) -D -m 0755 $(RECALBOX_BLUETOOTH_PKGDIR)src/scripts/$(script) $(TARGET_DIR)/recalbox/scripts/bluetooth/$(script)
+		$(INSTALL) -D -m 0755 $(RECALBOX_BLUETOOTH_PKGDIR)/src/scripts/$(script) $(TARGET_DIR)/recalbox/scripts/bluetooth/$(script)
 	)
-	$(INSTALL) -D -m 0755 $(RECALBOX_BLUETOOTH_PKGDIR)src/scripts/bluetoothcontrollers.sh.$(RECALBOX_BLUETOOTH_BT_CONTROLLERS) \
+	$(INSTALL) -D -m 0755 $(RECALBOX_BLUETOOTH_PKGDIR)/src/scripts/bluetoothcontrollers.sh.$(RECALBOX_BLUETOOTH_BT_CONTROLLERS) \
 		$(TARGET_DIR)/recalbox/scripts/bluetooth/bluetoothcontrollers.sh
 endef
 

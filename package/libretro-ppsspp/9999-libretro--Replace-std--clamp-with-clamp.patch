@@ -1,0 +1,46 @@
+From 41d2e4a40fddfafe9d8fa316c8361d7c39afcf1b Mon Sep 17 00:00:00 2001
+From: Rob Loach <robloach@gmail.com>
+Date: Thu, 23 May 2024 12:51:20 -0400
+Subject: [PATCH] libretro: Replace std::clamp() with clamp()
+
+---
+ Common/Data/Color/RGBAUtil.h | 2 ++
+ libretro/libretro.cpp        | 5 +++--
+ 2 files changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/Common/Data/Color/RGBAUtil.h b/Common/Data/Color/RGBAUtil.h
+index 3ea03f328a75..905cca56dc5e 100644
+--- a/Common/Data/Color/RGBAUtil.h
++++ b/Common/Data/Color/RGBAUtil.h
+@@ -2,6 +2,8 @@
+ 
+ #include <cstdint>
+ 
++template <typename T>
++static T clamp(T f, T low, T high);
+ uint32_t whiteAlpha(float alpha);
+ uint32_t blackAlpha(float alpha);
+ uint32_t colorAlpha(uint32_t color, float alpha);
+diff --git a/libretro/libretro.cpp b/libretro/libretro.cpp
+index 0a19b5513579..fb621bbedf70 100644
+--- a/libretro/libretro.cpp
++++ b/libretro/libretro.cpp
+@@ -8,6 +8,7 @@
+ #include <mutex>
+ 
+ #include "Common/CPUDetect.h"
++#include "Common/Data/Color/RGBAUtil.h"
+ #include "Common/Log.h"
+ #include "Common/LogManager.h"
+ #include "Common/System/Display.h"
+@@ -1430,8 +1431,8 @@ static void retro_input(void)
+    }
+ 
+    float mappedNorm = norm;
+-   x_left = std::clamp(x_left / norm * mappedNorm, -1.0f, 1.0f);
+-   y_left = std::clamp(y_left / norm * mappedNorm, -1.0f, 1.0f);
++   x_left = clamp(x_left / norm * mappedNorm, -1.0f, 1.0f);
++   y_left = clamp(y_left / norm * mappedNorm, -1.0f, 1.0f);
+ 
+    __CtrlSetAnalogXY(CTRL_STICK_LEFT, x_left, y_left);
+    __CtrlSetAnalogXY(CTRL_STICK_RIGHT, x_right, y_right);

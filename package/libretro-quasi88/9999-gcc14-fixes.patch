@@ -1,0 +1,29 @@
+From 78ab6a90b453d8957da69922cf1715e50fb68f1a Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Tom=C3=A1=C5=A1=20Kelemen=20=28vudiq=29?= <vudiq@vudiq.sk>
+Date: Thu, 23 May 2024 08:17:03 +0200
+Subject: [PATCH] gcc14 fixes
+
+---
+ src/LIBRETRO/disks.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/src/LIBRETRO/disks.c b/src/LIBRETRO/disks.c
+index 86b9251..aa48087 100644
+--- a/src/LIBRETRO/disks.c
++++ b/src/LIBRETRO/disks.c
+@@ -27,12 +27,12 @@ void disk_display_message(retro_environment_t cb)
+       struct  retro_message rmsg;
+ 
+       if (*index == NO_DISK)
+-         snprintf(msg, 2048, "Drive %c: %s", drive_id, "No disk");
++         snprintf((char*)msg, 2048, "Drive %c: %s", drive_id, "No disk");
+       else
+-         snprintf(msg, 2048, "Drive %c: %s", drive_id, retro_disks[*index].basename);
++         snprintf((char*)msg, 2048, "Drive %c: %s", drive_id, retro_disks[*index].basename);
+ 
+       rmsg.frames = MESSAGE_DISPLAY_FRAMES;
+-      rmsg.msg = msg;
++      rmsg.msg = (const char*)msg;
+       cb(RETRO_ENVIRONMENT_SET_MESSAGE, &rmsg);
+    }
+ }

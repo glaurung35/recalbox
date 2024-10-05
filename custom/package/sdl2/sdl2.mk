@@ -23,7 +23,6 @@ SDL2_CONF_OPTS += \
 	--disable-video-vivante \
 	--disable-video-cocoa \
 	--disable-video-metal \
-	--disable-video-wayland \
 	--disable-video-dummy \
 	--disable-video-offscreen \
 	--disable-ime \
@@ -54,8 +53,17 @@ define SDL2_RUN_AUTOGEN
 endef
 SDL2_PRE_CONFIGURE_HOOKS += SDL2_RUN_AUTOGEN
 
+define SDL2_FIX_WAYLAND_SCANNER_PATH
+	$(SED) 's#^WAYLAND_SCANNER\s*=.*#WAYLAND_SCANNER = $(HOST_DIR)/bin/wayland-scanner#' $(@D)/Makefile
+endef
+SDL2_POST_CONFIGURE_HOOKS += SDL2_FIX_WAYLAND_SCANNER_PATH
+
 # We must enable static build to get compilation successful.
 SDL2_CONF_OPTS += --enable-static
+
+ifeq ($(BR2_ARM_INSTRUCTIONS_THUMB),y)
+SDL2_CONF_ENV += CFLAGS="$(TARGET_CFLAGS) -marm"
+endif
 
 ifeq ($(BR2_PACKAGE_HAS_UDEV),y)
 SDL2_DEPENDENCIES += udev
@@ -79,7 +87,7 @@ endif
 ifeq ($(BR2_PACKAGE_SDL2_DIRECTFB),y)
 SDL2_DEPENDENCIES += directfb
 SDL2_CONF_OPTS += --enable-video-directfb
-SDL2_CONF_ENV = ac_cv_path_DIRECTFBCONFIG=$(STAGING_DIR)/usr/bin/directfb-config
+SDL2_CONF_ENV += ac_cv_path_DIRECTFBCONFIG=$(STAGING_DIR)/usr/bin/directfb-config
 else
 SDL2_CONF_OPTS += --disable-video-directfb
 endif
@@ -91,6 +99,12 @@ else
 SDL2_CONF_OPTS += --disable-video-rpi
 endif
 
+ifeq ($(BR2_PACKAGE_WAYLAND),y)
+SDL2_DEPENDENCIES += wayland
+SDL2_CONF_OPTS += --enable-video-wayland
+else
+SDL2_CONF_OPTS += --disable-video-wayland
+endif
 # x-includes and x-libraries must be set for cross-compiling
 # By default x_includes and x_libraries contains unsafe paths.
 # (/usr/X11R6/include and /usr/X11R6/lib)
@@ -109,13 +123,6 @@ SDL2_DEPENDENCIES += xlib_libXcursor
 SDL2_CONF_OPTS += --enable-video-x11-xcursor
 else
 SDL2_CONF_OPTS += --disable-video-x11-xcursor
-endif
-
-ifeq ($(BR2_PACKAGE_XLIB_LIBXINERAMA),y)
-SDL2_DEPENDENCIES += xlib_libXinerama
-SDL2_CONF_OPTS += --enable-video-x11-xinerama
-else
-SDL2_CONF_OPTS += --disable-video-x11-xinerama
 endif
 
 ifeq ($(BR2_PACKAGE_XLIB_LIBXI),y)
@@ -137,13 +144,6 @@ SDL2_DEPENDENCIES += xlib_libXScrnSaver
 SDL2_CONF_OPTS += --enable-video-x11-scrnsaver
 else
 SDL2_CONF_OPTS += --disable-video-x11-scrnsaver
-endif
-
-ifeq ($(BR2_PACKAGE_XLIB_LIBXXF86VM),y)
-SDL2_DEPENDENCIES += xlib_libXxf86vm
-SDL2_CONF_OPTS += --enable-video-x11-vm
-else
-SDL2_CONF_OPTS += --disable-video-x11-vm
 endif
 
 else
@@ -198,7 +198,7 @@ else
 SDL2_CONF_OPTS += --disable-video-kmsdrm
 endif
 
-ifeq ($(BR2_PACKAGE_XSERVER_XORG_SERVER),)
+ifeq ($(BR2_PACKAGE_XSERVER_XORG_SERVER)$(BR2_PACKAGE_XWAYLAND),)
   ifeq ($(BR2_PACKAGE_MESA3D_OPENGL_EGL),y)
     TARGET_CFLAGS += -DEGL_NO_X11
   endif

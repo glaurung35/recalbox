@@ -92,6 +92,8 @@ class EmulatorDescriptor
     [[nodiscard]] String CoreSplitDrivers(int index) const { return CoreAt(index).mSplitDrivers; }
     //! Get core driver limit
     [[nodiscard]] int CoreDriverLimit(int index) const { return CoreAt(index).mLimit; }
+    //! Get core VideoBackend
+    [[nodiscard]] const String& CoreVideoBackend(int index) const { return CoreAt(index).mVideoBackend; }
 
     /*!
      * @brief Add core
@@ -101,6 +103,7 @@ class EmulatorDescriptor
      * @param netplay Netplay support?
      * @param compatibility Compatibility evaluation
      * @param speed Speed evaluation
+     * @param video backend of the core
      */
     void AddCore(const String& name,
                  int priority,
@@ -113,7 +116,8 @@ class EmulatorDescriptor
                  const String& flatBaseFile,
                  const String& ignoreDrivers,
                  const String& splitDrivers,
-                 int limit)
+                 int limit,
+                 const String& video_backend)
     {
       mCores.push_back(Core());
       Core& core = mCores.back();
@@ -129,6 +133,7 @@ class EmulatorDescriptor
       core.mIgnoreDrivers = ignoreDrivers;
       core.mSplitDrivers = splitDrivers;
       core.mLimit = limit;
+      core.mVideoBackend = video_backend;
     }
 
   private:
@@ -149,6 +154,7 @@ class EmulatorDescriptor
       bool mNetplay;                //!< Netplay compatible?
       bool mSoftpatching;           //!< Softpathing compatible?
       bool mCRTAvailable;           //!< Available on CRT?
+      String mVideoBackend;     //!< Video backend to use for that core
 
       //! Constructor
       Core()
@@ -159,6 +165,7 @@ class EmulatorDescriptor
         , mNetplay(false)
         , mSoftpatching(false)
         , mCRTAvailable(false)
+        , mVideoBackend("default")
       {
       }
 
@@ -177,6 +184,7 @@ class EmulatorDescriptor
         mIgnoreDrivers.clear();
         mSplitDrivers.clear();
         mLimit = 0;
+        mVideoBackend = "default";
       }
     };
 

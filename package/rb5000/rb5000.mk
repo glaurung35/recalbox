@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-RB5000_VERSION = v1.0
+RB5000_VERSION = v1.1
 RB5000_SITE = $(call gitlab,recalbox,packages/standalone/rb5000,$(RB5000_VERSION))
 RB5000_DEPENDENCIES = sdl2 sdl2_ttf
 RB5000_LICENSE = GPL-2.0

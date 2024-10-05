@@ -31,7 +31,7 @@ endif
 
 define HYPERION_PROTOBUF_COMPILE
 	mkdir -p "$(@D)/host-compile/"
-	cd "$(@D)/host-compile/" && $(HOST_MAKE_ENV) $(HOST_CONFIGURE_OPTS) $(HOST_DIR)/usr/bin/cmake "$(@D)/" \
+	cd "$(@D)/host-compile/" && $(HOST_MAKE_ENV) $(HOST_CONFIGURE_OPTS) $(HOST_DIR)/bin/cmake "$(@D)/" \
 		-DENABLE_DISPMANX=OFF -DENABLE_OPENCV=OFF -DENABLE_QT5=ON --build "$(@D)/host-compile/" "$(@D)/"
 endef
 define HYPERION_RPI_FIXUP

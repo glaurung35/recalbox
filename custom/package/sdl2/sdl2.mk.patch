@@ -1,17 +1,17 @@
 diff --git a/package/sdl2/sdl2.mk b/package/sdl2/sdl2.mk
-index 5f2e1e0ed1..461e020834 100644
+index b5b0fb49e1..6e24ed1043 100644
 --- a/package/sdl2/sdl2.mk
 +++ b/package/sdl2/sdl2.mk
 @@ -4,7 +4,7 @@
  #
  ################################################################################
  
--SDL2_VERSION = 2.26.5
+-SDL2_VERSION = 2.30.3
 +SDL2_VERSION = 2.30.7
  SDL2_SOURCE = SDL2-$(SDL2_VERSION).tar.gz
  SDL2_SITE = http://www.libsdl.org/release
  SDL2_LICENSE = Zlib
-@@ -15,18 +15,17 @@ SDL2_INSTALL_STAGING = YES
+@@ -15,18 +15,16 @@ SDL2_INSTALL_STAGING = YES
  SDL2_CONFIG_SCRIPTS = sdl2-config
  
  SDL2_CONF_OPTS += \
@@ -24,14 +24,14 @@ index 5f2e1e0ed1..461e020834 100644
  	--disable-video-vivante \
  	--disable-video-cocoa \
  	--disable-video-metal \
- 	--disable-video-wayland \
+-	--disable-video-wayland \
  	--disable-video-dummy \
  	--disable-video-offscreen \
 -	--disable-video-vulkan \
  	--disable-ime \
  	--disable-ibus \
  	--disable-fcitx \
-@@ -50,6 +49,10 @@ define SDL2_FIX_SDL2_CONFIG_CMAKE
+@@ -50,6 +48,15 @@ define SDL2_FIX_SDL2_CONFIG_CMAKE
  		$(STAGING_DIR)/usr/lib/cmake/SDL2/sdl2-config.cmake
  endef
  SDL2_POST_INSTALL_STAGING_HOOKS += SDL2_FIX_SDL2_CONFIG_CMAKE
@@ -39,10 +39,28 @@ index 5f2e1e0ed1..461e020834 100644
 +	$(@D)/autogen.sh
 +endef
 +SDL2_PRE_CONFIGURE_HOOKS += SDL2_RUN_AUTOGEN
++
++define SDL2_FIX_WAYLAND_SCANNER_PATH
++	$(SED) 's#^WAYLAND_SCANNER\s*=.*#WAYLAND_SCANNER = $(HOST_DIR)/bin/wayland-scanner#' $(@D)/Makefile
++endef
++SDL2_POST_CONFIGURE_HOOKS += SDL2_FIX_WAYLAND_SCANNER_PATH
  
  # We must enable static build to get compilation successful.
  SDL2_CONF_OPTS += --enable-static
-@@ -174,6 +177,20 @@ else
+@@ -92,6 +99,12 @@ else
+ SDL2_CONF_OPTS += --disable-video-rpi
+ endif
+ 
++ifeq ($(BR2_PACKAGE_WAYLAND),y)
++SDL2_DEPENDENCIES += wayland
++SDL2_CONF_OPTS += --enable-video-wayland
++else
++SDL2_CONF_OPTS += --disable-video-wayland
++endif
+ # x-includes and x-libraries must be set for cross-compiling
+ # By default x_includes and x_libraries contains unsafe paths.
+ # (/usr/X11R6/include and /usr/X11R6/lib)
+@@ -164,6 +177,20 @@ else
  SDL2_CONF_OPTS += --disable-alsa
  endif
  
@@ -63,11 +81,11 @@ index 5f2e1e0ed1..461e020834 100644
  ifeq ($(BR2_PACKAGE_SDL2_KMSDRM),y)
  SDL2_DEPENDENCIES += libdrm libgbm libegl
  SDL2_CONF_OPTS += --enable-video-kmsdrm
-@@ -181,4 +198,15 @@ else
+@@ -171,4 +198,15 @@ else
  SDL2_CONF_OPTS += --disable-video-kmsdrm
  endif
  
-+ifeq ($(BR2_PACKAGE_XSERVER_XORG_SERVER),)
++ifeq ($(BR2_PACKAGE_XSERVER_XORG_SERVER)$(BR2_PACKAGE_XWAYLAND),)
 +  ifeq ($(BR2_PACKAGE_MESA3D_OPENGL_EGL),y)
 +    TARGET_CFLAGS += -DEGL_NO_X11
 +  endif

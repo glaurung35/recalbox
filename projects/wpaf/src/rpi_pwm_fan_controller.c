@@ -26,7 +26,7 @@ fan_interface rpi_pwm_fan_interface = {
 
 // initialize pwm
 // returns fan handler
-fan_handler * rpi_pwm_fan_init() {
+fan_handler * rpi_pwm_fan_init(__attribute__((unused)) uint32_t t) {
   fan_handler * rpi_pwm_handler;
  
   log_trace("rpi_pwm_fan_init()");

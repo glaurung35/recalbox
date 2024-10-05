@@ -21,7 +21,7 @@ fan_interface xpi_gamecon_fan_interface = {
 
 // initialize i2c
 // returns file handle
-fan_handler * xpi_gamecon_fan_init() {
+fan_handler * xpi_gamecon_fan_init(__attribute__((unused)) uint32_t address) {
   fan_handler * xpi_gamecon_handler = malloc(sizeof(fan_handler));
   return xpi_gamecon_handler;
 }

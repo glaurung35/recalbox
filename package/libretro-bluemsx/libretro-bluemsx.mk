@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# Commit of 2023/04/17
-LIBRETRO_BLUEMSX_VERSION = e21bf74bddb79ad1bbe20b4d964e7515269c669b
+# Commit of 2024/06/29
+LIBRETRO_BLUEMSX_VERSION = 1f6b5b393df17e746bec118902b1d1f6ed3e4109
 LIBRETRO_BLUEMSX_SITE = $(call github,libretro,blueMSX-libretro,$(LIBRETRO_BLUEMSX_VERSION))
 LIBRETRO_BLUEMSX_LICENSE = GPL-2.0, BDS, Public domain
 LIBRETRO_BLUEMSX_LICENSE_FILES = license.txt

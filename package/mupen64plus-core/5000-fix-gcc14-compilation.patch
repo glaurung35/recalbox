@@ -1,0 +1,10 @@
+--- mupen64plus-core-312a5befde1b44db8beee7868b929c23d896991f/src/device/r4300/new_dynarec/arm/arm_cpu_features.c.orig	2024-09-26 23:27:50.622744477 +0200
++++ mupen64plus-core-312a5befde1b44db8beee7868b929c23d896991f/src/device/r4300/new_dynarec/arm/arm_cpu_features.c	2024-09-26 23:29:08.661722145 +0200
+@@ -25,6 +25,7 @@
+ 
+ #include "api/callbacks.h"
+ #include "arm_cpu_features.h"
++#include "osal/files.h"
+ 
+ arm_cpu_features_t arm_cpu_features;
+ 

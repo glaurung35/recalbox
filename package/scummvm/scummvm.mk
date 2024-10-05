@@ -5,7 +5,7 @@
 ################################################################################
 
 #Release version 2.7.0
-SCUMMVM_VERSION = v2.7.0
+SCUMMVM_VERSION = v2.8.1
 SCUMMVM_SITE = $(call github,scummvm,scummvm,$(SCUMMVM_VERSION))
 SCUMMVM_LICENSE = GPL2
 SCUMMVM_LICENSE_FILES = COPYING

@@ -4,18 +4,18 @@
 #
 ################################################################################
 
-MOONLIGHT_QT_VERSION = v4.2.1
+MOONLIGHT_QT_VERSION = eef270de2697e98cc6d7a26cbdadfc89ddbea82e
 MOONLIGHT_QT_SITE = https://github.com/moonlight-stream/moonlight-qt.git
 MOONLIGHT_QT_SITE_METHOD = git
 MOONLIGHT_QT_GIT_SUBMODULES=y
 MOONLIGHT_QT_DEPENDENCIES = opus expat libevdev avahi alsa-lib udev libcurl libcec ffmpeg sdl2 libenet \
-			qt5quickcontrols2 qt5svg pulseaudio openssl sdl2_ttf qt5base
+			qt5svg pulseaudio openssl sdl2_ttf qt5base qt5quickcontrols2
 MOONLIGHT_QT_LICENSE = GPL-3.0
 MOONLIGHT_QT_LICENSE_FILES = LICENSE
 
 MOONLIGHT_QT_CONF_OPTS = CONFIG+=embedded CONFIG+=release PREFIX=$(STAGING_DIR)/usr
 
-ifeq ($(BR2_PACKAGE_XORG7),y)
+ifeq ($(BR2_PACKAGE_RECALBOX_VIDEO_XORG_SERVER),y)
 MOONLIGHT_QT_DEPENDENCIES += xlib_libX11
 endif
 

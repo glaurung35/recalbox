@@ -21,6 +21,7 @@ be7091dd90cc6633f644562fd3416acb  package/libcec/libcec.mk
 7ecd8faf8aee2a75412583ccbca01ef0  package/libfreeimage/libfreeimage.mk
 84caeaa857a89462b8a4e4c775a60ea4  package/lirc-tools/lirc-tools.mk
 6af2e1b3409965df20121e7910eaf6b7  package/llvm-project/clang/clang.hash
+88d68629418e44cfcb09f7f1f05f74f6  package/llvm-project/libclc/libclc.hash
 a2945d538f12e84174e15bb56f547bdc  package/llvm-project/llvm-cmake/llvm-cmake.hash
 d3e12326dfc6c9b0039637e298084771  package/llvm-project/llvm-project.mk
 be6ac651da6356e2ce471d6c3d4dc2d8  package/llvm-project/llvm/Config.in

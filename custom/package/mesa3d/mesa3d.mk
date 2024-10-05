@@ -22,6 +22,7 @@ MESA3D_DEPENDENCIES = \
 	host-flex \
 	host-python-mako \
 	host-python-pyyaml \
+	libclc \
 	expat \
 	libdrm \
 	zlib

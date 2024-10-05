@@ -39,7 +39,7 @@
       square
     />
     <q-fab-action
-      @click="() => openURL(urls.gitbook)"
+      @click="() => openURL(urls.wiki)"
       class="gitbook"
       color="secondary"
       icon="icon-gitbook"
@@ -64,7 +64,7 @@ import { toRefs } from 'vue';
 
 const urls: object = {
   discord: process.env.DISCORD_URL,
-  gitbook: process.env.GITBOOK_URL,
+  wiki: process.env.WIKI_URL,
   forum: process.env.FORUM_URL,
   gitlab: process.env.GITLAB_URL,
   patreon: process.env.PATREON_URL,

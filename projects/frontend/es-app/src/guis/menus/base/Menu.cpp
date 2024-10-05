@@ -87,20 +87,13 @@ Menu::Menu(WindowManager& window, const String& title, const String& footer, boo
   mList->setFont(mTheme.Text().font);
   mList->setSelectedColor(0); // If defined, it's given priority on color shift
   mList->setSelectorColor(mTheme.Text().selectorColor);
-<<<<<<< HEAD
   mList->setColorAt(MenuColors::sSelectableColor, mTheme.Text().color);                                               // Text color
   mList->setColorAt(MenuColors::sSelectableSelectedColor, mTheme.Text().selectedColor);                               // selected text coplor
   mList->setColorAt(MenuColors::sUnselectableColor, MenuColors::Alpha25Percent(mTheme.Text().color));                 // Grayed color
   mList->setColorAt(MenuColors::sUnselectableSelectedColor, MenuColors::Alpha25Percent(mTheme.Text().selectedColor)); // Grayed selected color
   mList->setColorAt(MenuColors::sHeaderColor, mTheme.Section().color);                                                // Header color
   mList->setColorAt(MenuColors::sHeaderSelectedColor, mTheme.Section().selectedColor);                                // Header selected color
-=======
-  mList->setColorAt(MenuColors::sSelectableColor, mTheme.Text().color);                   // Text color
-  mList->setColorAt(MenuColors::sBackgroundColor, mTheme.Background().color);             // Unselected Background color
-  mList->setColorAt(MenuColors::sUnselectableColor, MenuColors::Alpha25Percent(mTheme.Text().color)); // Grayed item
-  mList->setColorAt(MenuColors::sHeaderBackgroundColor, 0x00000040);                      // Grayed item - TODO: make this color themable
-  mList->setColorAt(MenuColors::sHeaderColor, mTheme.Section().color);                    // Header color
->>>>>>> 3482c942b2 (chore: gcc compatibility fixes)
+
   mList->setSelectorHeight(mList->EntryHeight());
   mList->setShiftSelectedTextColor(true);
   mList->setAutoAlternate(true);

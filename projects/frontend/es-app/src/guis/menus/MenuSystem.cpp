@@ -20,7 +20,7 @@ MenuSystem::MenuSystem(WindowManager& window, SystemManager& systemManager)
 void MenuSystem::BuildMenuItems()
 {
   // Version
-  String version = Upgrade::CurrentVersion();
+  String version = Upgrade::Instance().CurrentVersion();
   String arch = "unknown";
   switch(Board::Instance().GetBoardType())
   {

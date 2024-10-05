@@ -23,15 +23,22 @@ void MenuUpdates::BuildMenuItems()
   AddSwitch(_("CHECK UPDATES"), RecalboxConf::Instance().GetUpdatesEnabled(), (int)Components::Enable, this, _(MENUMESSAGE_UPDATE_CHECK_HELP_MSG));
 
   // Display available update version
-  bool update = Upgrade::PendingUpdate();
+  bool update = Upgrade::Instance().PendingUpdate();
   AddText(_("AVAILABLE UPDATE"), update ? _("YES") : _("NO"), _(MENUMESSAGE_UPDATE_VERSION_HELP_MSG));
 
   // Display available update changelog
-  AddSubMenu(_("UPDATE CHANGELOG"), (int)Components::Changelog, this, _(MENUMESSAGE_UPDATE_CHANGELOG_HELP_MSG), !update);
+  if (update)
+  {
+    AddSubMenu(_("UPDATE CHANGELOG"), (int) Components::Changelog, this, _(MENUMESSAGE_UPDATE_CHANGELOG_HELP_MSG));
 
-  // Start update
-  AddSubMenu(_("START UPDATE"), (int)Components::StartUpdate, this, _(MENUMESSAGE_START_UPDATE_HELP_MSG), !update);
-
+    // Start update
+    AddSubMenu(_("START UPDATE"), (int) Components::StartUpdate, this, _(MENUMESSAGE_START_UPDATE_HELP_MSG));
+  }
+  else if (RecalboxSystem::hasIpAdress(false))
+  {
+    // Start update
+    AddSubMenu(_("CHECK FOR UPDATE NOW"), (int)Components::CheckUpdate, this, _(MENUMESSAGE_CHECK_UPDATE_HELP_MSG));
+  }
   // Enable updates
   if (
     #ifdef BETA
@@ -61,23 +68,27 @@ void MenuUpdates::MenuSwitchChanged(int id, bool& status)
 
 void MenuUpdates::SubMenuSelected(int id)
 {
-  if ((Components)id == Components::Changelog)
+  Upgrade& upgrade = Upgrade::Instance();
+  if ((Components) id == Components::Changelog)
   {
-    String changelog = Upgrade::NewReleaseNote();
+    String changelog = upgrade.NewReleaseNote();
     if (!changelog.empty())
     {
       const String& message = changelog;
-      String updateVersion = Upgrade::NewVersion();
+      String updateVersion = upgrade.NewVersion();
       mWindow.displayScrollMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"),
-                                   _("NEW VERSION:") + ' ' + updateVersion + "\n" +
-                                   _("UPDATE CHANGELOG:") + "\n" + message);
+                                   _("NEW VERSION:") + ' ' + updateVersion + "\n" + _("UPDATE CHANGELOG:") + "\n" +
+                                   message);
     }
     else
       mWindow.displayMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"));
   }
-  else if ((Components)id == Components::StartUpdate)
+  else if ((Components) id == Components::StartUpdate)
+    mWindow.pushGui(new GuiUpdateRecalbox(mWindow, upgrade.TarUrl(), upgrade.ImageUrl(), upgrade.HashUrl(), upgrade.NewVersion()));
+  else if ((Components) id == Components::CheckUpdate)
   {
-    mWindow.pushGui(new GuiUpdateRecalbox(mWindow, Upgrade::TarUrl(), Upgrade::ImageUrl(), Upgrade::HashUrl(), Upgrade::NewVersion()));
+    upgrade.DoManualCheck();
+    mWindow.CloseAll();
   }
 }
 

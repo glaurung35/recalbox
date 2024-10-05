@@ -480,7 +480,7 @@ std::pair<String, int> RecalboxSystem::execute(const String& command)
 
 bool RecalboxSystem::ping()
 {
-  return Upgrade::NetworkReady();
+  return Upgrade::Instance().NetworkReady();
 }
 
 std::pair<String, int> RecalboxSystem::getSDLBatteryInfo()

@@ -513,7 +513,7 @@ void MainRunner::CheckUpdateFailed(WindowManager& window)
   Path flag(sUpgradeFailedFlag);
   if (flag.Exists())
   {
-    String version = Upgrade::CurrentVersion();
+    String version = Upgrade::Instance().CurrentVersion();
     String message = _("The upgrade process has failed. You are back on Recalbox %s.\nPlease retry to upgrade your Recalbox, and contact the team on https://forum.recalbox.com if the problem persists.")
                      .Replace("%s", version.c_str());
     window.pushGui(new GuiMsgBoxScroll(window, _("THE UPGRADE HAS FAILED"), message, _("OK"), []{}, "", nullptr, "", nullptr, TextAlignment::Left));
@@ -527,7 +527,7 @@ void MainRunner::CheckUpdateCorrupted(WindowManager& window)
   Path flag(sUpgradeCorruptedFlag);
   if (flag.Exists())
   {
-    String version = Upgrade::CurrentVersion();
+    String version = Upgrade::Instance().CurrentVersion();
     String message = _("One or more files are corrupted. You are back on Recalbox %s.\nPlease retry to upgrade your Recalbox, check your Recalbox storage (SD Card, USB Key or hard drive).\nContact the team on https://forum.recalbox.com if the problem persists.")
                      .Replace("%s", version.c_str());
     window.pushGui(new GuiMsgBoxScroll(window, _("THE UPGRADE IS CORRUPTED"), message, _("OK"), []{}, "", nullptr, "", nullptr, TextAlignment::Left));
